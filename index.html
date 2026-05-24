@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIME</title>
+    <style>
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: #050505; color: #00ffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+        }
+        
+        /* NAVBAR PREMIUM */
+        .navbar {
+            width: 100%; background-color: #000; border-bottom: 2px solid #8a2be2;
+            padding: 15px 20px; display: flex; justify-content: space-between;
+            align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 15px;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.2);
+        }
+        .nav-brand { font-size: 22px; font-weight: bold; color: #ffcc00; text-shadow: 0 0 5px #ffcc00; cursor: pointer; }
+        .nav-brand span { font-size: 12px; color: #00ffff; text-shadow: none; vertical-align: middle; margin-left: 5px; letter-spacing: 1px;}
+        
+        .nav-links { display: flex; gap: 10px; list-style: none; flex-wrap: wrap; justify-content: center; align-items: center;}
+        .nav-btn {
+            color: #fff; background: #111; border: 1px solid #8a2be2; font-weight: bold;
+            font-size: 13px; cursor: pointer; padding: 8px 12px; border-radius: 4px; transition: 0.2s; text-transform: uppercase;
+        }
+        .nav-btn:hover, .nav-btn.ativa { background-color: #8a2be2; box-shadow: 0 0 10px #8a2be2; color: #fff; }
+
+        .search-box { display: flex; gap: 10px; }
+        .search-box input { padding: 8px 15px; background-color: #111; border: 1px solid #00ffff; color: #fff; border-radius: 4px; outline: none; width: 200px; }
+        .search-box input:focus { box-shadow: 0 0 10px #00ffff; }
+        .search-box button { padding: 8px 15px; background-color: #00ffff; border: none; color: #000; font-weight: bold; border-radius: 4px; cursor: pointer; }
+
+        /* CONTAINERS SPA */
+        .view-container { width: 100%; max-width: 1600px; padding: 20px; display: none; margin: 0 auto;}
+        .view-container.ativa { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .sessao-titulo { color: #ffcc00; border-bottom: 1px solid #8a2be2; padding-bottom: 10px; margin-top: 25px; margin-bottom: 20px; text-transform: uppercase; font-size: 18px; display: flex; justify-content: space-between; align-items: center;}
+        
+        /* GRID DE 6 COLUNAS */
+        .grid-lista { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; list-style: none; margin-bottom: 40px; }
+        @media (max-width: 1400px) { .grid-lista { grid-template-columns: repeat(5, 1fr); } }
+        @media (max-width: 1024px) { .grid-lista { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 768px) { .grid-lista { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 480px) { .grid-lista { grid-template-columns: repeat(2, 1fr); } }
+        
+        /* BOTÕES DE HUB E FILTROS */
+        .grid-botoes { display: flex; flex-wrap: wrap; gap: 12px; }
+        .btn-filtro { background-color: #111; border: 1px solid #8a2be2; color: #fff; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; text-align: center; font-size: 13px; transition: 0.2s;}
+        .btn-filtro:hover { background-color: #8a2be2; box-shadow: 0 0 10px #8a2be2;}
+        .btn-filtro.ativa-dub { background-color: #00ffff !important; color: #000 !important; box-shadow: 0 0 10px #00ffff; }
+        .btn-filtro.ativa-leg { background-color: #FFD700 !important; color: #000 !important; box-shadow: 0 0 10px #FFD700; }
+        
+        /* TOGGLE FONTES */
+        .btn-fonte-on { background-color: #00ffff !important; color: #000 !important; box-shadow: 0 0 10px #00ffff; border-color: #00ffff;}
+        .btn-fonte-off { background-color: #111 !important; color: #555 !important; border-color: #333 !important; box-shadow: none;}
+
+        .barra-letras { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 15px; background: #0a0a0a; padding: 10px; border-radius: 6px; border: 1px solid #333; }
+        .btn-letra { background: #111; color: #fff; border: 1px solid #444; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s;}
+        .btn-letra:hover, .btn-letra.ativo { background: #8a2be2; border-color: #8a2be2; }
+        .btn-letra-vermelho.ativo { background: #b00; border-color: #b00; }
+
+        /* CARDS */
+        .card-item { background-color: #111; border: 1px solid #00ffff; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+        .card-item:hover { box-shadow: 0 0 20px #00ffff; transform: translateY(-5px); border-color: #ffcc00; }
+        .card-item img { width: 100%; border-radius: 4px; margin-bottom: 10px; height: 260px; object-fit: cover; background: #1a1a1a; }
+        .card-item h3 { font-size: 13px; color: #fff; margin-bottom: 5px; height: 34px; overflow: hidden; }
+        
+        /* BOTÕES HOVER NO CARD */
+        .btn-remover-card, .btn-favoritar-card { position: absolute; top: 15px; right: 15px; border-radius: 3px; padding: 6px 10px; font-size: 10px; font-weight: bold; cursor: pointer; text-transform: uppercase; z-index: 10; display: none; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .btn-remover-card { background: rgba(0,0,0,0.85); color: #ff0000; border: 1px solid #ff0000; }
+        .btn-remover-card:hover { background: #ff0000; color: #000; }
+        .btn-favoritar-card { background: rgba(0,0,0,0.85); color: #ffcc00; border: 1px solid #ffcc00; }
+        .btn-favoritar-card:hover, .btn-favoritar-card.ativo { background: #ffcc00; color: #000; }
+        .card-item:hover .btn-remover-card, .card-item:hover .btn-favoritar-card { display: block; }
+
+        /* BADGES */
+        .badges-container { position: absolute; top: 15px; left: 15px; display: flex; gap: 5px; z-index: 5; flex-wrap: wrap; }
+        .badge-tipo { padding: 4px 8px; border-radius: 3px; font-size: 10px; font-weight: bold; text-transform: uppercase; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .bg-anime { background-color: #ff7f00; color: #fff; }     
+        .bg-filme { background-color: #ff0000; color: #fff; }     
+        .bg-episodio { background-color: #00ff00; color: #000; }  
+        
+        .badge-audio { padding: 4px 8px; border-radius: 3px; font-size: 10px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .badge-dub { background-color: #00ffff; color: #000; }
+        .badge-leg { background-color: #FFD700; color: #000; }
+        
+        /* BADGE DO SITE (PRETO E AMARELO) */
+        .badge-site { position: absolute; bottom: 60px; right: 10px; padding: 4px 8px; border-radius: 3px; font-size: 10px; font-weight: bold; color: #ffcc00; background: rgba(0,0,0,0.85); border: 1px solid #ffcc00; text-transform: uppercase; pointer-events: none; z-index: 5;}
+
+        /* DETALHES */
+        .detalhes-header { display: flex; gap: 25px; background: #0a0a0a; border: 1px solid #333; padding: 25px; border-radius: 12px; margin-bottom: 30px; flex-wrap: wrap;}
+        .detalhes-poster img { width: 200px; border-radius: 8px; border: 2px solid #8a2be2; box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);}
+        .detalhes-info { flex: 1; position: relative; min-width: 300px; }
+        .detalhes-info h2 { color: #ffcc00; margin-bottom: 5px; font-size: 26px; padding-right: 120px; text-shadow: 2px 2px 4px #000;}
+        .detalhe-tags-container { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; }
+        .detalhe-tag-gen { background-color: #111; border: 1px solid #ffcc00; color: #ffcc00; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+        .detalhe-tag-ano { background-color: #00ffff; color: #000; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+        .sinopse-box { background: rgba(0,0,0,0.6); border-left: 4px solid #00ffff; padding: 15px; color: #bbb; font-size: 14px; line-height: 1.6; border-radius: 0 8px 8px 0; max-height: 150px; overflow-y: auto; margin-bottom: 15px;}
+        .btn-topo-direito { position: absolute; top: 0; right: 0; padding: 8px 15px; background-color: #111; color: #ffcc00; border: 1px solid #ffcc00; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        .btn-topo-direito:hover, .btn-topo-direito.ativo { background-color: #ffcc00; color: #000; }
+
+        /* LISTA EPS */
+        .lista-botoes { display: flex; flex-direction: column; gap: 3px; list-style: none; margin-top: 15px; background: #000; padding: 5px; border-radius: 4px; border: 1px solid #222;}
+        .ep-item { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+        .ep-item:last-child { border-bottom: none; }
+        .ep-item:hover { background: #111; border-left: 3px solid #00ffff; padding-left: 12px; }
+        .ep-nome { color: #fff; font-weight: bold; font-size: 14px; letter-spacing: 0.5px;}
+        
+        .ep-actions { display: flex; gap: 8px; }
+        .btn-assistir { padding: 8px 15px; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 13px; display: flex; align-items: center; gap: 5px; }
+        .btn-play { background: #e50914; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);}
+        .btn-play:hover { background: #ff0f1c; box-shadow: 0 0 10px #e50914; transform: scale(1.02); }
+        .btn-page { background: #ffcc00; color: #000; }
+        .btn-page:hover { background: #ffe680; box-shadow: 0 0 10px #ffcc00; transform: scale(1.02); }
+
+        /* PLAYER & NAVEGAÇÃO CENTRALIZADA (25/75) */
+        .header-player { display: flex; justify-content: space-between; align-items: center; margin: 0 auto 10px auto; padding: 10px 0; background: transparent; border: none; width: 90%; max-width: 1200px; }
+        .header-player h2 { margin: 0; color: #fff; font-size: 20px; font-weight: normal; text-shadow: 0 0 5px rgba(255, 204, 0, 0.4); flex: 1;}
+        .header-player-actions { display: flex; gap: 10px; margin-left: auto; align-items: center; }
+        .btn-fechar-player { background-color: #ff0000; color: #fff; border: 1px solid #ff0000; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+        .btn-fechar-player:hover { box-shadow: 0 0 10px #ff0000; background: #cc0000; }
+        .player-wrapper { width: 90%; max-width: 1200px; max-height: 75vh; margin: 0 auto; aspect-ratio: 16/9; background: #000; border: 2px solid #00ffff; border-radius: 8px; position: relative; overflow: hidden; }
+        iframe, video { position: absolute; top:0; left:0; width: 100%; height: 100%; border: none; outline: none; object-fit: contain; }
+        
+        .player-navegacao { display: grid; grid-template-columns: 1fr 1fr; gap: 5%; width: 90%; max-width: 1200px; margin: 15px auto; }
+        .btn-nav-ep { width: 80%; margin: 0 auto; padding: 12px 20px; background: #111; color: #00ffff; border: 1px solid #00ffff; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; text-transform: uppercase; font-size: 13px; }
+        .btn-nav-ep:hover { background: #00ffff; color: #000; box-shadow: 0 0 15px #00ffff; }
+
+        /* MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; z-index: 9999; }
+        .modal-box { background: #111; border: 1px solid #00ffff; border-radius: 8px; padding: 25px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 0 25px rgba(0, 255, 255, 0.3); }
+        .modal-box h3 { color: #ffcc00; margin-bottom: 15px; font-size: 20px; text-transform: uppercase; }
+        .modal-box p { color: #fff; margin-bottom: 25px; font-size: 15px; line-height: 1.5; }
+        .modal-actions { display: flex; justify-content: center; gap: 15px; }
+        .btn-modal { padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 4px; border: none; transition: 0.2s; font-size: 14px; text-transform: uppercase; }
+        .btn-modal-ok { background: #e50914; color: #fff; }
+        .btn-modal-cancel { background: transparent; color: #00ffff; border: 1px solid #00ffff; }
+
+        /* OUTROS */
+        .loading-text { color: #ffcc00; font-size: 16px; margin: 20px 0; text-align: center; width: 100%; font-weight: bold;}
+        .btn-carregar-mais { margin: 30px auto; padding: 15px 40px; background-color: #111; border: 2px solid #ffcc00; color: #ffcc00; border-radius: 5px; font-weight: bold; cursor: pointer; display: block; text-transform: uppercase;}
+        .btn-carregar-mais:hover { background-color: #ffcc00; color: #000; box-shadow: 0 0 15px #ffcc00; }
+        .btn-voltar { background: transparent; color: #fff; border: 1px solid #444; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.2s; margin-bottom: 0;}
+        .btn-voltar:hover { border-color: #fff; }
+        .btn-limpar { background: #ff0000; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; text-transform: uppercase;}
+        .btn-limpar:hover { box-shadow: 0 0 10px #ff0000; }
+    
+/* =========================================================
+   PATCH CRONOS QUAD-CORE FINAL
+   ========================================================= */
+.nav-brand { font-size: 25px; letter-spacing: .5px; }
+
+.detalhes-toolbar-qc {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin: 10px 0 16px 0;
+}
+.detalhes-toolbar-qc .right { display:flex; gap:10px; margin-left:auto; }
+.btn-reordenar-qc {
+    padding:10px 18px;
+    background:#111;
+    color:#ffcc00;
+    border:1px solid #ffcc00;
+    border-radius:4px;
+    cursor:pointer;
+    font-weight:900;
+    text-transform:uppercase;
+}
+.btn-reordenar-qc:hover,
+.btn-reordenar-qc.ativo {
+    background:#ffcc00;
+    color:#000;
+    box-shadow:0 0 10px #ffcc00;
+}
+
+.detalhes-header {
+    position:relative;
+    overflow:hidden;
+    align-items:center;
+    border-color:#8a2be2;
+    min-height:300px;
+    background-size:cover !important;
+    background-position:center !important;
+}
+.detalhes-header::before {
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(90deg, rgba(0,0,0,.92), rgba(0,0,0,.72), rgba(0,0,0,.58));
+    z-index:0;
+}
+.detalhes-header > * { position:relative; z-index:1; }
+.detalhes-info h2 {
+    color:#fff;
+    font-size:30px;
+    line-height:1.25;
+}
+.sinopse-box {
+    border-left:none !important;
+    background:transparent !important;
+    padding: 8px 0 !important;
+    color:#fff !important;
+    max-height:none !important;
+    overflow:visible !important;
+    border-radius:0 !important;
+}
+
+#listaEpisodios.lista-botoes {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(190px, 1fr));
+    gap:14px;
+    background:transparent;
+    border:none;
+    padding:0;
+}
+.ep-card-qc {
+    background:#080808;
+    border:1px solid #00ffff;
+    border-radius:8px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:.2s;
+    position:relative;
+    min-height:160px;
+}
+.ep-card-qc:hover {
+    transform:translateY(-4px);
+    box-shadow:0 0 16px #00ffff;
+    border-color:#ffcc00;
+}
+.ep-card-qc img {
+    width:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+    background:#111;
+    display:block;
+}
+.ep-card-qc .ep-info-qc { padding:8px 9px 10px; }
+.ep-card-qc .ep-num-qc {
+    color:#00ffff;
+    font-size:11px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    margin-bottom:3px;
+}
+.ep-card-qc .ep-titulo-qc {
+    color:#fff;
+    font-size:12px;
+    font-weight:800;
+    line-height:1.2;
+    min-height:30px;
+}
+.ep-card-qc .ep-badge-qc {
+    position:absolute;
+    top:8px;
+    left:8px;
+    background:#00ff00;
+    color:#000;
+    padding:4px 7px;
+    border-radius:3px;
+    font-size:10px;
+    font-weight:900;
+    text-transform:uppercase;
+}
+.ep-card-qc .ep-site-qc {
+    position:absolute;
+    right:8px;
+    bottom:48px;
+    color:#ffcc00;
+    border:1px solid #ffcc00;
+    background:rgba(0,0,0,.85);
+    padding:3px 6px;
+    font-size:10px;
+    font-weight:900;
+    border-radius:3px;
+}
+.card-item h3,
+.ep-card-qc .ep-titulo-qc { overflow-wrap:anywhere; }
+
+#btnAbrirNoSitePlayer { display:none !important; }
+.player-barra-qc {
+    width:90%;
+    max-width:1200px;
+    margin:15px auto;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:20px;
+    align-items:center;
+}
+.player-left-qc,
+.player-right-qc {
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+.player-left-qc { justify-content:flex-start; }
+.player-right-qc { justify-content:flex-end; }
+.player-badge-qc {
+    min-width:150px;
+    padding:14px 18px;
+    background:#111;
+    color:#ffcc00;
+    border:1px solid #ffcc00;
+    border-radius:4px;
+    font-weight:900;
+    text-align:center;
+    text-transform:uppercase;
+}
+.btn-trocar-player-qc {
+    min-width:145px;
+    padding:14px 18px;
+    background:#111;
+    color:#00ffff;
+    border:1px solid #00ffff;
+    border-radius:4px;
+    font-weight:900;
+    cursor:pointer;
+    text-transform:uppercase;
+}
+.btn-trocar-player-qc:hover,
+.player-badge-qc:hover { box-shadow:0 0 12px currentColor; }
+.player-right-qc .btn-nav-ep {
+    width:auto;
+    min-width:170px;
+    margin:0;
+}
+.modal-player-lista-qc {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+.modal-player-lista-qc button {
+    padding:12px 15px;
+    background:#111;
+    color:#00ffff;
+    border:1px solid #00ffff;
+    border-radius:4px;
+    cursor:pointer;
+    font-weight:900;
+    text-transform:uppercase;
+}
+.modal-player-lista-qc button:hover {
+    background:#00ffff;
+    color:#000;
+}
+@media (max-width:800px) {
+    .player-barra-qc { grid-template-columns:1fr; }
+    .player-left-qc,
+    .player-right-qc { justify-content:center; flex-wrap:wrap; }
+}
+
+    </style>
+</head>
+<body>
+
+    <div id="modalCustom" class="modal-overlay">
+        <div class="modal-box">
+            <h3 id="modalTitle">Atenção</h3>
+            <p id="modalMsg">Mensagem do sistema</p>
+            <div class="modal-actions">
+                <button id="modalBtnCancel" class="btn-modal btn-modal-cancel">Cancelar</button>
+                <button id="modalBtnOk" class="btn-modal btn-modal-ok">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-brand" onclick="location.reload()">ANIME</div>
+        <ul class="nav-links">
+            <li><button class="nav-btn ativa" onclick="ativarTela('telaInicio', this)">Início</button></li>
+            <li><button class="nav-btn" onclick="EngineHub.iniciarCatalogo('animes', 'Catálogo de Animes', '', this)">Animes</button></li>
+            <li id="btnNavFilmes"><button class="nav-btn" onclick="EngineHub.iniciarCatalogo('filmes', 'Catálogo de Filmes', '', this)">Filmes</button></li>
+            <li><button class="nav-btn" onclick="EngineHub.iniciarCatalogo('episodios', 'Últimos Episódios', '', this)">Episódios</button></li>
+            <li><button class="nav-btn" onclick="EngineHub.iniciarLancamentos(this)">Lançamentos</button></li>
+            <li><button class="nav-btn" onclick="montarTelaCategorias(this)">Categorias</button></li>
+            <li><button class="nav-btn" onclick="GlobalStore.carregarHistorico(this)">Histórico</button></li>
+            <li><button class="nav-btn" onclick="GlobalStore.carregarFavoritos(this)">Favoritos</button></li>
+        </ul>
+        <div class="search-box">
+            <input type="text" id="inputBusca" placeholder="Pesquisar no ANIME...">
+            <button onclick="EngineHub.realizarBusca()">Ir</button>
+        </div>
+    </nav>
+
+    <div id="telaInicio" class="view-container ativa">
+        <div id="statusInicio" class="loading-text">Conectando Rotas Quad-Core...</div>
+
+        <h2 class="sessao-titulo">Últimos Episódios Adicionados</h2>
+        <ul class="grid-lista" id="gridEpisodiosHome"></ul>
+
+        <h2 class="sessao-titulo">Últimos Animes Adicionados</h2>
+        <ul class="grid-lista" id="gridAnimesHome"></ul>
+
+        <div id="blocoFilmes" style="display:block;">
+            <h2 class="sessao-titulo">Últimos Filmes Adicionados</h2>
+            <ul class="grid-lista" id="gridFilmesHome"></ul>
+        </div>
+    </div>
+
+    <div id="telaHubs" class="view-container">
+        <h2 class="sessao-titulo" style="width: 100%; border-bottom: 1px solid #8a2be2; margin-top:0;">FONTES DE BUSCA</h2>
+        <div class="grid-botoes" id="gridFontes" style="margin-bottom: 30px;">
+            <button id="btnFonteAQ" class="btn-filtro btn-fonte-on" onclick="toggleFonte('aq', this)">ANQ [ON]</button>
+            <button id="btnFonteAO" class="btn-filtro btn-fonte-on" onclick="toggleFonte('ao', this)">AOC [ON]</button>
+            <button id="btnFonteGY" class="btn-filtro btn-fonte-on" onclick="toggleFonte('gy', this)">GYB [ON]</button>
+            <button id="btnFonteAF" class="btn-filtro btn-fonte-on" onclick="toggleFonte('af', this)">ANF [ON]</button>
+        </div>
+        <div id="hubBotoesGerais"></div>
+    </div>
+
+    <div id="telaResultados" class="view-container">
+        <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px; flex-wrap: wrap;">
+            <button class="btn-voltar" style="margin-bottom: 0;" onclick="voltarPaginaAnterior()">« Voltar</button>
+            <div id="botoesExtraAnimes" style="display: none; gap: 10px;">
+                <button class="btn-filtro" style="padding: 6px 12px; font-size: 11px; border-color: #00ffff; color: #00ffff; background: transparent;" onclick="EngineHub.aplicarFiltroTipo('dublado', this)">DUB</button>
+                <button class="btn-filtro" style="padding: 6px 12px; font-size: 11px; border-color: #FFD700; color: #FFD700; background: transparent;" onclick="EngineHub.aplicarFiltroTipo('legendado', this)">LEG</button>
+            </div>
+        </div>
+        
+        <div id="barrinhaLetras" class="barra-letras" style="display:none;"></div>
+
+        <h2 class="sessao-titulo" id="tituloResultados">Resultados</h2>
+        <div id="statusResultados" class="loading-text"></div>
+        <ul class="grid-lista" id="gridResultados"></ul>
+        <button class="btn-carregar-mais" id="btnMaisFiltro" onclick="EngineHub.executarBuscadorSequencial()" style="display:none;">Carregar Mais</button>
+    </div>
+
+    <div id="telaHistorico" class="view-container">
+        <div class="sessao-titulo">
+            Continue Assistindo
+            <button class="btn-limpar" onclick="GlobalStore.limparHistorico()">Limpar Histórico</button>
+        </div>
+        <div id="statusHistorico" class="loading-text" style="display:none;">Nenhum registro encontrado.</div>
+        <ul class="grid-lista" id="gridHistorico"></ul>
+    </div>
+
+    <div id="telaFavoritos" class="view-container">
+        <div class="sessao-titulo">Minha Lista
+            <button class="btn-limpar" onclick="GlobalStore.limparFavoritosLista()">Limpar Favoritos</button>
+        </div>
+        <div id="statusFavoritos" class="loading-text" style="display:none;">Nenhum favorito salvo.</div>
+        <ul class="grid-lista" id="gridFavoritos"></ul>
+    </div>
+
+    <div id="telaDetalhes" class="view-container">
+        <button class="btn-voltar" onclick="voltarPaginaAnterior()">« Voltar</button>
+        <div id="statusDetalhes" class="loading-text">Extraindo Dados...</div>
+
+        <div class="detalhes-header" id="blocoDetalhesInfo" style="display: none;">
+            <div class="detalhes-poster"><img id="detalheImg" src="" alt="Poster"></div>
+            <div class="detalhes-info">
+                <button id="btnFavoritar" class="btn-topo-direito" onclick="GlobalStore.toggleFavorito()">⭐ Favoritar</button>
+                <h2 id="detalheTitulo">Título da Mídia</h2>
+                <div id="detalheTags" class="detalhe-tags-container"></div>
+                <div class="sinopse-box" id="detalheSinopse"></div>
+            </div>
+        </div>
+        
+        <h2 class="sessao-titulo" id="tituloEpsContainer" style="display:none;">Conteúdo Disponível</h2>
+        <ul class="lista-botoes" id="listaEpisodios"></ul>
+    </div>
+
+    <div id="telaPlayer" class="view-container">
+        <div class="header-player">
+            <h2 id="playerTitulo">Mídia</h2>
+            <div class="header-player-actions">
+                <button id="btnAbrirNoSitePlayer" class="btn-assistir btn-page" style="padding: 8px 15px;">🌐 Site Original</button>
+                <button class="btn-fechar-player" onclick="fecharPlayer()">X Fechar Player</button>
+            </div>
+        </div>
+        <div class="player-wrapper" id="containerDoPlayerVideo"></div>
+        <div class="player-navegacao" id="playerNavegacao" style="display: none;">
+            <button class="btn-nav-ep" id="btnEpAnterior" style="display: none;">Episódio Anterior</button>
+            <button class="btn-nav-ep" id="btnEpProximo" style="display: none;">Próximo Episódio</button>
+        </div>
+    </div>
+
+<script>
+// ========================================================
+// CORE: QUAD-CORE ENGINE V3.0
+// ========================================================
+const PROXY = 'https://delicate-sea-41ab.getapi-oi.workers.dev/?url=';
+const SELETORES_AGRESSIVOS = '.w_item_b, .item, .card, article.anime, .anime-box, article, .result-item, ul.items li, .box-item, .post-item, .boxAN, .boxEP, .containerAnimes, .cardUltimosEps, .divCardUltimosEpsHome';
+
+const ENGINES = {
+    aq: { url: 'https://animeq.net', nome: 'ANQ' },
+    ao: { url: 'https://animesonlinecc.to', nome: 'AOC' },
+    gy: { url: 'https://goyabu.io', nome: 'GYB' },
+    af: { url: 'https://animefire.io', nome: 'ANF' }
+};
+
+let configFontes = { aq: true, ao: true, gy: true, af: true };
+
+let historicoNavegacao = ['telaInicio']; 
+let obraAtual = { url: '', titulo: '', img: '', engine: '' };
+let tituloOriginalDaPagina = document.title; 
+let contextoAtual = { tipo: '', titulo: '', slug: '', audio: 'padrao', letra: 'todos' };
+
+// Estado de Paginação e Navegação
+let stateEngine = {
+    aq: { pg: 1, fim: false, pool: [] },
+    ao: { pg: 1, fim: false, pool: [] },
+    gy: { pg: 1, fim: false, pool: [] },
+    af: { pg: 1, fim: false, pool: [] }
+};
+let urlsVistas = new Set(); 
+let listaEpisodiosAtual = []; 
+
+window.onload = () => {
+    popularBarraDeLetras();
+    EngineHub.iniciarCrawlerHome();
+    document.getElementById('inputBusca').addEventListener('keydown', (e) => { 
+        if (e.key === 'Enter') { e.preventDefault(); EngineHub.realizarBusca(); } 
+    });
+};
+
+function toggleFonte(engineId, btn) {
+    configFontes[engineId] = !configFontes[engineId];
+    if(configFontes[engineId]) {
+        btn.classList.remove('btn-fonte-off'); btn.classList.add('btn-fonte-on');
+        btn.innerText = `${ENGINES[engineId].nome} [ON]`;
+    } else {
+        btn.classList.remove('btn-fonte-on'); btn.classList.add('btn-fonte-off');
+        btn.innerText = `${ENGINES[engineId].nome} [OFF]`;
+    }
+    
+    document.getElementById('btnNavFilmes').style.display = (configFontes.aq || configFontes.af) ? 'block' : 'none';
+    EngineHub.iniciarCrawlerHome();
+}
+
+// ========================================================
+// CONTROLE DE NAVEGAÇÃO SPA
+// ========================================================
+function ativarTela(idTelaAlvo, btnElement = null, isBackAction = false) {
+    if (!isBackAction && historicoNavegacao[historicoNavegacao.length - 1] !== idTelaAlvo) {
+        historicoNavegacao.push(idTelaAlvo);
+    }
+    document.querySelectorAll('.view-container').forEach(t => t.classList.remove('ativa'));
+    document.getElementById(idTelaAlvo).classList.add('ativa');
+    
+    if (btnElement && !btnElement.classList.contains('btn-voltar')) {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativa'));
+        btnElement.classList.add('ativa');
+    }
+}
+
+function voltarPaginaAnterior() {
+    if (historicoNavegacao.length > 1) {
+        historicoNavegacao.pop(); 
+        ativarTela(historicoNavegacao[historicoNavegacao.length - 1], null, true); 
+    } else {
+        ativarTela('telaInicio', document.querySelectorAll('.nav-btn')[0], true);
+    }
+}
+
+function montarTelaCategorias(btn) {
+    ativarTela('telaHubs', btn);
+    const container = document.getElementById('hubBotoesGerais');
+    
+    let htmlCategorias = `<h2 class="sessao-titulo" style="width: 100%; border-bottom: 1px solid #8a2be2; margin-top:0;">GÊNEROS</h2><div class="grid-botoes" id="gridGens" style="margin-bottom:30px;"></div>`;
+    htmlCategorias += `<h2 class="sessao-titulo" style="width: 100%; border-bottom: 1px solid #8a2be2; margin-top:0;">ANOS DE LANÇAMENTO</h2><div class="grid-botoes" id="gridYears"></div>`;
+    
+    container.innerHTML = htmlCategorias;
+    
+    const generos = [
+        'Ação', 'Animação', 'Artes Marciais', 'Artes Visuais', 'Aventura', 'Boys Love', 'CG', 'Comédia', 'Cyberpunk', 
+        'Demônios', 'Donghua', 'Drama', 'Ecchi', 'Escolar', 'Espaço', 'Esporte', 'Família', 'Fantasia', 'Ficção Científica', 
+        'Girls Love', 'Gourmet', 'Harém', 'Histórico', 'Horror', 'Idols', 'Infantil', 'Isekai', 'Iyashikei', 'Jogos', 'Josei', 
+        'Live Action', 'Magia', 'Magical Girl', 'Mecha', 'Militar', 'Mistério', 'Mitologia', 'Musical', 'Nacional', 'Paródia', 
+        'Policial', 'Psicológico', 'Romance', 'Samurai', 'Seinen', 'Shoujo', 'Shoujo Ai', 'Shounen', 'Shounen Ai', 'Slice of Life', 
+        'Sobrenatural', 'Super Poderes', 'Suspense', 'Tokusatsu', 'Tragédia', 'Vampiros', 'Yaoi', 'Yuri', 'Zumbis'
+    ].sort();
+
+    const gridGens = container.querySelector('#gridGens');
+    generos.forEach(g => {
+        const slug = g.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-').replace('ç', 'c');
+        gridGens.innerHTML += `<button class="btn-filtro" onclick="EngineHub.iniciarCatalogo('genero', 'Gênero: ${g}', '${slug}')">${g}</button>`;
+    });
+
+    const gridYears = container.querySelector('#gridYears');
+    for(let i = 2026; i >= 1969; i--) {
+        gridYears.innerHTML += `<button class="btn-filtro" onclick="EngineHub.iniciarCatalogo('ano', 'Lançamentos de ${i}', '${i}')">${i}</button>`;
+    }
+}
+
+function popularBarraDeLetras() {
+    const b = document.getElementById('barrinhaLetras');
+    b.innerHTML = `<button class="btn-letra btn-letra-vermelho ativo" onclick="EngineHub.filtrarPorLetra('todos', this)">All</button>`;
+    b.innerHTML += `<button class="btn-letra" onclick="EngineHub.filtrarPorLetra('0-9', this)">0-9</button>`;
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(l => {
+        b.innerHTML += `<button class="btn-letra" onclick="EngineHub.filtrarPorLetra('${l.toLowerCase()}', this)">${l}</button>`;
+    });
+}
+
+function processarImagemGeral(item, imgElement, basUrl, engId) {
+    let imgSrc = imgElement.getAttribute('data-src') || imgElement.getAttribute('data-lazy-src') || imgElement.getAttribute('src');
+    if (engId === 'gy') {
+        imgSrc = imgElement.getAttribute('data-thumb') || imgElement.getAttribute('src');
+        if(!imgSrc && item.querySelector('.contentImg')) imgSrc = item.querySelector('.contentImg').getAttribute('src');
+    }
+    if (imgSrc && imgSrc.includes('data:image')) {
+        imgSrc = imgElement.getAttribute('data-lazy-src') || imgElement.getAttribute('data-src') || imgSrc;
+    }
+    if(!imgSrc || imgSrc.includes('data:image')) return null;
+    if(!imgSrc.startsWith('http') && !imgSrc.startsWith('//')) imgSrc = basUrl + (imgSrc.startsWith('/') ? imgSrc : '/' + imgSrc);
+    else if (imgSrc.startsWith('//')) imgSrc = 'https:' + imgSrc;
+    return imgSrc.replace(/-\d+x\d+(\.\w+)$/, '$1');
+}
+
+// ========================================================
+// ENGINE HUB - ROTEADOR CROSS-FETCH
+// ========================================================
+const EngineHub = {
+    async iniciarCrawlerHome() {
+        document.getElementById('statusInicio').innerText = `Conectando Rotas Quad-Core...`;
+        document.getElementById('statusInicio').style.display = 'block';
+
+        document.getElementById('gridAnimesHome').innerHTML = '';
+        document.getElementById('gridEpisodiosHome').innerHTML = '';
+        document.getElementById('gridFilmesHome').innerHTML = '';
+
+        let checkCache = new Set();
+
+        const extrairParaGrid = (item, gridId, engId) => {
+            const link = item.tagName === 'A' ? item : item.querySelector('a');
+            let img = item.querySelector('.contentImg') || item.querySelector('img.cover') || item.querySelector('img');
+            const title = item.querySelector('h3, h2, h4, h6, .animeTitle, .card-title, .title, .name');
+            if(!link || !img || !title) return false;
+
+            let url = link.getAttribute('href');
+            if(!url || url === '#') return false;
+            if(!url.startsWith('http')) url = ENGINES[engId].url + (url.startsWith('/') ? url : '/' + url);
+            
+            if(checkCache.has(url + gridId)) return false;
+            checkCache.add(url + gridId);
+
+            let imgSrc = processarImagemGeral(item, img, ENGINES[engId].url, engId);
+            if(!imgSrc) return false;
+
+            let isEpisodio = url.includes('/episodio/') || url.includes('/episodios/') || url.match(/\/\d+\/?$/) || url.match(/-episodio-\d+/i) || item.classList.contains('boxEP');
+            if (gridId === 'gridEpisodiosHome' && !isEpisodio) return false;
+            if (gridId !== 'gridEpisodiosHome' && isEpisodio) return false;
+
+            let tituloOriginal = title.innerText.trim() || img.getAttribute('alt') || 'Sem Titulo';
+            this.montarCardUI({ url, titulo: tituloOriginal, img: imgSrc, isD: false, isL: false, itemNode: item }, gridId, engId);
+            return true;
+        };
+
+        const fetchSegment = async (engId, endpoint, gridId, limiteExato) => {
+            let count = 0; let pg = 1;
+            while(count < limiteExato && pg <= 5) {
+                try {
+                    let urlTarget = '';
+                    if (engId === 'af') {
+                        urlTarget = pg > 1 ? `${ENGINES[engId].url}${endpoint}${pg}` : `${ENGINES[engId].url}${endpoint}`;
+                    } else {
+                        urlTarget = pg > 1 ? `${ENGINES[engId].url}${endpoint}page/${pg}/` : `${ENGINES[engId].url}${endpoint}`;
+                    }
+
+                    let html = await fetch(PROXY + encodeURIComponent(urlTarget)).then(r=>r.text());
+                    let doc = new DOMParser().parseFromString(html, 'text/html');
+                    
+                    let selector = SELETORES_AGRESSIVOS;
+                    if (engId === 'ao' && (endpoint === '/anime/' || endpoint === '/episodio/')) selector = 'article.item, .items article, .episodes li';
+                    
+                    let itens = doc.querySelectorAll(selector);
+                    for(let item of itens) {
+                        if (item.closest('aside') || item.closest('.sidebar') || item.closest('.widget')) continue;
+                        if(extrairParaGrid(item, gridId, engId)) count++;
+                        if(count >= limiteExato) break;
+                    }
+                } catch(e) {}
+                pg++;
+            }
+        };
+
+        if(configFontes.aq) await fetchSegment('aq', '/episodio/', 'gridEpisodiosHome', 12);
+        if(configFontes.ao) await fetchSegment('ao', '/episodio/', 'gridEpisodiosHome', 12);
+        if(configFontes.gy) await fetchSegment('gy', '/lancamentos/', 'gridEpisodiosHome', 12);
+        if(configFontes.af) await fetchSegment('af', '/home/', 'gridEpisodiosHome', 12);
+
+        if(configFontes.aq) await fetchSegment('aq', '/anime/', 'gridAnimesHome', 12);
+        if(configFontes.ao) await fetchSegment('ao', '/anime/', 'gridAnimesHome', 12);
+        if(configFontes.gy) await fetchSegment('gy', '/lista-de-animes/', 'gridAnimesHome', 12);
+        if(configFontes.af) await fetchSegment('af', '/animes-atualizados/', 'gridAnimesHome', 12);
+
+        if(configFontes.aq) await fetchSegment('aq', '/filme/', 'gridFilmesHome', 12);
+        if(configFontes.af) await fetchSegment('af', '/lista-de-filmes-dublados/', 'gridFilmesHome', 12);
+        
+        if(configFontes.aq || configFontes.af) {
+            document.getElementById('blocoFilmes').style.display = 'block';
+        } else {
+            document.getElementById('blocoFilmes').style.display = 'none';
+        }
+
+        document.getElementById('statusInicio').style.display = 'none';
+    },
+
+    realizarBusca() {
+        let t = document.getElementById('inputBusca').value.trim();
+        if(t) {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativa'));
+            this.iniciarCatalogo('busca', `Resultados para "${t}"`, encodeURIComponent(t));
+        }
+    },
+
+    iniciarCatalogo(tipo, tituloVisual, slug = '', btn = null, isFiltroEspecial = false) {
+        if(!configFontes.ao && !configFontes.aq && !configFontes.gy && !configFontes.af) {
+            alert("Ative pelo menos uma Fonte de Busca na aba Categorias."); return;
+        }
+
+        if(btn && btn.classList.contains('nav-btn')) {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativa'));
+            btn.classList.add('ativa');
+        }
+        
+        if(!isFiltroEspecial) {
+            contextoAtual = { tipo, titulo: tituloVisual, slug, audio: 'padrao', letra: 'todos' };
+            document.querySelectorAll('.btn-letra').forEach(b => b.classList.remove('ativo'));
+            document.querySelector('.btn-letra-vermelho').classList.add('ativo'); 
+        }
+
+        ativarTela('telaResultados');
+        
+        let isAnimeContext = ['animes', 'filmes', 'genero', 'ano'].includes(contextoAtual.tipo) || contextoAtual.slug === 'dublado' || contextoAtual.slug === 'legendado';
+        document.getElementById('botoesExtraAnimes').style.display = isAnimeContext ? 'flex' : 'none';
+        document.getElementById('barrinhaLetras').style.display = isAnimeContext ? 'flex' : 'none';
+        
+        if(['animes', 'filmes'].includes(contextoAtual.tipo) || !isFiltroEspecial) {
+            document.querySelectorAll('#botoesExtraAnimes .btn-filtro').forEach(b => b.classList.remove('ativa-dub', 'ativa-leg'));
+            contextoAtual.audio = 'padrao';
+        }
+
+        document.getElementById('tituloResultados').innerText = tituloVisual;
+        document.getElementById('statusResultados').innerText = `Vasculhando rotas...`;
+        document.getElementById('statusResultados').style.display = 'block';
+        document.getElementById('gridResultados').innerHTML = '';
+        document.getElementById('btnMaisFiltro').style.display = 'none';
+
+        stateEngine.aq = { pg: 1, fim: false, pool: [] };
+        stateEngine.ao = { pg: 1, fim: false, pool: [] };
+        stateEngine.gy = { pg: 1, fim: false, pool: [] };
+        stateEngine.af = { pg: 1, fim: false, pool: [] };
+        urlsVistas.clear();
+
+        this.executarBuscadorSequencial();
+    },
+
+    filtrarPorLetra(letra, btnElement) {
+        document.querySelectorAll('.btn-letra').forEach(b => b.classList.remove('ativo'));
+        btnElement.classList.add('ativo');
+        contextoAtual.letra = letra;
+        
+        stateEngine.aq = { pg: 1, fim: false, pool: [] };
+        stateEngine.ao = { pg: 1, fim: false, pool: [] };
+        stateEngine.gy = { pg: 1, fim: false, pool: [] };
+        stateEngine.af = { pg: 1, fim: false, pool: [] };
+        urlsVistas.clear(); document.getElementById('gridResultados').innerHTML = '';
+        this.executarBuscadorSequencial();
+    },
+
+    aplicarFiltroTipo(tipoSlug, btnElement) {
+        if(contextoAtual.audio === tipoSlug) { 
+            contextoAtual.audio = 'padrao'; 
+            btnElement.classList.remove('ativa-dub', 'ativa-leg'); 
+        } else {
+            contextoAtual.audio = tipoSlug;
+            document.querySelectorAll('#botoesExtraAnimes .btn-filtro').forEach(b => b.classList.remove('ativa-dub', 'ativa-leg'));
+            btnElement.classList.add(tipoSlug === 'dublado' ? 'ativa-dub' : 'ativa-leg');
+        }
+        
+        stateEngine.aq = { pg: 1, fim: false, pool: [] };
+        stateEngine.ao = { pg: 1, fim: false, pool: [] };
+        stateEngine.gy = { pg: 1, fim: false, pool: [] };
+        stateEngine.af = { pg: 1, fim: false, pool: [] };
+        urlsVistas.clear(); document.getElementById('gridResultados').innerHTML = '';
+        this.executarBuscadorSequencial();
+    },
+
+    async encherPool(eng, qtdObjetivo) {
+        let maxTentativas = 10; let tentativas = 0;
+        
+        while (stateEngine[eng].pool.length < qtdObjetivo && tentativas < maxTentativas && !stateEngine[eng].fim) {
+            let novosItens = await this.puxarPaginaMotor(stateEngine[eng].pg, eng);
+            if (novosItens === null || novosItens.length === 0) {
+                stateEngine[eng].fim = true; break;
+            }
+            stateEngine[eng].pool.push(...novosItens);
+            stateEngine[eng].pg++; tentativas++;
+        }
+        return stateEngine[eng].pool.splice(0, qtdObjetivo);
+    },
+
+    async executarBuscadorSequencial() {
+        document.getElementById('statusResultados').innerText = `Vasculhando rotas...`;
+        document.getElementById('statusResultados').style.display = 'block';
+        document.getElementById('btnMaisFiltro').style.display = 'none';
+
+        let cardsRenderizados = 0;
+        let countAtivos = (configFontes.aq ? 1 : 0) + (configFontes.ao ? 1 : 0) + (configFontes.gy ? 1 : 0) + (configFontes.af ? 1 : 0);
+        let limitPerEngine = countAtivos > 0 ? Math.ceil(48 / countAtivos) : 12;
+
+        if (configFontes.aq && !stateEngine.aq.fim) {
+            let itensAQ = await this.encherPool('aq', limitPerEngine);
+            itensAQ.forEach(item => { this.montarCardUI(item, 'gridResultados', 'aq'); cardsRenderizados++; });
+        }
+
+        if (configFontes.ao && !stateEngine.ao.fim) {
+            let itensAO = await this.encherPool('ao', limitPerEngine);
+            itensAO.forEach(item => { this.montarCardUI(item, 'gridResultados', 'ao'); cardsRenderizados++; });
+        }
+
+        if (configFontes.gy && !stateEngine.gy.fim) {
+            let itensGY = await this.encherPool('gy', limitPerEngine);
+            itensGY.forEach(item => { this.montarCardUI(item, 'gridResultados', 'gy'); cardsRenderizados++; });
+        }
+        
+        if (configFontes.af && !stateEngine.af.fim) {
+            let itensAF = await this.encherPool('af', limitPerEngine);
+            itensAF.forEach(item => { this.montarCardUI(item, 'gridResultados', 'af'); cardsRenderizados++; });
+        }
+
+        document.getElementById('statusResultados').style.display = 'none';
+        
+        let stillFetching = (!stateEngine.aq.fim && configFontes.aq) || (!stateEngine.ao.fim && configFontes.ao) || (!stateEngine.gy.fim && configFontes.gy) || (!stateEngine.af.fim && configFontes.af);
+
+        if (cardsRenderizados === 0 && document.getElementById('gridResultados').children.length === 0) {
+            document.getElementById('statusResultados').innerText = 'Fim da Linha. Nenhum resultado encontrado.';
+            document.getElementById('statusResultados').style.display = 'block';
+        } else if (stillFetching) {
+            document.getElementById('btnMaisFiltro').style.display = 'block';
+        }
+    },
+
+	puxarPaginaMotor(pg, engId) {
+        return new Promise((resolve) => {
+            let pUrl = '';
+            let tipo = contextoAtual.tipo;
+            let slug = contextoAtual.slug;
+            let pFix = pg > 1 ? `page/${pg}/` : '';
+            let baseUrl = ENGINES[engId].url;
+
+            // ===== MONTADOR DE URLS =====
+            if (engId === 'aq') {
+                if (tipo === 'animes') pUrl = `${baseUrl}/anime/${pFix}`;
+                else if (tipo === 'filmes') pUrl = `${baseUrl}/filme/${pFix}`;
+                else if (tipo === 'episodios') pUrl = `${baseUrl}/episodio/${pFix}`;
+                else if (tipo === 'genero') pUrl = `${baseUrl}/genre/${slug}/${pFix}`;
+                else if (tipo === 'ano') pUrl = `${baseUrl}/release/${slug}/${pFix}`;
+                else if (tipo === 'busca') pUrl = `${baseUrl}/page/${pg}/?s=${slug}`;
+            } else if(engId === 'ao') {
+                if(tipo === 'animes') pUrl = `${baseUrl}/anime/${pFix}`;
+                else if(tipo === 'episodios') pUrl = `${baseUrl}/episodio/${pFix}`;
+                else if(tipo === 'genero') pUrl = `${baseUrl}/genero/${slug}/${pFix}`;
+                else if(tipo === 'ano') pUrl = `${baseUrl}/lancamento/${slug}/${pFix}`; 
+                else if(tipo === 'busca') pUrl = `${baseUrl}/page/${pg}/?s=${slug}`;
+                if (pg === 1 && tipo === 'busca') pUrl = `${baseUrl}/?s=${slug}`;
+            } else if(engId === 'gy') {
+                if(tipo === 'animes') pUrl = `${baseUrl}/lista-de-animes/${pFix}`;
+                else if(tipo === 'episodios') pUrl = `${baseUrl}/lancamentos/${pFix}`;
+                else if(tipo === 'genero') pUrl = `${baseUrl}/generos/${slug}/${pFix}`;
+                else if(tipo === 'busca') pUrl = `${baseUrl}/?s=${slug}${pg > 1 ? '&paged='+pg : ''}`;
+                
+                // => CORREÇÃO GOYABU: Rota da API Oculta de Anos
+                else if (tipo === 'ano') {
+                    let paramPagina = pg > 1 ? `&page=${pg}&paged=${pg}` : '';
+                    pUrl = `${baseUrl}/wp-json/cronos/v1/animes/filter?year=${slug}&ano=${slug}${paramPagina}`;
+                }
+                else { resolve(null); return; } 
+                
+            } else if(engId === 'af') {
+                let pFixAF = pg > 1 ? `/${pg}` : '';
+                if (tipo === 'animes') {
+                    if(contextoAtual.audio === 'dublado') pUrl = `${baseUrl}/lista-de-animes-dublados${pFixAF}`;
+                    else if(contextoAtual.audio === 'legendado') pUrl = `${baseUrl}/lista-de-animes-legendados${pFixAF}`;
+                    else pUrl = `${baseUrl}/animes-atualizados${pFixAF}`;
+                } 
+                else if (tipo === 'filmes') {
+                    if(contextoAtual.audio === 'legendado') pUrl = `${baseUrl}/lista-de-filmes-legendados${pFixAF}`;
+                    else pUrl = `${baseUrl}/lista-de-filmes-dublados${pFixAF}`;
+                }
+                else if (tipo === 'episodios') pUrl = pg > 1 ? `${baseUrl}/home/${pg}` : `${baseUrl}/`;
+                else if (tipo === 'genero') pUrl = `${baseUrl}/genero/${slug}${pFixAF}`;
+                
+                // => CORREÇÃO ANIMEFIRE: Injeção de Parâmetro nas 3 rotas
+                else if (tipo === 'ano') {
+                    if(contextoAtual.audio === 'dublado') pUrl = `${baseUrl}/lista-de-animes-dublados${pFixAF}?ano=${slug}`;
+                    else if(contextoAtual.audio === 'legendado') pUrl = `${baseUrl}/lista-de-animes-legendados${pFixAF}?ano=${slug}`;
+                    else pUrl = `${baseUrl}/animes-atualizados${pFixAF}?ano=${slug}`;
+                }
+                else if (tipo === 'busca') pUrl = `${baseUrl}/pesquisar/${slug}${pFixAF}`;
+            }
+
+            // ===== EXTRATOR CROSS-FETCH =====
+            fetch(PROXY + encodeURIComponent(pUrl)).then(r => r.text()).then(htmlData => {
+                let validItems = [];
+                let isJsonMode = (engId === 'gy' && tipo === 'ano');
+                let processarCardsNode = true;
+                let htmlParaParse = htmlData;
+
+                // => CAPTURA DE JSON EXCLUSIVA PARA GOYABU
+                if (isJsonMode) {
+                    try {
+                        let json = JSON.parse(htmlData);
+                        let arr = [];
+                        
+                        if (Array.isArray(json)) arr = json;
+                        else if (json.data && Array.isArray(json.data)) arr = json.data;
+                        else if (json.items && Array.isArray(json.items)) arr = json.items;
+                        else if (json.animes && Array.isArray(json.animes)) arr = json.animes;
+                        else if (typeof json === 'object' && !json.html) {
+                            arr = Object.values(json).filter(v => v && typeof v === 'object' && (v.link || v.url || v.permalink));
+                        }
+
+                        if (json.html) {
+                            htmlParaParse = json.html; 
+                            isJsonMode = false; 
+                        } else if (arr.length > 0) {
+                            processarCardsNode = false;
+                            arr.forEach(anime => {
+                                let url = anime.link || anime.url || anime.permalink || '';
+                                let titRaw = anime.title?.rendered || anime.title || anime.nome || anime.post_title || 'Sem título';
+                                if (typeof titRaw === 'object' && titRaw !== null) titRaw = titRaw.rendered || titRaw.text || 'Sem título';
+                                let imgSrc = anime.image || anime.thumb || anime.img || anime.poster || anime.capa || '';
+
+                                if (!url) return;
+                                if(!url.startsWith('http')) url = baseUrl + (url.startsWith('/') ? url : '/' + url);
+                                if(urlsVistas.has(url)) return;
+
+                                let isD = url.toLowerCase().includes('-dublado') || titRaw.match(/\s*\(?Dublado\)?\s*$/i) !== null;
+                                let isL = titRaw.match(/\s*\(?Legendado\)?\s*$/i) !== null;
+
+                                if (contextoAtual.audio !== 'padrao') {
+                                    if(contextoAtual.audio === 'dublado' && !isD) return;
+                                    if(contextoAtual.audio === 'legendado' && isD) return;
+                                }
+                                if (contextoAtual.letra && contextoAtual.letra !== 'todos') {
+                                    let f = titRaw.charAt(0).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                                    if (contextoAtual.letra === '0-9') { if (!/[0-9]/.test(f)) return; }
+                                    else if (f !== contextoAtual.letra) return;
+                                }
+
+                                urlsVistas.add(url);
+                                validItems.push({ url, titulo: titRaw, img: imgSrc, isD, isL, itemNode: null });
+                            });
+                        }
+                    } catch(e) {
+                        isJsonMode = false; // Se não for JSON, joga pro processador HTML abaixo
+                    }
+                }
+
+                // => PROCESSADOR DE HTML PADRÃO (PARA OS 4 MOTORES)
+                if (!isJsonMode && processarCardsNode) {
+                    const doc = new DOMParser().parseFromString(htmlParaParse, 'text/html');
+                    let itemsNodeList = Array.from(doc.querySelectorAll(SELETORES_AGRESSIVOS));
+                    
+                    // Backup Extremo caso o HTML venha sem classes
+                    if (itemsNodeList.length === 0 && (engId === 'gy' || engId === 'af')) {
+                        let possibleLinks = Array.from(doc.querySelectorAll('a')).filter(a => a.querySelector('img'));
+                        if (possibleLinks.length > 0) itemsNodeList = possibleLinks;
+                    }
+
+                    itemsNodeList.forEach(item => {
+                        if (item.closest('aside') || item.closest('.sidebar') || item.closest('.widget') || item.classList.contains('w_item_b')) return;
+                        
+                        let linkEl = item.tagName === 'A' ? item : item.querySelector('a');
+                        if (!linkEl) { if (item.closest('a')) linkEl = item.closest('a'); else return; }
+                        
+                        let imgEl = item.querySelector('.contentImg') || item.querySelector('img.cover') || item.querySelector('img');
+                        if (!imgEl) return;
+
+                        let titEl = item.querySelector('h3, h2, h4, h6, .animeTitle, .card-title, .title, .name');
+                        if (!titEl) {
+                            let altText = imgEl.getAttribute('alt');
+                            if (altText && altText.toLowerCase() !== 'capa' && altText.toLowerCase() !== 'poster') titEl = { innerText: altText };
+                            else titEl = { innerText: 'Sem Título' };
+                        }
+                        
+                        let url = linkEl.getAttribute('href');
+                        if(!url || url === '#') return;
+                        if(!url.startsWith('http')) url = baseUrl + (url.startsWith('/') ? url : '/' + url);
+                        if(urlsVistas.has(url)) return;
+
+                        let imgSrc = processarImagemGeral(item, imgEl, baseUrl, engId);
+                        if(!imgSrc) return;
+
+                        let isEp = url.includes('/episodio/') || url.includes('/episodios/') || url.match(/\/\d+\/?$/) || url.match(/-episodio-\d+/i) || item.classList.contains('boxEP');
+                        let blockEpsFromAnimeList = ['genero', 'ano', 'busca', 'animes'].includes(tipo);
+                        
+                        if (engId === 'ao' && blockEpsFromAnimeList && isEp) return;
+                        if (engId === 'aq' || engId === 'gy' || engId === 'af') {
+                            if (tipo === 'episodios' && !isEp) return;
+                            if (tipo !== 'episodios' && isEp && tipo !== 'busca') return;
+                        }
+
+                        let titRaw = titEl.innerText.trim();
+                        let isD = url.toLowerCase().includes('-dublado') || titRaw.match(/\s*\(?Dublado\)?\s*$/i) !== null;
+                        if (engId === 'gy' && item.querySelector('.audio-box.dublado')) isD = true;
+                        let isL = titRaw.match(/\s*\(?Legendado\)?\s*$/i) !== null;
+
+                        if (contextoAtual.audio !== 'padrao') {
+                            if(contextoAtual.audio === 'dublado' && !isD) return;
+                            if(contextoAtual.audio === 'legendado' && isD) return;
+                        }
+                        if (contextoAtual.letra && contextoAtual.letra !== 'todos') {
+                            let f = titRaw.charAt(0).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                            if (contextoAtual.letra === '0-9') { if (!/[0-9]/.test(f)) return; }
+                            else if (f !== contextoAtual.letra) return;
+                        }
+
+                        urlsVistas.add(url);
+                        validItems.push({ url, titulo: titRaw, img: imgSrc, isD, isL, itemNode: item });
+                    });
+                }
+                resolve(validItems);
+            }).catch(e => resolve(null));
+        });
+    },
+
+    montarCardUI(data, gridId, engId) {
+        let tit = data.titulo.replace(/Todos os Epis[óo]dios Online/ig, '').replace(/Epis[óo]dio \d+ Online/ig, '').replace(/Online/ig, '').replace(/Assistir/ig, '').replace(/Completo/ig, '').replace(/FHD/ig, '').replace(/\s*\(?Dublado\)?\s*$/i, '').replace(/\s*-\s*Dublado$/i, '').replace(/\s*\(?Legendado\)?\s*$/i, '').replace(/[-–]+$/, '').trim();
+        
+        let isE = data.url.includes('/episodio/') || data.url.includes('/episodios/') || data.url.match(/\/\d+\/?$/) || data.url.match(/-episodio-\d+/i) || (data.itemNode && data.itemNode.classList.contains('boxEP'));
+        let isFilme = tit.match(/\b(Filme|Movie|Ova|Especial)\b/i) !== null || data.url.includes('/filme/') || data.url.includes('/filmes/') || gridId === 'gridFilmesHome' || contextoAtual.tipo === 'filmes';
+        
+        let badgeText = isE ? 'Episódio' : (isFilme ? 'Filme' : 'Anime');
+        let badgeColor = isE ? 'bg-episodio' : (isFilme ? 'bg-filme' : 'bg-anime');
+        
+        if (engId === 'gy' && isE && data.itemNode) {
+            let tagEp = data.itemNode.querySelector('.ep-type b');
+            if(tagEp && !tit.includes(tagEp.innerText.trim())) tit += ` - ${tagEp.innerText.trim()}`;
+        }
+
+        let isUrlDublado = data.url.toLowerCase().includes('-dublado');
+        let isTituloDublado = data.titulo.match(/\s*\(?Dublado\)?\s*$/i) !== null;
+        let isAudioDub = isUrlDublado || isTituloDublado || data.isD;
+        
+        let tagAudio = '';
+        if (isAudioDub) {
+            tagAudio = '<span class="badge-audio badge-dub">DUB</span>';
+        } else if (data.isL || data.titulo.match(/\s*\(?Legendado\)?\s*$/i)) {
+            tagAudio = '<span class="badge-audio badge-leg">LEG</span>';
+        }
+        
+        let tituloDisplay = tit;
+        if (!isE && isAudioDub && !tituloDisplay.toLowerCase().includes('dublado')) {
+            tituloDisplay += ' (Dublado)';
+        }
+
+        let btnFavHtml = '';
+        if (!isE && gridId !== 'gridHistorico' && gridId !== 'gridFavoritos') {
+            let f = JSON.parse(localStorage.getItem('cronos_v3_favs')) || [];
+            let isFav = f.some(x => x.url === data.url);
+            let txtFav = isFav ? 'SALVO' : 'FAVORITAR';
+            let clsFav = isFav ? 'ativo' : '';
+            btnFavHtml = `<button class="btn-favoritar-card ${clsFav}" onclick="GlobalStore.toggleFavoritoDireto('${data.url}', '${tituloDisplay.replace(/'/g, "\\'")}', '${data.img}', '${engId}', this, event)">${txtFav}</button>`;
+        }
+
+        let h3Content = `<h3>${tituloDisplay}</h3>`;
+
+        if (isE) {
+            let numEp = "?";
+            let nomeAnime = tit;
+
+            let matchEp = data.titulo.match(/epis[óo]dio\s*(\d+)/i) || data.titulo.match(/ep\s*\.?\s*(\d+)/i);
+            let numMatchUrl = data.url.match(/-episodio-(\d+)/i) || data.url.match(/-(\d+)\/?$/);
+
+            if (matchEp) numEp = matchEp[1];
+            else if (numMatchUrl) numEp = numMatchUrl[1];
+            else if (engId === 'gy' && data.itemNode) {
+                let tagEp = data.itemNode.querySelector('.ep-type b');
+                if(tagEp) {
+                    let m = tagEp.innerText.match(/\d+/);
+                    if (m) numEp = m[0];
+                }
+            }
+
+            let serieEl = data.itemNode ? data.itemNode.querySelector('.serie') : null;
+            if (serieEl) {
+                nomeAnime = serieEl.innerText.trim();
+            } else {
+                if (matchEp) {
+                    let partes = data.titulo.split(matchEp[0]);
+                    if (partes[0].trim().length > 0) nomeAnime = partes[0].replace(/[-–]+\s*$/, '').trim();
+                    else if (partes[1].trim().length > 0) nomeAnime = partes[1].replace(/^[-–]+\s*/, '').trim();
+                } else {
+                    let numMatch = data.titulo.match(/(\d+)\s*$/);
+                    if (numMatch) {
+                        nomeAnime = data.titulo.replace(/\d+\s*$/, '').replace(/[-–]+\s*$/, '').trim();
+                    }
+                }
+            }
+
+            nomeAnime = nomeAnime.replace(/\s*(?:Todos os Epis[óo]dios|Completo|Online|Assistir)\s*/ig, '').replace(/\s*\(?Dublado\)?\s*$/i, '').replace(/\s*\(?Legendado\)?\s*$/i, '').trim();
+            if (!nomeAnime) nomeAnime = "Anime Indefinido";
+
+            if (isAudioDub && !nomeAnime.toLowerCase().includes('dublado')) {
+                nomeAnime += ' (Dublado)';
+            }
+
+            h3Content = `
+                <div style="display: flex; flex-direction: column; gap: 4px; height: 38px; justify-content: center; margin-bottom: 5px;">
+                    <span style="color: #00ffff; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Episódio ${numEp}</span>
+                    <span style="color: #fff; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${nomeAnime}</span>
+                </div>
+            `;
+            tituloDisplay = nomeAnime + ` - Episódio ${numEp}`; 
+        }
+
+        const li = document.createElement('li');
+        li.className = 'card-item'; li.setAttribute('data-url', data.url); 
+        li.innerHTML = `
+            <div class="badges-container"><span class="badge-tipo ${badgeColor}">${badgeText}</span>${tagAudio}</div>
+            ${btnFavHtml}
+            <div class="badge-site">${ENGINES[engId].nome}</div>
+            <img src="${data.img}" loading="lazy" alt="Poster">
+            ${h3Content}
+        `;
+        
+        li.onclick = () => AspiradorCentral(data.url, tituloDisplay, data.img, engId);
+        li.onmousedown = (e) => { if (e.button === 1) { e.preventDefault(); window.open(data.url, '_blank'); } };
+        
+        const grid = document.getElementById(gridId);
+        if(grid) grid.appendChild(li);
+    }
+};
+
+// ========================================================
+// ASPIRADOR CENTRAL
+// ========================================================
+function AspiradorCentral(url, tituloCard, imgCard, engId) {
+    ativarTela('telaDetalhes');
+    document.getElementById('statusDetalhes').innerText = 'Extraindo dados da obra...';
+    document.getElementById('statusDetalhes').style.display = 'block';
+    document.getElementById('blocoDetalhesInfo').style.display = 'none';
+    document.getElementById('tituloEpsContainer').style.display = 'none';
+    document.getElementById('listaEpisodios').innerHTML = '';
+    
+    obraAtual = { url, titulo: tituloCard, img: imgCard, engine: engId };
+    GlobalStore.verificarFavorito();
+
+    if (url.includes('/episodio/') || url.includes('/episodios/') || url.match(/\/\d+\/?$/) || url.match(/-episodio-\d+/i)) {
+        buscarEAssistirEpisodio(url, tituloCard, imgCard, engId);
+        return;
+    }
+
+    fetch(PROXY + encodeURIComponent(url)).then(r => r.text()).then(html => {
+        document.getElementById('statusDetalhes').style.display = 'none';
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        
+        let tituloLimpo = tituloCard.replace(/\s*\(?Dublado\)?\s*$/i, '').replace(/\s*-\s*Dublado$/i, '').trim();
+        let sinopse = 'Sem sinopse disponível.';
+        let anoTexto = ""; let generosHTML = "";
+
+        if (engId === 'gy') {
+            sinopse = (doc.querySelector('.sinopse-full') || doc.querySelector('.anime-description'))?.innerText.trim() || 'Sem sinopse.';
+            anoTexto = doc.querySelector('#year')?.innerText.trim() || "";
+            const genreNodes = doc.querySelectorAll('.filter-items a.filter-btn');
+            if (genreNodes.length > 0) {
+                let arrGens = Array.from(genreNodes).map(a => a.innerText.trim()).filter(g => !['hd', 'legendado', 'dublado'].includes(g.toLowerCase()));
+                generosHTML = arrGens.map(g => `<span class="detalhe-tag-gen">${g}</span>`).join('');
+            }
+            if(!anoTexto) { let m = html.match(/ano:?<\/b>\s*(\d{4})/i); if(m) anoTexto = m[1]; }
+        } else if (engId === 'af') {
+            const sinEl = doc.querySelector('.divSinopse');
+            if(sinEl) sinopse = sinEl.innerText.replace('Sinopse:', '').trim();
+            
+            const infoItems = doc.querySelectorAll('.animeInfo span, .animeInfo b, .spanAnimeInfo');
+            let txtConcat = "";
+            infoItems.forEach(el => txtConcat += el.innerText.trim() + " ");
+            
+            let anoMatch = txtConcat.match(/ano\s*:?\s*(\d{4})/i) || html.match(/ano:?<\/b>\s*(\d{4})/i);
+            if(anoMatch) anoTexto = anoMatch[1];
+            
+            let genM = txtConcat.match(/gêneros?\s*:?\s*(.*?)(?=\n|$)/i);
+            if(genM) {
+                generosHTML = genM[1].split(',').map(g=>g.trim()).filter(g=>g&&!['hd','legendado','dublado'].includes(g.toLowerCase())).map(g=>`<span class="detalhe-tag-gen">${g}</span>`).join('');
+            }
+        } else {
+            const sinEl = doc.querySelector('.wp-content p, .sbox, .info-content');
+            if(sinEl) sinopse = sinEl.innerText.replace('Sinopse:', '').trim();
+
+            if (engId === 'ao') {
+                const infoItems = doc.querySelectorAll('.anime-info li, .metadata li, .right .info li');
+                infoItems.forEach(el => {
+                    let texto = el.innerText.trim(); let lower = texto.toLowerCase();
+                    if(lower.includes('ano')) anoTexto = texto.replace(/ano:?/i, '').trim();
+                    else if(lower.includes('gênero') || lower.includes('genero')) {
+                        let arrGens = texto.replace(/gêneros?:?/i, '').split(',').map(g => g.trim()).filter(g => g && !['hd', 'legendado', 'dublado'].includes(g.toLowerCase()));
+                        generosHTML = arrGens.map(g => `<span class="detalhe-tag-gen">${g}</span>`).join('');
+                    }
+                });
+                if(!anoTexto) { let m = html.match(/\/lancamento\/(\d{4})/i); if(m) anoTexto = m[1]; }
+            } else if (engId === 'aq') {
+                let anoMatch = html.match(/ano:?<\/b>\s*(\d{4})/i) || html.match(/\/release\/(\d{4})/i);
+                if(anoMatch) anoTexto = anoMatch[1];
+                doc.querySelectorAll('.sgeneros a, .genres a, .tags a').forEach(gen => {
+                    generosHTML += `<span class="detalhe-tag-gen">${gen.innerText.trim()}</span>`;
+                });
+            }
+        }
+
+        let isAnimeDublado = url.toLowerCase().includes('-dublado') || tituloCard.match(/\s*\(?Dublado\)?\s*$/i) !== null || (engId === 'gy' && doc.querySelector('.audio-box.dublado'));
+        let tituloH2 = isAnimeDublado ? `${tituloLimpo} (Dublado)` : tituloLimpo;
+        document.getElementById('detalheTitulo').innerText = tituloH2;
+        
+        document.getElementById('detalheImg').src = imgCard;
+        document.getElementById('detalheSinopse').innerText = sinopse;
+        document.getElementById('detalheTags').innerHTML = (anoTexto ? `<span class="detalhe-tag-ano">Lançamento: ${anoTexto}</span>` : "") + generosHTML;
+        
+        document.getElementById('blocoDetalhesInfo').style.display = 'flex';
+        document.getElementById('tituloEpsContainer').style.display = 'block';
+        
+        const listaEps = document.getElementById('listaEpisodios');
+        listaEpisodiosAtual = []; 
+        
+        let tipoTag = isAnimeDublado ? ' (DUB)' : '';
+        let baseName = `${tituloLimpo}${tipoTag}`;
+        let isFilme = url.includes('/filme/') || url.includes('/filmes/') || tituloCard.match(/\b(Filme|Movie|Ova|Especial)\b/i) !== null;
+
+        if (engId === 'gy') {
+            const match = html.match(/const allEpisodes = (\[.*?\]);/s);
+            if (match) {
+                try {
+                    let epsData = JSON.parse(match[1]).sort((a,b)=>parseFloat(a.episodio)-parseFloat(b.episodio));
+                    epsData.forEach((ep, index) => {
+                        let eUrl = ep.link.startsWith('http') ? ep.link : ENGINES[engId].url + (ep.link.startsWith('/') ? ep.link : '/' + ep.link);
+                        let eTit = baseName;
+                        let tBotao = "▶ Assistir";
+                        
+                        if (isFilme && epsData.length === 1 && !ep.episodio.toString().includes('1')) { 
+                            tBotao = "▶ Assistir Filme"; 
+                        } else if (ep.episodio) {
+                            eTit += ` - Episódio ${ep.episodio}`;
+                        } else {
+                            eTit += ` - Link ${index + 1}`;
+                        }
+                        montarLiEps(listaEps, eTit, tBotao, eUrl, imgCard, engId);
+                    });
+                } catch(e) {}
+            } else {
+                let tBotao = "▶ Assistir Filme";
+                montarLiEps(listaEps, baseName, tBotao, url, imgCard, engId);
+            }
+        } else if (engId === 'af') {
+            const epsNodes = doc.querySelectorAll('.div_video_list a.lEp');
+            if(epsNodes.length > 0) {
+                epsNodes.forEach((epNode, i) => {
+                    let eUrl = epNode.getAttribute('href'); 
+                    if(!eUrl.startsWith('http')) eUrl = ENGINES[engId].url + (eUrl.startsWith('/') ? eUrl : '/' + eUrl);
+                    
+                    let numTxt = epNode.innerText.trim();
+                    let exNum = null, tStr = "Episódio";
+                    
+                    if (numTxt.toLowerCase().includes('parte')) { tStr = "Parte"; let m = numTxt.match(/parte\s*(\d+)/i); if(m) exNum = m[1]; }
+                    else if (numTxt.toLowerCase().includes('epis')) { let m = numTxt.match(/epis[óo]dio\s*(\d+)/i); if(m) exNum = m[1]; }
+                    else if (numTxt.includes('-')) exNum = numTxt.split('-')[1].trim(); 
+                    else if (numTxt.match(/\d+/)) exNum = numTxt.match(/\d+/)[0]; 
+
+                    let nomeF = baseName; let tBot = "▶ Assistir";
+                    if(exNum !== null) nomeF += ` - ${tStr} ${exNum}`;
+                    else if(isFilme && epsNodes.length === 1 && !numTxt.toLowerCase().includes('epis')) tBot = "▶ Assistir Filme";
+                    else nomeF += ` - Link ${i+1}`;
+                    
+                    montarLiEps(listaEps, nomeF, tBot, eUrl, imgCard, engId);
+                });
+            } else {
+                let tBotao = isFilme ? "▶ Assistir Filme" : "▶ Assistir";
+                montarLiEps(listaEps, baseName, tBotao, url, imgCard, engId);
+            }
+        } else {
+            const epsNodes = doc.querySelectorAll('.episodios li, .se-a ul.episodios li, #episodios li');
+            if(epsNodes.length > 0) {
+                let linksUnicos = new Set();
+                epsNodes.forEach((liNode, idx) => {
+                    let epNode = liNode.querySelector('.episodiotitle a') || liNode.querySelector('a');
+                    if(!epNode) return;
+                    
+                    let eUrl = epNode.getAttribute('href'); 
+                    if(!eUrl || eUrl === '#') return;
+                    if(!eUrl.startsWith('http')) eUrl = ENGINES[engId].url + (eUrl.startsWith('/') ? eUrl : '/' + eUrl);
+                    
+                    let urlLimpa = eUrl.split('?')[0].replace(/\/$/, '');
+                    if(linksUnicos.has(urlLimpa)) return;
+                    linksUnicos.add(urlLimpa);
+                    
+                    let numDiv = liNode.querySelector('.numerando');
+                    let textoTituloOriginal = epNode.innerText.trim();
+                    let numTxt = numDiv ? numDiv.innerText.trim() : textoTituloOriginal;
+                    
+                    let tBot = (isFilme && engId === 'aq') ? "▶ Assistir Filme" : "▶ Assistir";
+                    let nomeBruto = "";
+
+                    if (engId === 'aq' && isFilme) {
+                        if (textoTituloOriginal && textoTituloOriginal.toLowerCase() !== 'assistir') nomeBruto = textoTituloOriginal;
+                        else if (numTxt) nomeBruto = numTxt;
+                        else nomeBruto = `Opção ${linksUnicos.size}`;
+                    } else {
+                        let exNum = null, tStr = "Episódio";
+                        if (numTxt.toLowerCase().includes('parte')) { tStr = "Parte"; let m = numTxt.match(/parte\s*(\d+)/i); if(m) exNum = m[1]; }
+                        else if (numTxt.toLowerCase().includes('epis')) { let m = numTxt.match(/epis[óo]dio\s*(\d+)/i); if(m) exNum = m[1]; }
+                        else if (numDiv && numTxt.includes('-')) exNum = numTxt.split('-')[1].trim(); 
+                        else if (numTxt.match(/\d+/)) exNum = numTxt.match(/\d+/)[0]; 
+
+                        if (exNum !== null) nomeBruto = `${tStr} ${exNum}`;
+                        else if (textoTituloOriginal && textoTituloOriginal.toLowerCase() !== 'assistir') nomeBruto = textoTituloOriginal;
+                        else nomeBruto = `Opção ${linksUnicos.size}`;
+                    }
+
+                    let nomeF = baseName;
+                    if (nomeBruto && !isFilme) {
+                        nomeF += ` - ${nomeBruto}`;
+                    } else if (isFilme && epsNodes.length > 1) {
+                        nomeF += ` - ${nomeBruto}`;
+                    }
+                    
+                    montarLiEps(listaEps, nomeF, tBot, eUrl, imgCard, engId);
+                });
+            } else {
+                let tBotao = (url.includes('/filme/') || engId==='ao') ? "▶ Assistir Filme" : "▶ Assistir";
+                montarLiEps(listaEps, baseName, tBotao, url, imgCard, engId);
+            }
+        }
+
+    }).catch(e => { document.getElementById('statusDetalhes').innerText = 'Falha na conexão.'; });
+}
+
+function montarLiEps(lista, nomeFormatado, textoBotao, epUrl, img, engId) {
+    listaEpisodiosAtual.push({ url: epUrl, titulo: nomeFormatado, img: img, engine: engId });
+
+    const li = document.createElement('li'); li.className = 'ep-item';
+    li.innerHTML = `
+        <span class="ep-nome">${nomeFormatado}</span>
+        <div class="ep-actions">
+            <button class="btn-assistir btn-play" onclick="buscarEAssistirEpisodio('${epUrl}', '${nomeFormatado}', '${img}', '${engId}')">${textoBotao}</button>
+            <button class="btn-assistir btn-page" onclick="GlobalStore.salvarNoHistorico('${epUrl}', '${obraAtual.titulo}', '${nomeFormatado}', '${img}', '${engId}'); window.open('${epUrl}', '_blank')">🌐 Abrir no Site</button>
+        </div>`;
+    lista.appendChild(li);
+}
+
+// ========================================================
+// PLAYER GLOBAL INTERCEPTOR & NAVEGAÇÃO
+// ========================================================
+function buscarEAssistirEpisodio(urlEpisodio, tituloEpisodio, imgCard, engId) {
+    document.getElementById('statusDetalhes').innerText = 'Interceptando player nativo...';
+    document.getElementById('statusDetalhes').style.display = 'block';
+    
+    fetch(PROXY + encodeURIComponent(urlEpisodio)).then(res => res.text()).then(html => {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        
+        if (engId === 'gy' || engId === 'af') {
+            let playerFinal = '';
+            let iframes = doc.querySelectorAll('#player iframe, .playerContainer iframe, .play-video iframe, .source-box iframe, #div_video iframe');
+            for (let iframe of iframes) {
+                let src = iframe.getAttribute('src');
+                if (src && !src.includes('facebook')) {
+                    playerFinal = `<iframe src="${src}" allowfullscreen frameborder="0"></iframe>`; break;
+                }
+            }
+            if (!playerFinal) {
+                let m = html.match(/var\s+playersData\s*=\s*(\[.*?\]);/s);
+                if (m) { try { let p = JSON.parse(m[1])[0].url; playerFinal = `<iframe src="${p.startsWith('//') ? 'https:'+p : p}" allowfullscreen frameborder="0"></iframe>`; } catch(e) {} }
+            }
+            if (!playerFinal && engId === 'af') {
+                let sitePlayer = doc.querySelector('video[data-video-src]') || doc.querySelector('#div_video') || doc.querySelector('.video-js');
+                if(sitePlayer) playerFinal = sitePlayer.outerHTML;
+            }
+            
+            if(playerFinal) {
+                document.getElementById('statusDetalhes').style.display = 'none';
+                AbrirTelaPlayer(tituloEpisodio, playerFinal, urlEpisodio, imgCard, engId); 
+            } else {
+                fallbackPlayerOriginal(doc, tituloEpisodio, urlEpisodio, imgCard, engId);
+            }
+        } else {
+            let options = doc.querySelectorAll('.dooplay_player_option');
+            if (options.length > 0) {
+                let opt = options[0]; 
+                let apiUrl = `${ENGINES[engId].url}/wp-json/dooplayer/v2/${opt.getAttribute('data-post')}/${opt.getAttribute('data-type')}/${opt.getAttribute('data-nume')}`;
+                
+                fetch(PROXY + encodeURIComponent(apiUrl)).then(r => r.json()).then(data => {
+                    document.getElementById('statusDetalhes').style.display = 'none';
+                    let embed = data.embed_url;
+                    if(embed) {
+                        if(embed.includes('<iframe')) { let m = embed.match(/src=["'](.*?)["']/); if(m) embed = m[1]; }
+                        AbrirTelaPlayer(tituloEpisodio, `<iframe src="${embed}" allowfullscreen frameborder="0"></iframe>`, urlEpisodio, imgCard, engId);
+                    } else fallbackPlayerOriginal(doc, tituloEpisodio, urlEpisodio, imgCard, engId);
+                }).catch(() => fallbackPlayerOriginal(doc, tituloEpisodio, urlEpisodio, imgCard, engId));
+            } else fallbackPlayerOriginal(doc, tituloEpisodio, urlEpisodio, imgCard, engId);
+        }
+    }).catch(e => {
+        document.getElementById('statusDetalhes').style.display = 'none';
+        mostrarModal("Erro ao tentar conectar ao servidor de vídeo.", () => { window.open(urlEpisodio, '_blank'); });
+    });
+}
+
+function fallbackPlayerOriginal(doc, tituloEpisodio, urlEpisodio, imgCard, engId) {
+    document.getElementById('statusDetalhes').style.display = 'none';
+    let playerIframe = doc.querySelector('.play-video iframe') || doc.querySelector('.player-wrapper iframe') || doc.querySelector('.source-box iframe') || doc.querySelector('iframe');
+    
+    if(playerIframe && playerIframe.src && !playerIframe.src.includes('facebook')) {
+        let htmlP = playerIframe.outerHTML; 
+        if (!htmlP.includes('allowfullscreen')) htmlP = htmlP.replace('<iframe', '<iframe allowfullscreen');
+        AbrirTelaPlayer(tituloEpisodio, htmlP, urlEpisodio, imgCard, engId);
+    } else {
+        mostrarModal(`Player protegido por restrição de rede. Abra diretamente no site original.`, () => {
+            GlobalStore.salvarNoHistorico(urlEpisodio, obraAtual.titulo, tituloEpisodio, imgCard, engId);
+            window.open(urlEpisodio, '_blank');
+        });
+    }
+}
+
+function AbrirTelaPlayer(tit, htmlSrc, urlOrig, img, engId) {
+    GlobalStore.salvarNoHistorico(urlOrig, obraAtual.titulo, tit, img, engId);
+    ativarTela('telaPlayer');
+    document.getElementById('playerTitulo').innerText = tit;
+    document.title = tit;
+    document.getElementById('containerDoPlayerVideo').innerHTML = htmlSrc;
+    document.getElementById('btnAbrirNoSitePlayer').onclick = () => window.open(urlOrig, '_blank');
+    
+    atualizarBotoesNavegacao(urlOrig);
+}
+
+function atualizarBotoesNavegacao(urlAtual) {
+    let navContainer = document.getElementById('playerNavegacao');
+    let btnAnt = document.getElementById('btnEpAnterior');
+    let btnProx = document.getElementById('btnEpProximo');
+    
+    if (listaEpisodiosAtual.length <= 1) {
+        navContainer.style.display = 'none';
+        return;
+    }
+    
+    navContainer.style.display = 'grid';
+    let idx = listaEpisodiosAtual.findIndex(ep => ep.url === urlAtual);
+    
+    if (idx > 0) {
+        btnAnt.style.display = 'block';
+        let epAnt = listaEpisodiosAtual[idx - 1];
+        btnAnt.onclick = () => buscarEAssistirEpisodio(epAnt.url, epAnt.titulo, epAnt.img, epAnt.engine);
+    } else {
+        btnAnt.style.display = 'none';
+    }
+
+    if (idx !== -1 && idx < listaEpisodiosAtual.length - 1) {
+        btnProx.style.display = 'block';
+        let epProx = listaEpisodiosAtual[idx + 1];
+        btnProx.onclick = () => buscarEAssistirEpisodio(epProx.url, epProx.titulo, epProx.img, epProx.engine);
+    } else {
+        btnProx.style.display = 'none';
+    }
+}
+
+function fecharPlayer() { voltarPaginaAnterior(); document.getElementById('containerDoPlayerVideo').innerHTML = ''; document.title = tituloOriginalDaPagina; }
+
+// ========================================================
+// GLOBAL STORE
+// ========================================================
+const GlobalStore = {
+    salvarNoHistorico(u, t, ep, img, eng) {
+        let h = JSON.parse(localStorage.getItem('cronos_v3_history')) || [];
+        h = h.filter(x => x.url !== u); 
+        h.unshift({ url: u, titulo: t, epNome: ep, img, engine: eng });
+        localStorage.setItem('cronos_v3_history', JSON.stringify(h.slice(0, 50)));
+    },
+
+    carregarHistorico(btn) {
+        ativarTela('telaHistorico', btn);
+        const grid = document.getElementById('gridHistorico'); grid.innerHTML = '';
+        let hist = JSON.parse(localStorage.getItem('cronos_v3_history')) || [];
+        if(hist.length === 0) document.getElementById('statusHistorico').style.display = 'block';
+        else {
+            document.getElementById('statusHistorico').style.display = 'none';
+            hist.forEach(h => {
+                const li = document.createElement('li'); li.className = 'card-item';
+                li.innerHTML = `
+                    <div class="badges-container"><span class="badge-tipo bg-episodio">VISTO</span></div>
+                    <button class="btn-remover-card" onclick="GlobalStore.removerItem('${h.url}', event, 'hist')">REMOVER</button>
+                    <div class="badge-site">${ENGINES[h.engine]?.nome || 'Desconhecido'}</div>
+                    <img src="${h.img}" loading="lazy">
+                    <h3>${h.epNome || h.titulo}</h3>
+                `;
+                li.onclick = () => AspiradorCentral(h.url, h.epNome || h.titulo, h.img, h.engine);
+                li.onmousedown = (e) => { if (e.button === 1) { e.preventDefault(); window.open(h.url, '_blank'); } };
+                grid.appendChild(li);
+            });
+        }
+    },
+
+    carregarFavoritos(btn) {
+        ativarTela('telaFavoritos', btn);
+        const grid = document.getElementById('gridFavoritos'); grid.innerHTML = '';
+        let favs = JSON.parse(localStorage.getItem('cronos_v3_favs')) || [];
+        if(favs.length === 0) document.getElementById('statusFavoritos').style.display = 'block';
+        else {
+            document.getElementById('statusFavoritos').style.display = 'none';
+            favs.forEach(f => {
+                const li = document.createElement('li'); li.className = 'card-item';
+                li.innerHTML = `
+                    <div class="badges-container"><span class="badge-tipo bg-anime">SALVO</span></div>
+                    <button class="btn-remover-card" onclick="GlobalStore.removerItem('${f.url}', event, 'fav')">REMOVER</button>
+                    <div class="badge-site">${ENGINES[f.engine]?.nome || 'Desconhecido'}</div>
+                    <img src="${f.img}" loading="lazy">
+                    <h3>${f.titulo}</h3>
+                `;
+                li.onclick = () => AspiradorCentral(f.url, f.titulo, f.img, f.engine);
+                li.onmousedown = (e) => { if (e.button === 1) { e.preventDefault(); window.open(f.url, '_blank'); } };
+                grid.appendChild(li);
+            });
+        }
+    },
+
+    removerItem(url, e, tipo) {
+        e.stopPropagation();
+        if(tipo === 'hist') {
+            let h = JSON.parse(localStorage.getItem('cronos_v3_history')).filter(x => x.url !== url);
+            localStorage.setItem('cronos_v3_history', JSON.stringify(h)); this.carregarHistorico();
+        } else {
+            let f = JSON.parse(localStorage.getItem('cronos_v3_favs')).filter(x => x.url !== url);
+            localStorage.setItem('cronos_v3_favs', JSON.stringify(f)); this.carregarFavoritos();
+        }
+    },
+
+    limparHistorico() {
+        mostrarModal("Limpar histórico completo?", () => { localStorage.removeItem('cronos_v3_history'); this.carregarHistorico(); });
+    },
+
+    limparFavoritosLista() {
+        mostrarModal("Limpar todos os favoritos?", () => { localStorage.removeItem('cronos_v3_favs'); this.carregarFavoritos(); });
+    },
+
+    toggleFavoritoDireto(url, titulo, img, engine, btn, e) {
+        e.stopPropagation();
+        let f = JSON.parse(localStorage.getItem('cronos_v3_favs')) || [];
+        let idx = f.findIndex(x => x.url === url);
+        if(idx > -1) { 
+            f.splice(idx, 1); 
+            btn.innerText = 'FAVORITAR'; 
+            btn.classList.remove('ativo'); 
+        } else { 
+            f.unshift({ url, titulo, img, engine }); 
+            btn.innerText = 'SALVO'; 
+            btn.classList.add('ativo'); 
+        }
+        localStorage.setItem('cronos_v3_favs', JSON.stringify(f));
+        if(obraAtual.url === url) this.verificarFavorito();
+    },
+
+    toggleFavorito() {
+        let f = JSON.parse(localStorage.getItem('cronos_v3_favs')) || [];
+        let idx = f.findIndex(x => x.url === obraAtual.url);
+        const btn = document.getElementById('btnFavoritar');
+        if(idx > -1) { f.splice(idx, 1); btn.innerText = '⭐ Favoritar'; btn.classList.remove('ativo'); } 
+        else { f.unshift(obraAtual); btn.innerText = '🌟 Na Lista'; btn.classList.add('ativo'); }
+        localStorage.setItem('cronos_v3_favs', JSON.stringify(f)); this.verificarFavorito();
+        
+        const btnCard = document.querySelector(`.card-item[data-url="${obraAtual.url}"] .btn-favoritar-card`);
+        if(btnCard) {
+            if(idx > -1) { btnCard.innerText = 'FAVORITAR'; btnCard.classList.remove('ativo'); }
+            else { btnCard.innerText = 'SALVO'; btnCard.classList.add('ativo'); }
+        }
+    },
+
+    verificarFavorito() {
+        let f = JSON.parse(localStorage.getItem('cronos_v3_favs')) || [];
+        const btn = document.getElementById('btnFavoritar');
+        if(f.some(x => x.url === obraAtual.url)) { btn.innerText = '🌟 Na Lista'; btn.classList.add('ativo'); } 
+        else { btn.innerText = '⭐ Favoritar'; btn.classList.remove('ativo'); }
+    }
+};
+
+function mostrarModal(m, cb) {
+    document.getElementById('modalMsg').innerText = m;
+    document.getElementById('modalCustom').style.display = 'flex';
+    document.getElementById('modalBtnOk').onclick = () => { if(cb) cb(); document.getElementById('modalCustom').style.display = 'none'; };
+}
+document.getElementById('modalBtnCancel').onclick = () => document.getElementById('modalCustom').style.display = 'none';
+
+/* =========================================================
+   PATCH CRONOS QUAD-CORE FINAL
+   ========================================================= */
+
+let qcPlayerFornecedorEscolhido = null;
+let qcPlayerAtualResolvido = null;
+let qcOrdemEpsInvertida = false;
+
+function qcWorkerBase() {
+    return String(PROXY || '').replace(/\?url=$/, '').replace(/\/$/, '');
+}
+
+function qcLimparTitulo(t) {
+    return String(t || '')
+        .replace(/Todos os Epis[óo]dios Online/ig, '')
+        .replace(/Epis[óo]dio \d+ Online/ig, '')
+        .replace(/Online/ig, '')
+        .replace(/Assistir/ig, '')
+        .replace(/Completo/ig, '')
+        .replace(/FHD/ig, '')
+        .replace(/^Home\s+(Animes|Filmes|Epis[óo]dios)\s*/i, '')
+        .replace(/\s*\(?Dublado\)?\s*$/i, '')
+        .replace(/\s*-\s*Dublado$/i, '')
+        .replace(/\s*\(?Legendado\)?\s*$/i, '')
+        .replace(/[-–]+$/, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function qcEscape(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+
+function qcQuebrarDepoisDoisPontos(txt) {
+    const s = String(txt || '');
+    if (!s.includes(':')) return qcEscape(s);
+    return qcEscape(s).replace(/:\s+/, ':<br>');
+}
+
+function qcModalEscolha(titulo, htmlMsg, onCancel = null) {
+    const modal = document.getElementById('modalCustom');
+    const title = document.getElementById('modalTitle');
+    const msg = document.getElementById('modalMsg');
+    const ok = document.getElementById('modalBtnOk');
+    const cancel = document.getElementById('modalBtnCancel');
+
+    title.innerText = titulo || 'Atenção';
+    msg.innerHTML = htmlMsg || '';
+    ok.style.display = 'none';
+    cancel.style.display = '';
+    cancel.innerText = 'Cancelar';
+    cancel.onclick = () => {
+        modal.style.display = 'none';
+        ok.style.display = '';
+        if (onCancel) onCancel();
+    };
+    modal.style.display = 'flex';
+}
+
+function qcGarantirToolbarDetalhes() {
+    const tela = document.getElementById('telaDetalhes');
+    if (!tela || document.getElementById('toolbarDetalhesQC')) return;
+    const btnVoltar = tela.querySelector('.btn-voltar');
+    const toolbar = document.createElement('div');
+    toolbar.id = 'toolbarDetalhesQC';
+    toolbar.className = 'detalhes-toolbar-qc';
+    toolbar.innerHTML = `<div></div><div class="right"><button class="btn-reordenar-qc" id="btnReordenarQC" onclick="qcReordenarEpisodios()">Reordenar</button></div>`;
+    btnVoltar.insertAdjacentElement('afterend', toolbar);
+}
+
+function qcReordenarEpisodios() {
+    qcOrdemEpsInvertida = !qcOrdemEpsInvertida;
+    const btn = document.getElementById('btnReordenarQC');
+    if (btn) btn.classList.toggle('ativo', qcOrdemEpsInvertida);
+    qcRenderListaEpisodios();
+}
+
+function qcRenderListaEpisodios() {
+    const lista = document.getElementById('listaEpisodios');
+    if (!lista) return;
+    const arr = qcOrdemEpsInvertida ? [...listaEpisodiosAtual].reverse() : [...listaEpisodiosAtual];
+    lista.innerHTML = '';
+    arr.forEach(ep => montarLiEps(lista, ep.titulo, '▶ Assistir', ep.url, ep.img, ep.engine, true));
+}
+
+const qcAspiradorOriginal = AspiradorCentral;
+AspiradorCentral = function(url, tituloCard, imgCard, engId) {
+    qcOrdemEpsInvertida = false;
+    qcGarantirToolbarDetalhes();
+    qcAspiradorOriginal(url, tituloCard, imgCard, engId);
+    setTimeout(() => {
+        const bloco = document.getElementById('blocoDetalhesInfo');
+        if (bloco && imgCard) bloco.style.backgroundImage = `url("${imgCard}")`;
+    }, 300);
+};
+
+montarLiEps = function(lista, nomeFormatado, textoBotao, epUrl, img, engId, renderOnly = false) {
+    if (!renderOnly && !listaEpisodiosAtual.some(x => x.url === epUrl)) {
+        listaEpisodiosAtual.push({ url: epUrl, titulo: nomeFormatado, img: img, engine: engId });
+    }
+
+    const li = document.createElement('li');
+    li.className = 'ep-card-qc';
+
+    let num = (String(nomeFormatado).match(/Epis[óo]dio\s*0*([0-9]+)/i) || String(epUrl).match(/episodio-0*([0-9]+)/i) || String(epUrl).match(/\/([0-9]+)\/?$/i) || [])[1] || '';
+    const subt = num ? `Episódio ${num}` : 'Assistir';
+    const tituloCard = qcLimparTitulo(String(nomeFormatado).replace(/\s*-\s*Epis[óo]dio\s*\d+.*/i, ''));
+
+    li.innerHTML = `
+        <span class="ep-badge-qc">Episódio</span>
+        <img src="${qcEscape(img)}" loading="lazy" alt="Poster">
+        <span class="ep-site-qc">${qcEscape(ENGINES[engId]?.nome || 'SRC')}</span>
+        <div class="ep-info-qc">
+            <div class="ep-num-qc">${qcEscape(subt)}</div>
+            <div class="ep-titulo-qc">${qcQuebrarDepoisDoisPontos(tituloCard)}</div>
+        </div>
+    `;
+
+    li.onclick = () => buscarEAssistirEpisodio(epUrl, nomeFormatado, img, engId);
+    li.onmousedown = (e) => { if (e.button === 1) { e.preventDefault(); window.open(epUrl, '_blank'); } };
+    lista.appendChild(li);
+};
+
+/* ---------------- LANÇAMENTOS QUAD-CORE ---------------- */
+
+EngineHub.iniciarLancamentos = async function(btn = null) {
+    if (btn) {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativa'));
+        btn.classList.add('ativa');
+    }
+    ativarTela('telaResultados');
+    document.getElementById('botoesExtraAnimes').style.display = 'none';
+    document.getElementById('barrinhaLetras').style.display = 'none';
+    document.getElementById('tituloResultados').innerText = 'Lançamentos';
+    const st = document.getElementById('statusResultados');
+    const grid = document.getElementById('gridResultados');
+    const btnMais = document.getElementById('btnMaisFiltro');
+    grid.innerHTML = '';
+    btnMais.style.display = 'none';
+    st.style.display = 'block';
+    st.innerText = 'Vasculhando lançamentos...';
+
+    const rotas = {
+        aq: ['/episodio/'],
+        ao: ['/episodio/'],
+        gy: ['/lancamentos/'],
+        af: ['/home/']
+    };
+    const vistosObra = new Set();
+
+    const extrair = (item, engId) => {
+        const link = item.tagName === 'A' ? item : item.querySelector('a');
+        const img = item.querySelector('.contentImg') || item.querySelector('img.cover') || item.querySelector('img');
+        const title = item.querySelector('h3, h2, h4, h6, .animeTitle, .card-title, .title, .name');
+        if (!link || !img || !title) return false;
+
+        let url = link.getAttribute('href') || '';
+        if (!url || url === '#') return false;
+        if (!url.startsWith('http')) url = ENGINES[engId].url + (url.startsWith('/') ? url : '/' + url);
+
+        const isEp = url.includes('/episodio/') || url.includes('/episodios/') || url.match(/\/\d+\/?$/) || url.match(/-episodio-\d+/i) || item.classList.contains('boxEP');
+        if (!isEp) return false;
+
+        let imgSrc = processarImagemGeral(item, img, ENGINES[engId].url, engId);
+        if (!imgSrc) return false;
+
+        let titulo = qcLimparTitulo(title.innerText || img.getAttribute('alt') || '');
+        titulo = titulo.replace(/\s*[-–]?\s*Epis[óo]dio\s*\d+.*/i, '').replace(/\s+\d+$/,'').trim();
+        if (!titulo) titulo = qcLimparTitulo(title.innerText || 'Anime');
+
+        const chave = engId + ':' + titulo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-');
+        if (vistosObra.has(chave)) return false;
+        vistosObra.add(chave);
+
+        this.montarCardUI({ url, titulo, img: imgSrc, isD:/dublado/i.test(titulo + url), isL:false, itemNode:item }, 'gridResultados', engId);
+        return true;
+    };
+
+    try {
+        for (const engId of ['aq','ao','gy','af']) {
+            if (!configFontes[engId]) continue;
+            let count = 0;
+            for (let pg = 1; pg <= 4 && count < 15; pg++) {
+                const rota = rotas[engId][0];
+                let urlTarget = '';
+                if (engId === 'af') urlTarget = pg > 1 ? `${ENGINES[engId].url}${rota}${pg}` : `${ENGINES[engId].url}${rota}`;
+                else urlTarget = pg > 1 ? `${ENGINES[engId].url}${rota}page/${pg}/` : `${ENGINES[engId].url}${rota}`;
+                const html = await fetch(PROXY + encodeURIComponent(urlTarget)).then(r => r.text());
+                const doc = new DOMParser().parseFromString(html, 'text/html');
+                for (const item of doc.querySelectorAll(SELETORES_AGRESSIVOS)) {
+                    if (item.closest('aside') || item.closest('.sidebar') || item.closest('.widget')) continue;
+                    if (extrair(item, engId)) count++;
+                    if (count >= 15 || vistosObra.size >= 60) break;
+                }
+                if (vistosObra.size >= 60) break;
+            }
+            if (vistosObra.size >= 60) break;
+        }
+    } catch(e) {}
+
+    st.style.display = grid.children.length ? 'none' : 'block';
+    if (!grid.children.length) st.innerText = 'Nenhum lançamento encontrado.';
+};
+
+/* ---------------- PLAYER GLOBAL COM WORKER ---------------- */
+
+function qcMostrarModalPlayers(players, callback) {
+    qcModalEscolha('Escolha o Player', `
+        <div class="modal-player-lista-qc">
+            ${players.map((p,i)=>`<button data-qc-player="${i}">${qcEscape(p.nome || ('Player ' + (i+1)))}</button>`).join('')}
+        </div>
+    `);
+    setTimeout(() => {
+        document.querySelectorAll('[data-qc-player]').forEach(btn => {
+            btn.onclick = () => {
+                const idx = Number(btn.getAttribute('data-qc-player'));
+                document.getElementById('modalCustom').style.display = 'none';
+                document.getElementById('modalBtnOk').style.display = '';
+                callback(idx);
+            };
+        });
+    }, 0);
+}
+
+function qcAbrirPlayerResolvido(player, tituloEpisodio, urlEpisodio, imgCard, engId) {
+    qcPlayerFornecedorEscolhido = player.provedorId || player.id || player.nome || null;
+    AbrirTelaPlayer(tituloEpisodio, player.embed || player.embedCode || player.html || '', urlEpisodio, imgCard, engId, player.nome || 'Player');
+}
+
+buscarEAssistirEpisodio = function(urlEpisodio, tituloEpisodio, imgCard, engId) {
+    document.getElementById('statusDetalhes').innerText = 'Detectando players...';
+    document.getElementById('statusDetalhes').style.display = 'block';
+
+    const api = qcWorkerBase() + '?modo=players&url=' + encodeURIComponent(urlEpisodio);
+    fetch(api, { cache:'no-store' })
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('statusDetalhes').style.display = 'none';
+            let players = Array.isArray(data.players) ? data.players : [];
+            players = players.filter(p => !p.bloqueado && (p.embed || p.embedCode || p.html));
+
+            qcPlayerAtualResolvido = { players, titulo: tituloEpisodio, url: urlEpisodio, img: imgCard, engine: engId };
+
+            if (!players.length) {
+                mostrarModal("Nenhum player seguro foi detectado. Abra diretamente no site original.", () => {
+                    GlobalStore.salvarNoHistorico(urlEpisodio, obraAtual.titulo, tituloEpisodio, imgCard, engId);
+                    window.open(urlEpisodio, '_blank');
+                });
+                return;
+            }
+
+            const preferido = qcPlayerFornecedorEscolhido
+                ? players.find(p => (p.provedorId || p.id || p.nome) === qcPlayerFornecedorEscolhido)
+                : null;
+
+            if (preferido) {
+                qcAbrirPlayerResolvido(preferido, tituloEpisodio, urlEpisodio, imgCard, engId);
+                return;
+            }
+
+            if (players.length === 1) {
+                qcAbrirPlayerResolvido(players[0], tituloEpisodio, urlEpisodio, imgCard, engId);
+                return;
+            }
+
+            qcMostrarModalPlayers(players, idx => qcAbrirPlayerResolvido(players[idx] || players[0], tituloEpisodio, urlEpisodio, imgCard, engId));
+        })
+        .catch(() => {
+            document.getElementById('statusDetalhes').style.display = 'none';
+            mostrarModal("Erro ao tentar detectar o player.", () => window.open(urlEpisodio, '_blank'));
+        });
+};
+
+AbrirTelaPlayer = function(tit, htmlSrc, urlOrig, img, engId, nomePlayer = 'Player') {
+    GlobalStore.salvarNoHistorico(urlOrig, obraAtual.titulo, tit, img, engId);
+    ativarTela('telaPlayer');
+    document.getElementById('playerTitulo').innerText = tit;
+    document.title = tit;
+    document.getElementById('containerDoPlayerVideo').innerHTML = htmlSrc;
+    const abrir = document.getElementById('btnAbrirNoSitePlayer');
+    if (abrir) {
+        abrir.style.display = 'none';
+        abrir.onclick = () => window.open(urlOrig, '_blank');
+    }
+    qcGarantirBarraPlayer(nomePlayer);
+    atualizarBotoesNavegacao(urlOrig);
+};
+
+function qcGarantirBarraPlayer(nomePlayer = 'Player') {
+    let barra = document.getElementById('playerBarraQC');
+    if (!barra) {
+        barra = document.createElement('div');
+        barra.id = 'playerBarraQC';
+        barra.className = 'player-barra-qc';
+        barra.innerHTML = `
+            <div class="player-left-qc">
+                <div class="player-badge-qc" id="playerNomeAtualQC">Player</div>
+                <button class="btn-trocar-player-qc" onclick="qcTrocarPlayer()">Trocar Player</button>
+            </div>
+            <div class="player-right-qc">
+                <button class="btn-nav-ep" id="btnEpAnteriorQC" style="display:none;">Episódio Anterior</button>
+                <button class="btn-nav-ep" id="btnEpProximoQC" style="display:none;">Próximo Episódio</button>
+            </div>
+        `;
+        document.getElementById('containerDoPlayerVideo').insertAdjacentElement('afterend', barra);
+    }
+    document.getElementById('playerNomeAtualQC').innerText = nomePlayer || 'Player';
+    const oldNav = document.getElementById('playerNavegacao');
+    if (oldNav) oldNav.style.display = 'none';
+}
+
+function qcTrocarPlayer() {
+    qcPlayerFornecedorEscolhido = null;
+    document.getElementById('containerDoPlayerVideo').innerHTML = '';
+    if (qcPlayerAtualResolvido && qcPlayerAtualResolvido.players && qcPlayerAtualResolvido.players.length) {
+        qcMostrarModalPlayers(qcPlayerAtualResolvido.players, idx => {
+            const p = qcPlayerAtualResolvido.players[idx] || qcPlayerAtualResolvido.players[0];
+            qcAbrirPlayerResolvido(p, qcPlayerAtualResolvido.titulo, qcPlayerAtualResolvido.url, qcPlayerAtualResolvido.img, qcPlayerAtualResolvido.engine);
+        });
+    } else {
+        mostrarModal('Player zerado. Abra o episódio novamente para escolher outro player.');
+    }
+}
+
+atualizarBotoesNavegacao = function(urlAtual) {
+    qcGarantirBarraPlayer(document.getElementById('playerNomeAtualQC')?.innerText || 'Player');
+
+    let btnAnt = document.getElementById('btnEpAnteriorQC');
+    let btnProx = document.getElementById('btnEpProximoQC');
+
+    if (listaEpisodiosAtual.length <= 1) {
+        btnAnt.style.display = 'none';
+        btnProx.style.display = 'none';
+        return;
+    }
+
+    let idx = listaEpisodiosAtual.findIndex(ep => ep.url === urlAtual);
+
+    if (idx > 0) {
+        btnAnt.style.display = 'block';
+        let epAnt = listaEpisodiosAtual[idx - 1];
+        btnAnt.onclick = () => buscarEAssistirEpisodio(epAnt.url, epAnt.titulo, epAnt.img, epAnt.engine);
+    } else {
+        btnAnt.style.display = 'none';
+    }
+
+    if (idx !== -1 && idx < listaEpisodiosAtual.length - 1) {
+        btnProx.style.display = 'block';
+        let epProx = listaEpisodiosAtual[idx + 1];
+        btnProx.onclick = () => buscarEAssistirEpisodio(epProx.url, epProx.titulo, epProx.img, epProx.engine);
+    } else {
+        btnProx.style.display = 'none';
+    }
+};
+
+fecharPlayer = function() {
+    qcPlayerFornecedorEscolhido = null;
+    qcPlayerAtualResolvido = null;
+    const container = document.getElementById('containerDoPlayerVideo');
+    if (container) container.innerHTML = '';
+    const badge = document.getElementById('playerNomeAtualQC');
+    if (badge) badge.innerText = 'Player';
+    voltarPaginaAnterior();
+    document.title = tituloOriginalDaPagina;
+};
+
+// Garantia final das siglas.
+ENGINES.aq.nome = 'ANQ';
+ENGINES.ao.nome = 'AOC';
+ENGINES.gy.nome = 'GYB';
+ENGINES.af.nome = 'ANF';
+document.querySelectorAll('#gridFontes button').forEach(btn => {
+    btn.innerText = btn.innerText
+        .replace('AnimeQ', 'ANQ')
+        .replace('AnimesOnline', 'AOC')
+        .replace('Goyabu', 'GYB')
+        .replace('AnimeFire', 'ANF');
+});
+
+
+/* =========================================================
+   PATCH SAFE ANQ / QUAD-CORE - PROTEÇÃO DE IMAGENS
+   Evita carregar direto animeq.net/wp-content/uploads no navegador.
+   ========================================================= */
+function qcSafeWorkerURL() {
+    return String(PROXY || '').replace(/\?url=$/, '').replace(/\/$/, '');
+}
+function qcSafeAbsUrl(u, base) {
+    try {
+        let s = String(u || '').trim().replace(/&amp;/g, '&');
+        if (!s || s.startsWith('data:') || s.startsWith('blob:')) return s;
+        if (s.startsWith('//')) s = 'https:' + s;
+        if (!/^https?:\/\//i.test(s)) s = new URL(s, base || location.href).toString();
+        return s;
+    } catch(e) { return u || ''; }
+}
+function qcSafeImagem(u, base) {
+    const abs = qcSafeAbsUrl(u, base);
+    if (!abs || abs.startsWith('data:') || abs.startsWith('blob:')) return abs;
+    if (abs.includes('?modo=imagem&url=') || abs.includes('&modo=imagem&url=')) return abs;
+    if (!/\.(jpg|jpeg|png|webp|gif|svg)(\?|#|$)/i.test(abs) && !/\/wp-content\/uploads\//i.test(abs) && !/image\.tmdb\.org/i.test(abs)) return abs;
+    return qcSafeWorkerURL() + '?modo=imagem&url=' + encodeURIComponent(abs);
+}
+if (typeof processarImagemGeral === 'function') {
+    const __processarImagemGeralOriginalQC = processarImagemGeral;
+    processarImagemGeral = function(item, imgElement, basUrl, engId) {
+        const src = __processarImagemGeralOriginalQC(item, imgElement, basUrl, engId);
+        return qcSafeImagem(src, basUrl || (engId && ENGINES[engId] ? ENGINES[engId].url : ''));
+    };
+}
+if (typeof EngineHub !== 'undefined' && EngineHub.montarCardUI && !EngineHub.__safeImagemPatchQC) {
+    const __montarCardUIOriginalQC = EngineHub.montarCardUI.bind(EngineHub);
+    EngineHub.montarCardUI = function(data, gridId, engId) {
+        if (data && data.img) data.img = qcSafeImagem(data.img, engId && ENGINES[engId] ? ENGINES[engId].url : '');
+        return __montarCardUIOriginalQC(data, gridId, engId);
+    };
+    EngineHub.__safeImagemPatchQC = true;
+}
+
+
+/* =========================================================
+   PATCH ANQ FICHA COMPLETA V3
+   Corrige AnimeQ na pesquisa/ficha: extrai episódios reais
+   em vez de criar 1 card falso apontando para a URL da obra.
+   Também filtra card falso/logo do Goyabu.
+   ========================================================= */
+
+function qcANQText(el) {
+    return (el && el.innerText ? el.innerText : '').replace(/\s+/g, ' ').trim();
+}
+function qcANQMeta(doc, prop) {
+    const el = doc.querySelector(`meta[property="${prop}"], meta[name="${prop}"]`);
+    return el ? (el.getAttribute('content') || '').trim() : '';
+}
+function qcANQAbs(u, base) {
+    try {
+        let s = String(u || '').trim().replace(/&amp;/g, '&').replace(/&#038;/g, '&');
+        if (!s) return '';
+        if (s.startsWith('//')) s = 'https:' + s;
+        if (!/^https?:\/\//i.test(s)) s = new URL(s, base).toString();
+        return s;
+    } catch(e) { return ''; }
+}
+function qcANQSlugFromUrl(u) {
+    try {
+        const parts = new URL(u).pathname.split('/').filter(Boolean);
+        return (parts[parts.length - 1] || '').toLowerCase();
+    } catch(e) { return ''; }
+}
+function qcANQSlugText(s) {
+    return String(s || '')
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/\(\d{4}\)/g, '')
+        .replace(/\b(dublado|legendado|online|gratis|completo|assistir|home|animes|filmes)\b/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+function qcANQCleanTitle(t) {
+    return String(t || '')
+        .replace(/\s*-\s*AniQ.*$/i, '')
+        .replace(/\s*-\s*AnimeQ.*$/i, '')
+        .replace(/^Home\s+(Animes|Filmes|Epis[óo]dios)\s*/i, '')
+        .replace(/^Assistir\s+/i, '')
+        .replace(/\s+Online\s+Gr[áa]tis.*$/i, '')
+        .replace(/\s+Online.*$/i, '')
+        .replace(/\s*\(?Dublado\)?\s*$/i, '')
+        .replace(/\s*\(?Legendado\)?\s*$/i, '')
+        .replace(/\s*-\s*Dublado$/i, '')
+        .replace(/\s*-\s*Legendado$/i, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+function qcANQImgFromElement(imgEl, baseUrl) {
+    if (!imgEl) return '';
+    let src = imgEl.getAttribute('data-src') ||
+              imgEl.getAttribute('data-lazy-src') ||
+              imgEl.getAttribute('data-original') ||
+              imgEl.getAttribute('src') ||
+              '';
+    if (!src || src.startsWith('data:')) return '';
+    src = qcANQAbs(src, baseUrl);
+    if (typeof qcSafeImagem === 'function') return qcSafeImagem(src, baseUrl);
+    return src;
+}
+function qcANQPickPoster(doc, baseUrl, fallback) {
+    const img =
+        doc.querySelector('.poster img') ||
+        doc.querySelector('.dt_poster img') ||
+        doc.querySelector('.sheader .poster img') ||
+        doc.querySelector('.detalhes-poster img') ||
+        doc.querySelector('.imagen img') ||
+        doc.querySelector('article img') ||
+        null;
+    let src = qcANQImgFromElement(img, baseUrl) || qcANQMeta(doc, 'og:image') || fallback || '';
+    if (typeof qcSafeImagem === 'function') src = qcSafeImagem(src, baseUrl);
+    return src;
+}
+function qcANQPickSinopse(doc) {
+    const candidatos = [
+        '.resumotemp .wp-content p',
+        '.sbox .wp-content p',
+        '.wp-content[itemprop="description"] p',
+        '.wp-content p',
+        '.description p',
+        '.sinopse p',
+        '.info-content p'
+    ];
+    for (const sel of candidatos) {
+        const ps = Array.from(doc.querySelectorAll(sel));
+        for (const p of ps) {
+            let txt = qcANQText(p)
+                .replace(/^Sinopse\s*:?\s*/i, '')
+                .replace(/^Resumo\s*:?\s*/i, '')
+                .trim();
+            if (!txt) continue;
+            if (/Total de Epis[óo]dios|Epis[óo]dio\s*0?1|Mais Antigo|Mais Novo/i.test(txt)) continue;
+            if (txt.length >= 35) return txt;
+        }
+    }
+    let desc = qcANQMeta(doc, 'description') || qcANQMeta(doc, 'og:description');
+    desc = String(desc || '')
+        .replace(/^Assistir\s+/i, '')
+        .replace(/\s*-\s*AnimeQ.*$/i, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    if (/Total de Epis[óo]dios|Epis[óo]dio\s*0?1/i.test(desc)) return 'Sem sinopse disponível.';
+    return desc || 'Sem sinopse disponível.';
+}
+function qcANQGetGenres(doc) {
+    const falsos = new Set(['manhwa', 'tokusatsus', 'hentai (+18)', 'hentai(+18)']);
+    const out = [];
+    const seen = new Set();
+    const nodes = doc.querySelectorAll('.sgeneros a, .genres a, .generos a, a[rel="tag"], a[href*="/genre/"], a[href*="/genero/"]');
+    nodes.forEach(a => {
+        let g = qcANQText(a)
+            .replace(/[🟧🔞]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        if (!g) return;
+        const low = g.toLowerCase();
+        if (falsos.has(low)) return;
+        if (/^(hd|dub|dublado|legendado)$/i.test(g)) return;
+        if (seen.has(low)) return;
+        seen.add(low);
+        out.push(g);
+    });
+    return out;
+}
+function qcANQGetYear(doc, html, pageUrl) {
+    const fontes = [
+        qcANQText(doc.querySelector('.extra .date')),
+        qcANQText(doc.querySelector('.date')),
+        qcANQText(doc.querySelector('.year')),
+        qcANQText(doc.querySelector('.tag-ano')),
+        String(html || '')
+    ].join(' ');
+    const m = fontes.match(/(?:release|lancamento|lançamento|ano|date)[^0-9]{0,20}(\d{4})/i) ||
+              String(html || '').match(/\/release\/(\d{4})/i) ||
+              String(pageUrl || '').match(/(\d{4})/);
+    return m ? m[1] : '';
+}
+function qcANQEpisodeNumber(txt, href) {
+    const s = `${txt || ''} ${href || ''}`;
+    const m = s.match(/epis[óo]dio[\s\-_:]*0*([0-9]+)/i) ||
+              s.match(/ep[\s\-_:]*0*([0-9]+)/i) ||
+              s.match(/-0*([0-9]+)\/?$/i) ||
+              s.match(/\/0*([0-9]+)\/?$/i);
+    return m ? String(parseInt(m[1], 10)) : '';
+}
+function qcANQEpisodeImageFromAnchor(a, baseUrl, fallback) {
+    const bloco = a.closest('li, article, .item, .episodio, .episode, .episodes, .episodios, .box, .card, .post, .episodiobox, .episodio-box') || a.parentElement;
+    const imgEl = bloco ? bloco.querySelector('img') : null;
+    return qcANQImgFromElement(imgEl, baseUrl) || fallback || '';
+}
+function qcANQExtractEpisodes(doc, html, pageUrl, tituloBase, poster, engId) {
+    const allAnchors = Array.from(doc.querySelectorAll('a[href]')).filter(a => {
+        const href = a.getAttribute('href') || '';
+        return /\/episodio\/|\/episodios\/|-episodio-/i.test(href);
+    });
+
+    const obraSlug = qcANQSlugFromUrl(pageUrl);
+    const obraSlugBase = obraSlug.replace(/-(dublado|legendado)$/i, '');
+    const tituloSlug = qcANQSlugText(tituloBase);
+    let candidatos = allAnchors.filter(a => {
+        const href = qcANQAbs(a.getAttribute('href') || '', pageUrl);
+        const epSlug = qcANQSlugFromUrl(href);
+        if (!epSlug) return false;
+        if (epSlug.includes(obraSlug) || epSlug.includes(obraSlugBase)) return true;
+        if (tituloSlug && epSlug.includes(tituloSlug)) return true;
+        return false;
+    });
+
+    // Algumas páginas do AnimeQ têm slug da obra diferente do slug dos episódios.
+    // Se o filtro ficar pequeno demais, usa todos os links de episódio da área principal.
+    if (candidatos.length < 2) {
+        const main = doc.querySelector('main, #contenedor, #content, .module, .sbox, article') || doc.body;
+        candidatos = Array.from(main.querySelectorAll('a[href]')).filter(a => {
+            const href = a.getAttribute('href') || '';
+            return /\/episodio\/|\/episodios\/|-episodio-/i.test(href);
+        });
+    }
+    if (candidatos.length < 2) candidatos = allAnchors;
+
+    const vistos = new Set();
+    const eps = [];
+    candidatos.forEach((a, idx) => {
+        let href = qcANQAbs(a.getAttribute('href') || '', pageUrl);
+        if (!href) return;
+        const urlKey = href.split('?')[0].replace(/\/$/, '');
+        if (vistos.has(urlKey)) return;
+        vistos.add(urlKey);
+
+        const texto = qcANQText(a) || qcANQText(a.closest('li, article, .item, .episodio, .episode') || null);
+        const num = qcANQEpisodeNumber(texto, href);
+        const tituloEp = num ? `${tituloBase} - Episódio ${num.padStart(2, '0')}` : `${tituloBase} - Episódio ${eps.length + 1}`;
+        const img = qcANQEpisodeImageFromAnchor(a, pageUrl, poster);
+
+        eps.push({
+            url: href,
+            titulo: tituloEp,
+            img,
+            num: num ? parseInt(num, 10) : (eps.length + 1)
+        });
+    });
+
+    eps.sort((a,b) => (a.num || 9999) - (b.num || 9999));
+    return eps;
+}
+
+(function instalarPatchANQQuadCoreV3(){
+    if (window.__PATCH_ANQ_QUAD_CORE_V3__) return;
+    window.__PATCH_ANQ_QUAD_CORE_V3__ = true;
+
+    // Filtro leve para remover o card falso do Goyabu/logo.
+    if (typeof EngineHub !== 'undefined' && EngineHub.montarCardUI && !EngineHub.__gybLogoFilterQC) {
+        const __montarCardUIPrevGybQC = EngineHub.montarCardUI.bind(EngineHub);
+        EngineHub.montarCardUI = function(data, gridId, engId) {
+            const titulo = String(data && data.titulo || '').trim().toLowerCase();
+            const url = String(data && data.url || '').toLowerCase();
+            const img = String(data && data.img || '').toLowerCase();
+            if (engId === 'gy' && (
+                titulo === 'goyabu' ||
+                img.includes('logo-min') ||
+                /\/inicio\/?$/.test(url) ||
+                url === 'https://goyabu.io' ||
+                url === 'https://goyabu.io/'
+            )) return;
+            return __montarCardUIPrevGybQC(data, gridId, engId);
+        };
+        EngineHub.__gybLogoFilterQC = true;
+    }
+
+    const __AspiradorAntesANQCorrigido = AspiradorCentral;
+
+    AspiradorCentral = function(url, tituloCard, imgCard, engId) {
+        const ehEpisodio = /\/episodio\/|\/episodios\/|-episodio-|\/\d+\/?$/i.test(url || '');
+        if (engId !== 'aq' || ehEpisodio) {
+            return __AspiradorAntesANQCorrigido(url, tituloCard, imgCard, engId);
+        }
+
+        ativarTela('telaDetalhes');
+        if (typeof qcGarantirToolbarDetalhes === 'function') qcGarantirToolbarDetalhes();
+
+        document.getElementById('statusDetalhes').innerText = 'Extraindo dados do ANQ...';
+        document.getElementById('statusDetalhes').style.display = 'block';
+        document.getElementById('blocoDetalhesInfo').style.display = 'none';
+        document.getElementById('tituloEpsContainer').style.display = 'none';
+        document.getElementById('listaEpisodios').innerHTML = '';
+
+        obraAtual = { url, titulo: tituloCard, img: imgCard, engine: engId };
+        GlobalStore.verificarFavorito();
+
+        fetch(PROXY + encodeURIComponent(url), { cache:'no-store' })
+            .then(r => r.text())
+            .then(html => {
+                const doc = new DOMParser().parseFromString(html, 'text/html');
+
+                const tituloFonte = qcANQText(doc.querySelector('h1')) ||
+                                    qcANQMeta(doc, 'og:title') ||
+                                    doc.title ||
+                                    tituloCard ||
+                                    'Anime';
+                const tituloLimpo = qcANQCleanTitle(tituloFonte);
+                const isDublado = /-dublado\/?$/i.test(url) || /\bDublado\b/i.test(tituloFonte + ' ' + tituloCard);
+                const tituloFinal = isDublado ? `${tituloLimpo} (Dublado)` : tituloLimpo;
+
+                let poster = qcANQPickPoster(doc, url, imgCard);
+                if (typeof qcSafeImagem === 'function') poster = qcSafeImagem(poster || imgCard, url);
+
+                let backdrop = qcANQMeta(doc, 'og:image') || poster || imgCard;
+                if (typeof qcSafeImagem === 'function') backdrop = qcSafeImagem(backdrop, url);
+
+                const sinopse = qcANQPickSinopse(doc);
+                const anoTexto = qcANQGetYear(doc, html, url);
+                const generos = qcANQGetGenres(doc);
+                const generosHTML = generos.map(g => `<span class="detalhe-tag-gen">${qcEscape ? qcEscape(g) : g}</span>`).join('');
+
+                document.getElementById('statusDetalhes').style.display = 'none';
+                document.getElementById('detalheTitulo').innerText = tituloFinal;
+                document.getElementById('detalheImg').src = poster || imgCard || '';
+                document.getElementById('detalheSinopse').innerText = sinopse;
+                document.getElementById('detalheTags').innerHTML =
+                    (anoTexto ? `<span class="detalhe-tag-ano">Lançamento: ${anoTexto}</span>` : "") +
+                    generosHTML;
+
+                const bloco = document.getElementById('blocoDetalhesInfo');
+                bloco.style.display = 'flex';
+                bloco.style.backgroundImage = `url("${backdrop || poster || imgCard || ''}")`;
+
+                const listaEps = document.getElementById('listaEpisodios');
+                listaEps.innerHTML = '';
+                listaEpisodiosAtual = [];
+
+                const isFilme = /\/filme\/|\/filmes\//i.test(url) || /\b(Filme|Movie|Ova|Especial)\b/i.test(tituloFinal);
+                const baseName = tituloFinal;
+                const eps = qcANQExtractEpisodes(doc, html, url, baseName, poster || imgCard, engId);
+
+                if (eps.length > 0) {
+                    document.getElementById('tituloEpsContainer').innerText = 'Episódios do Anime';
+                    document.getElementById('tituloEpsContainer').style.display = 'block';
+                    eps.forEach(ep => montarLiEps(listaEps, ep.titulo, '▶ Assistir', ep.url, ep.img || poster || imgCard, engId));
+                } else if (isFilme) {
+                    document.getElementById('tituloEpsContainer').innerText = 'Conteúdo Disponível';
+                    document.getElementById('tituloEpsContainer').style.display = 'block';
+                    montarLiEps(listaEps, baseName, '▶ Assistir Filme', url, poster || imgCard, engId);
+                } else {
+                    document.getElementById('tituloEpsContainer').innerText = 'Episódios do Anime';
+                    document.getElementById('tituloEpsContainer').style.display = 'block';
+                    listaEps.innerHTML = '<div class="loading-text">Nenhum episódio foi encontrado nessa ficha.</div>';
+                }
+            })
+            .catch(() => {
+                document.getElementById('statusDetalhes').innerText = 'Falha ao extrair dados do ANQ.';
+            });
+    };
+})();
+
+</script>
+</body>
+</html>
