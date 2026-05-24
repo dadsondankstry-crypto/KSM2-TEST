@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIME</title>
+    <title>ANIME MOBILE</title>
     <style>
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -357,7 +357,518 @@
     .player-right-qc { justify-content:center; flex-wrap:wrap; }
 }
 
-    </style>
+    
+/* =========================================================
+   PATCH MOBILE CRONOS — CELULAR / TOUCH
+   Mantém Worker e lógica do player. Só adapta visual/uso no celular.
+   ========================================================= */
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+}
+
+body {
+    align-items: stretch;
+}
+
+/* toque mais confortável */
+button,
+.nav-btn,
+.btn-filtro,
+.btn-letra,
+.card-item,
+.ep-card-qc,
+.btn-nav-ep,
+.btn-trocar-player-qc,
+.player-badge-qc,
+.btn-modal {
+    -webkit-tap-highlight-color: rgba(0,255,255,.25);
+}
+
+/* evita efeitos de hover atrapalhando no touch */
+@media (hover: none) {
+    .card-item:hover,
+    .ep-card-qc:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+}
+
+/* tablet/celular */
+@media (max-width: 900px) {
+    .navbar {
+        position: sticky;
+        top: 0;
+        align-items: stretch;
+        justify-content: flex-start;
+        padding: 12px 10px;
+        gap: 10px;
+    }
+
+    .nav-brand {
+        width: 100%;
+        font-size: 25px;
+        line-height: 1;
+        padding: 4px 2px;
+    }
+
+    .nav-links {
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 8px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 4px 0 8px;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-links::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .nav-links::-webkit-scrollbar-thumb {
+        background: #8a2be2;
+        border-radius: 20px;
+    }
+
+    .nav-links li {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+    }
+
+    .nav-btn {
+        min-height: 42px;
+        padding: 10px 14px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .search-box {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 48px;
+        gap: 8px;
+    }
+
+    .search-box input {
+        width: 100%;
+        min-height: 44px;
+        font-size: 16px;
+        padding: 10px 12px;
+    }
+
+    .search-box button {
+        min-height: 44px;
+        padding: 0;
+        font-size: 13px;
+    }
+
+    .view-container {
+        width: 100%;
+        max-width: none;
+        padding: 12px 10px 22px;
+    }
+
+    .sessao-titulo {
+        font-size: 15px;
+        margin-top: 18px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        line-height: 1.25;
+    }
+
+    .grid-lista {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 9px;
+        margin-bottom: 24px;
+    }
+
+    .card-item {
+        padding: 6px;
+        border-radius: 7px;
+        min-width: 0;
+    }
+
+    .card-item img {
+        height: 185px;
+        margin-bottom: 7px;
+        border-radius: 5px;
+    }
+
+    .card-item h3 {
+        height: auto;
+        min-height: 32px;
+        font-size: 11px;
+        line-height: 1.18;
+        margin: 0 2px 2px;
+    }
+
+    .badges-container {
+        top: 8px;
+        left: 8px;
+        gap: 3px;
+    }
+
+    .badge-tipo,
+    .badge-audio {
+        font-size: 8px;
+        padding: 3px 5px;
+    }
+
+    .badge-site {
+        right: 7px;
+        bottom: 44px;
+        font-size: 8px;
+        padding: 3px 5px;
+    }
+
+    .grid-botoes {
+        gap: 8px;
+    }
+
+    .btn-filtro,
+    .btn-letra {
+        min-height: 40px;
+        padding: 9px 11px;
+        font-size: 12px;
+    }
+
+    .barra-letras {
+        max-height: 190px;
+        overflow-y: auto;
+        padding: 8px;
+    }
+
+    .btn-carregar-mais {
+        width: 100%;
+        padding: 14px 12px;
+        margin: 20px auto;
+    }
+
+    .btn-voltar {
+        min-height: 38px;
+        padding: 8px 12px;
+    }
+
+    /* ficha técnica */
+    .detalhes-toolbar-qc {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .detalhes-toolbar-qc .right {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-left: 0;
+    }
+
+    .btn-reordenar-qc,
+    .btn-topo-direito {
+        position: static !important;
+        width: 100%;
+        min-height: 42px;
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+
+    .detalhes-header {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 12px;
+        min-height: 0;
+        padding: 14px;
+        border-radius: 10px;
+        align-items: start;
+        background-position: center !important;
+    }
+
+    .detalhes-header::before {
+        background: linear-gradient(90deg, rgba(0,0,0,.92), rgba(0,0,0,.78));
+    }
+
+    .detalhes-poster img {
+        width: 120px;
+        max-width: 100%;
+        border-radius: 7px;
+    }
+
+    .detalhes-info {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .detalhes-info h2 {
+        padding-right: 0 !important;
+        font-size: 20px !important;
+        line-height: 1.22;
+        margin-bottom: 8px;
+        word-break: break-word;
+    }
+
+    .detalhe-tags-container {
+        gap: 5px;
+        margin-bottom: 8px;
+    }
+
+    .detalhe-tag-gen,
+    .detalhe-tag-ano {
+        font-size: 9px;
+        padding: 4px 7px;
+    }
+
+    .sinopse-box {
+        font-size: 13px;
+        line-height: 1.45;
+        max-height: 150px !important;
+        overflow-y: auto !important;
+        padding-right: 4px !important;
+    }
+
+    #listaEpisodios.lista-botoes {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 9px;
+    }
+
+    .ep-card-qc {
+        min-height: 0;
+        border-radius: 7px;
+    }
+
+    .ep-card-qc .ep-info-qc {
+        padding: 7px 8px 9px;
+    }
+
+    .ep-card-qc .ep-num-qc {
+        font-size: 10px;
+    }
+
+    .ep-card-qc .ep-titulo-qc {
+        font-size: 11px;
+        min-height: 29px;
+        line-height: 1.18;
+    }
+
+    .ep-card-qc .ep-badge-qc {
+        top: 6px;
+        left: 6px;
+        font-size: 8px;
+        padding: 3px 5px;
+    }
+
+    .ep-card-qc .ep-site-qc {
+        right: 6px;
+        bottom: 42px;
+        font-size: 8px;
+        padding: 3px 5px;
+    }
+
+    /* player */
+    .header-player {
+        width: 100%;
+        max-width: none;
+        padding: 8px 10px;
+        margin: 0 0 6px 0;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .header-player h2 {
+        font-size: 16px;
+        line-height: 1.25;
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .header-player-actions {
+        margin-left: 0;
+    }
+
+    .btn-fechar-player {
+        min-height: 38px;
+        padding: 8px 12px;
+        white-space: nowrap;
+        font-size: 12px;
+    }
+
+    .player-wrapper {
+        width: calc(100vw - 20px);
+        max-width: none;
+        max-height: calc(100dvh - 245px);
+        margin: 0 auto;
+        border-radius: 7px;
+        border-width: 2px;
+    }
+
+    .player-barra-qc {
+        width: calc(100vw - 20px);
+        max-width: none;
+        margin: 12px auto 6px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .player-left-qc,
+    .player-right-qc {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        justify-content: stretch;
+    }
+
+    .player-badge-qc,
+    .btn-trocar-player-qc,
+    .player-right-qc .btn-nav-ep,
+    .btn-nav-ep {
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 46px;
+        margin: 0;
+        padding: 12px 10px;
+        font-size: 12px;
+    }
+
+    .player-navegacao {
+        width: calc(100vw - 20px);
+        max-width: none;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin: 10px auto 20px;
+    }
+
+    /* modal */
+    .modal-overlay {
+        padding: 12px;
+        align-items: center;
+    }
+
+    .modal-box {
+        width: min(440px, calc(100vw - 24px));
+        max-height: calc(100dvh - 32px);
+        overflow-y: auto;
+        padding: 18px 14px;
+        border-radius: 10px;
+    }
+
+    .modal-box h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    .modal-box p {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-modal,
+    .modal-player-lista-qc button {
+        width: 100%;
+        min-height: 46px;
+        padding: 12px 10px;
+        font-size: 13px;
+    }
+}
+
+/* celular pequeno */
+@media (max-width: 430px) {
+    .navbar {
+        padding: 10px 8px;
+    }
+
+    .nav-brand {
+        font-size: 23px;
+    }
+
+    .view-container {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .grid-lista {
+        gap: 8px;
+    }
+
+    .card-item img {
+        height: 160px;
+    }
+
+    .card-item h3 {
+        font-size: 10.5px;
+    }
+
+    .detalhes-header {
+        grid-template-columns: 100px 1fr;
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .detalhes-poster img {
+        width: 100px;
+    }
+
+    .detalhes-info h2 {
+        font-size: 18px !important;
+    }
+
+    .sinopse-box {
+        grid-column: 1 / -1;
+        max-height: 170px !important;
+    }
+
+    #listaEpisodios.lista-botoes {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .ep-card-qc .ep-titulo-qc {
+        font-size: 10.5px;
+    }
+
+    .header-player {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-fechar-player {
+        width: 100%;
+    }
+}
+
+/* modo paisagem no celular: dá mais espaço para o vídeo */
+@media (max-width: 900px) and (orientation: landscape) {
+    .navbar {
+        position: relative;
+    }
+
+    .player-wrapper {
+        max-height: calc(100dvh - 120px);
+        width: min(92vw, 980px);
+    }
+
+    .header-player,
+    .player-barra-qc,
+    .player-navegacao {
+        width: min(92vw, 980px);
+    }
+}
+
+</style>
 </head>
 <body>
 
