@@ -487,7 +487,7 @@
 // ========================================================
 // CORE: QUAD-CORE ENGINE V3.0
 // ========================================================
-const PROXY = 'https://delicate-sea-41ab.getapi-oi.workers.dev/?url=';
+const PROXY = 'https://winter-cherry-3baa.getapi-oi.workers.dev/?url=';
 const SELETORES_AGRESSIVOS = '.w_item_b, .item, .card, article.anime, .anime-box, article, .result-item, ul.items li, .box-item, .post-item, .boxAN, .boxEP, .containerAnimes, .cardUltimosEps, .divCardUltimosEpsHome';
 
 const ENGINES = {
@@ -1793,7 +1793,7 @@ EngineHub.iniciarLancamentos = async function(btn = null) {
 function qcMostrarModalPlayers(players, callback) {
     qcModalEscolha('Escolha o Player', `
         <div class="modal-player-lista-qc">
-            ${players.map((p,i)=>`<button data-qc-player="${i}">${qcEscape(p.nome || ('Player ' + (i+1)))}</button>`).join('')}
+            ${players.map((p,i)=>`<button data-qc-player="${i}">${qcEscape(p.nome || (p.tipo === 'site' ? 'Ir para o site' : ('Player ' + (i+1))))}</button>`).join('')}
         </div>
     `);
     setTimeout(() => {
@@ -2005,320 +2005,568 @@ if (typeof EngineHub !== 'undefined' && EngineHub.montarCardUI && !EngineHub.__s
 
 
 /* =========================================================
-   PATCH ANQ FICHA COMPLETA V3
-   Corrige AnimeQ na pesquisa/ficha: extrai episódios reais
-   em vez de criar 1 card falso apontando para a URL da obra.
-   Também filtra card falso/logo do Goyabu.
+   PATCH FINAL PEDIDO - QUAD-CORE ANIME
+   - Mantém o HTML principal "ANIME".
+   - Só troca o módulo ANQ para usar o Worker em JSON no padrão Shrill Moon.
+   - Mantém AOC, GYB e ANF como estavam.
+   - Filtra card falso do GYB: logo-min.webp / título Goyabu / rota início.
    ========================================================= */
 
-function qcANQText(el) {
-    return (el && el.innerText ? el.innerText : '').replace(/\s+/g, ' ').trim();
-}
-function qcANQMeta(doc, prop) {
-    const el = doc.querySelector(`meta[property="${prop}"], meta[name="${prop}"]`);
-    return el ? (el.getAttribute('content') || '').trim() : '';
-}
-function qcANQAbs(u, base) {
-    try {
-        let s = String(u || '').trim().replace(/&amp;/g, '&').replace(/&#038;/g, '&');
-        if (!s) return '';
-        if (s.startsWith('//')) s = 'https:' + s;
-        if (!/^https?:\/\//i.test(s)) s = new URL(s, base).toString();
-        return s;
-    } catch(e) { return ''; }
-}
-function qcANQSlugFromUrl(u) {
-    try {
-        const parts = new URL(u).pathname.split('/').filter(Boolean);
-        return (parts[parts.length - 1] || '').toLowerCase();
-    } catch(e) { return ''; }
-}
-function qcANQSlugText(s) {
-    return String(s || '')
-        .toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .replace(/\(\d{4}\)/g, '')
-        .replace(/\b(dublado|legendado|online|gratis|completo|assistir|home|animes|filmes)\b/g, '')
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-}
-function qcANQCleanTitle(t) {
-    return String(t || '')
-        .replace(/\s*-\s*AniQ.*$/i, '')
-        .replace(/\s*-\s*AnimeQ.*$/i, '')
-        .replace(/^Home\s+(Animes|Filmes|Epis[óo]dios)\s*/i, '')
-        .replace(/^Assistir\s+/i, '')
-        .replace(/\s+Online\s+Gr[áa]tis.*$/i, '')
-        .replace(/\s+Online.*$/i, '')
-        .replace(/\s*\(?Dublado\)?\s*$/i, '')
-        .replace(/\s*\(?Legendado\)?\s*$/i, '')
-        .replace(/\s*-\s*Dublado$/i, '')
-        .replace(/\s*-\s*Legendado$/i, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-}
-function qcANQImgFromElement(imgEl, baseUrl) {
-    if (!imgEl) return '';
-    let src = imgEl.getAttribute('data-src') ||
-              imgEl.getAttribute('data-lazy-src') ||
-              imgEl.getAttribute('data-original') ||
-              imgEl.getAttribute('src') ||
-              '';
-    if (!src || src.startsWith('data:')) return '';
-    src = qcANQAbs(src, baseUrl);
-    if (typeof qcSafeImagem === 'function') return qcSafeImagem(src, baseUrl);
-    return src;
-}
-function qcANQPickPoster(doc, baseUrl, fallback) {
-    const img =
-        doc.querySelector('.poster img') ||
-        doc.querySelector('.dt_poster img') ||
-        doc.querySelector('.sheader .poster img') ||
-        doc.querySelector('.detalhes-poster img') ||
-        doc.querySelector('.imagen img') ||
-        doc.querySelector('article img') ||
-        null;
-    let src = qcANQImgFromElement(img, baseUrl) || qcANQMeta(doc, 'og:image') || fallback || '';
-    if (typeof qcSafeImagem === 'function') src = qcSafeImagem(src, baseUrl);
-    return src;
-}
-function qcANQPickSinopse(doc) {
-    const candidatos = [
-        '.resumotemp .wp-content p',
-        '.sbox .wp-content p',
-        '.wp-content[itemprop="description"] p',
-        '.wp-content p',
-        '.description p',
-        '.sinopse p',
-        '.info-content p'
-    ];
-    for (const sel of candidatos) {
-        const ps = Array.from(doc.querySelectorAll(sel));
-        for (const p of ps) {
-            let txt = qcANQText(p)
-                .replace(/^Sinopse\s*:?\s*/i, '')
-                .replace(/^Resumo\s*:?\s*/i, '')
-                .trim();
-            if (!txt) continue;
-            if (/Total de Epis[óo]dios|Epis[óo]dio\s*0?1|Mais Antigo|Mais Novo/i.test(txt)) continue;
-            if (txt.length >= 35) return txt;
+(function(){
+    const QUAD_ANQ_BASE = 'https://animeq.net';
+
+    function quadWorkerBaseFinal() {
+        return String(PROXY || '').replace(/\?url=$/, '').replace(/\/$/, '') + '/';
+    }
+
+    function quadPathFromUrlFinal(rota) {
+        try {
+            const s = String(rota || '').trim();
+            if (!s) return '/';
+            if (/^https?:\/\//i.test(s)) {
+                const u = new URL(s);
+                return u.pathname + u.search;
+            }
+            return s.startsWith('/') ? s : '/' + s;
+        } catch(e) {
+            return String(rota || '/');
         }
     }
-    let desc = qcANQMeta(doc, 'description') || qcANQMeta(doc, 'og:description');
-    desc = String(desc || '')
-        .replace(/^Assistir\s+/i, '')
-        .replace(/\s*-\s*AnimeQ.*$/i, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-    if (/Total de Epis[óo]dios|Epis[óo]dio\s*0?1/i.test(desc)) return 'Sem sinopse disponível.';
-    return desc || 'Sem sinopse disponível.';
-}
-function qcANQGetGenres(doc) {
-    const falsos = new Set(['manhwa', 'tokusatsus', 'hentai (+18)', 'hentai(+18)']);
-    const out = [];
-    const seen = new Set();
-    const nodes = doc.querySelectorAll('.sgeneros a, .genres a, .generos a, a[rel="tag"], a[href*="/genre/"], a[href*="/genero/"]');
-    nodes.forEach(a => {
-        let g = qcANQText(a)
-            .replace(/[🟧🔞]/g, '')
+
+    function quadAnqApiFinal(tipo, rota, extra = {}) {
+        const api = new URL(quadWorkerBaseFinal());
+        api.searchParams.set('tipo', tipo);
+        api.searchParams.set('rota', quadPathFromUrlFinal(rota));
+        Object.entries(extra || {}).forEach(([k, v]) => {
+            if (v !== undefined && v !== null && String(v) !== '') api.searchParams.set(k, v);
+        });
+        return fetch(api.toString(), { cache: 'no-store' })
+            .then(async r => {
+                const txt = await r.text();
+                if (!r.ok) throw new Error('Worker HTTP ' + r.status);
+                let data = null;
+                try { data = JSON.parse(txt); }
+                catch(e) { throw new Error('Worker não retornou JSON: ' + txt.slice(0,120)); }
+                if (!data || data.ok === false) throw new Error((data && data.erro) || 'Resposta inválida do Worker.');
+                return data;
+            });
+    }
+
+    function quadAnqImagemFinal(src) {
+        try {
+            let s = String(src || '').trim().replace(/&amp;/g, '&');
+            if (!s || s.startsWith('data:') || s.startsWith('blob:')) return s;
+            if (s.includes('?modo=imagem&url=') || s.includes('&modo=imagem&url=')) return s;
+            const u = new URL(s, QUAD_ANQ_BASE);
+            const h = u.hostname.toLowerCase();
+            const p = u.pathname.toLowerCase();
+            const permitido = (
+                h === 'animeq.net' ||
+                h === 'www.animeq.net' ||
+                h === 'image.tmdb.org'
+            ) && (
+                p.startsWith('/wp-content/uploads/') ||
+                p.startsWith('/t/p/') ||
+                /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(p)
+            );
+            if (!permitido) return u.toString();
+            return quadWorkerBaseFinal() + '?modo=imagem&url=' + encodeURIComponent(u.toString());
+        } catch(e) {
+            return src || '';
+        }
+    }
+
+    function quadLimparTituloANQFinal(titulo) {
+        return String(titulo || '')
+            .replace(/<[^>]+>/g, ' ')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&#8211;/g, '–')
+            .replace(/&#8212;/g, '—')
+            .replace(/&#8217;/g, "'")
+            .replace(/&#8220;|&#8221;/g, '"')
+            .replace(/&#038;|&amp;/g, '&')
+            .replace(/^\s*Home\s+(Animes?|Filmes?|Epis[oó]dios?)\s+/i, '')
+            .replace(/^\s*In[ií]cio\s+(Animes?|Filmes?|Epis[oó]dios?)\s+/i, '')
+            .replace(/^\s*Animes?\s+Online\s*[-–]?\s*/i, '')
+            .replace(/^\s*Assistir\s+/i, '')
+            .replace(/\s+Todos\s+os\s+Epis[oó]dios\s+Online\s*$/i, '')
+            .replace(/\s+Online\s+Gr[aá]tis\s*$/i, '')
+            .replace(/\s+Online\s*$/i, '')
+            .replace(/\s+Completo\s*$/i, '')
+            .replace(/\s+FHD\s*$/i, '')
+            .replace(/\s+HD\s*$/i, '')
+            .replace(/\s*[-–]\s*AnimeQ\.net\s*$/i, '')
+            .replace(/\s*[-–]\s*Animes?\s+Online.*$/i, '')
+            .replace(/\s*\(?Dublado\)?\s*$/i, '')
+            .replace(/\s*\(?Legendado\)?\s*$/i, '')
+            .replace(/[-–:]+$/g, '')
             .replace(/\s+/g, ' ')
             .trim();
-        if (!g) return;
-        const low = g.toLowerCase();
-        if (falsos.has(low)) return;
-        if (/^(hd|dub|dublado|legendado)$/i.test(g)) return;
-        if (seen.has(low)) return;
-        seen.add(low);
-        out.push(g);
-    });
-    return out;
-}
-function qcANQGetYear(doc, html, pageUrl) {
-    const fontes = [
-        qcANQText(doc.querySelector('.extra .date')),
-        qcANQText(doc.querySelector('.date')),
-        qcANQText(doc.querySelector('.year')),
-        qcANQText(doc.querySelector('.tag-ano')),
-        String(html || '')
-    ].join(' ');
-    const m = fontes.match(/(?:release|lancamento|lançamento|ano|date)[^0-9]{0,20}(\d{4})/i) ||
-              String(html || '').match(/\/release\/(\d{4})/i) ||
-              String(pageUrl || '').match(/(\d{4})/);
-    return m ? m[1] : '';
-}
-function qcANQEpisodeNumber(txt, href) {
-    const s = `${txt || ''} ${href || ''}`;
-    const m = s.match(/epis[óo]dio[\s\-_:]*0*([0-9]+)/i) ||
-              s.match(/ep[\s\-_:]*0*([0-9]+)/i) ||
-              s.match(/-0*([0-9]+)\/?$/i) ||
-              s.match(/\/0*([0-9]+)\/?$/i);
-    return m ? String(parseInt(m[1], 10)) : '';
-}
-function qcANQEpisodeImageFromAnchor(a, baseUrl, fallback) {
-    const bloco = a.closest('li, article, .item, .episodio, .episode, .episodes, .episodios, .box, .card, .post, .episodiobox, .episodio-box') || a.parentElement;
-    const imgEl = bloco ? bloco.querySelector('img') : null;
-    return qcANQImgFromElement(imgEl, baseUrl) || fallback || '';
-}
-function qcANQExtractEpisodes(doc, html, pageUrl, tituloBase, poster, engId) {
-    const allAnchors = Array.from(doc.querySelectorAll('a[href]')).filter(a => {
-        const href = a.getAttribute('href') || '';
-        return /\/episodio\/|\/episodios\/|-episodio-/i.test(href);
-    });
-
-    const obraSlug = qcANQSlugFromUrl(pageUrl);
-    const obraSlugBase = obraSlug.replace(/-(dublado|legendado)$/i, '');
-    const tituloSlug = qcANQSlugText(tituloBase);
-    let candidatos = allAnchors.filter(a => {
-        const href = qcANQAbs(a.getAttribute('href') || '', pageUrl);
-        const epSlug = qcANQSlugFromUrl(href);
-        if (!epSlug) return false;
-        if (epSlug.includes(obraSlug) || epSlug.includes(obraSlugBase)) return true;
-        if (tituloSlug && epSlug.includes(tituloSlug)) return true;
-        return false;
-    });
-
-    // Algumas páginas do AnimeQ têm slug da obra diferente do slug dos episódios.
-    // Se o filtro ficar pequeno demais, usa todos os links de episódio da área principal.
-    if (candidatos.length < 2) {
-        const main = doc.querySelector('main, #contenedor, #content, .module, .sbox, article') || doc.body;
-        candidatos = Array.from(main.querySelectorAll('a[href]')).filter(a => {
-            const href = a.getAttribute('href') || '';
-            return /\/episodio\/|\/episodios\/|-episodio-/i.test(href);
-        });
-    }
-    if (candidatos.length < 2) candidatos = allAnchors;
-
-    const vistos = new Set();
-    const eps = [];
-    candidatos.forEach((a, idx) => {
-        let href = qcANQAbs(a.getAttribute('href') || '', pageUrl);
-        if (!href) return;
-        const urlKey = href.split('?')[0].replace(/\/$/, '');
-        if (vistos.has(urlKey)) return;
-        vistos.add(urlKey);
-
-        const texto = qcANQText(a) || qcANQText(a.closest('li, article, .item, .episodio, .episode') || null);
-        const num = qcANQEpisodeNumber(texto, href);
-        const tituloEp = num ? `${tituloBase} - Episódio ${num.padStart(2, '0')}` : `${tituloBase} - Episódio ${eps.length + 1}`;
-        const img = qcANQEpisodeImageFromAnchor(a, pageUrl, poster);
-
-        eps.push({
-            url: href,
-            titulo: tituloEp,
-            img,
-            num: num ? parseInt(num, 10) : (eps.length + 1)
-        });
-    });
-
-    eps.sort((a,b) => (a.num || 9999) - (b.num || 9999));
-    return eps;
-}
-
-(function instalarPatchANQQuadCoreV3(){
-    if (window.__PATCH_ANQ_QUAD_CORE_V3__) return;
-    window.__PATCH_ANQ_QUAD_CORE_V3__ = true;
-
-    // Filtro leve para remover o card falso do Goyabu/logo.
-    if (typeof EngineHub !== 'undefined' && EngineHub.montarCardUI && !EngineHub.__gybLogoFilterQC) {
-        const __montarCardUIPrevGybQC = EngineHub.montarCardUI.bind(EngineHub);
-        EngineHub.montarCardUI = function(data, gridId, engId) {
-            const titulo = String(data && data.titulo || '').trim().toLowerCase();
-            const url = String(data && data.url || '').toLowerCase();
-            const img = String(data && data.img || '').toLowerCase();
-            if (engId === 'gy' && (
-                titulo === 'goyabu' ||
-                img.includes('logo-min') ||
-                /\/inicio\/?$/.test(url) ||
-                url === 'https://goyabu.io' ||
-                url === 'https://goyabu.io/'
-            )) return;
-            return __montarCardUIPrevGybQC(data, gridId, engId);
-        };
-        EngineHub.__gybLogoFilterQC = true;
     }
 
-    const __AspiradorAntesANQCorrigido = AspiradorCentral;
+    function quadGeneroValidoANQFinal(g) {
+        const texto = String(g || '').replace(/[🟧🔞]/gu, '').replace(/\s+/g, ' ').trim();
+        if (!texto) return false;
+        const normal = texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim();
+        const falsos = new Set([
+            'manhwa','tokusatsus','tokusatsu','hentai (+18)','hentai +18','hentai',
+            'animes','anime','filmes','filme','episodios','episodio','animes dublado',
+            'animes dublados','animes legendado','animes legendados','home','inicio',
+            'lancamentos','categorias','generos','todos','all'
+        ]);
+        if (falsos.has(normal)) return false;
+        if (/^letra\s+[a-z0-9]$/i.test(normal)) return false;
+        if (/^(dublado|legendado|dub|leg|hd|fhd|fullhd|mobile|celular)$/i.test(normal)) return false;
+        return true;
+    }
 
-    AspiradorCentral = function(url, tituloCard, imgCard, engId) {
-        const ehEpisodio = /\/episodio\/|\/episodios\/|-episodio-|\/\d+\/?$/i.test(url || '');
-        if (engId !== 'aq' || ehEpisodio) {
-            return __AspiradorAntesANQCorrigido(url, tituloCard, imgCard, engId);
+    function quadGenerosANQFinal(lista) {
+        const saida = [];
+        const vistos = new Set();
+        (Array.isArray(lista) ? lista : []).forEach(g => {
+            const limpo = String(g || '').replace(/[🟧🔞]/gu, '').replace(/\s+/g, ' ').trim();
+            if (!quadGeneroValidoANQFinal(limpo)) return;
+            const chave = limpo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            if (vistos.has(chave)) return;
+            vistos.add(chave);
+            saida.push(limpo);
+        });
+        return saida;
+    }
+
+    function quadSinopseANQFinal(s) {
+        return String(s || 'Sem sinopse disponível.')
+            .replace(/\s+/g, ' ')
+            .replace(/^Sinopse:\s*/i, '')
+            .replace(/^Descri[cç][aã]o:\s*/i, '')
+            .trim() || 'Sem sinopse disponível.';
+    }
+
+    function quadNumEpANQFinal(titulo, url, fallback) {
+        return (
+            (String(titulo || '').match(/epis[óo]dio\s*0*([0-9]+)/i) || [])[1] ||
+            (String(url || '').match(/episodio-0*([0-9]+)/i) || [])[1] ||
+            (String(url || '').match(/\/0*([0-9]+)\/?$/i) || [])[1] ||
+            String(fallback || '')
+        );
+    }
+
+    function quadRenderEpisodiosANQFinal(epsRaw, tituloLimpo, poster, animeUrl) {
+        const lista = document.getElementById('listaEpisodios');
+        if (!lista) return;
+
+        lista.innerHTML = '';
+        listaEpisodiosAtual = [];
+
+        const eps = Array.isArray(epsRaw) ? epsRaw : [];
+        eps.forEach((ep, idx) => {
+            if (!ep || !ep.url) return;
+            const numero = ep.episodio || quadNumEpANQFinal(ep.titulo || '', ep.url || '', idx + 1);
+            const tituloEp = `${tituloLimpo} - Episódio ${numero}`;
+            listaEpisodiosAtual.push({
+                url: ep.url,
+                titulo: tituloEp,
+                img: quadAnqImagemFinal(ep.img || ep.thumb || poster),
+                numero,
+                animeTitulo: tituloLimpo,
+                animeUrl,
+                animeImg: poster,
+                engine: 'aq',
+                isD: ep.audio === 'dub' || /dublado/i.test(tituloEp + ' ' + animeUrl)
+            });
+        });
+
+        document.getElementById('tituloEpsContainer').style.display = 'block';
+
+        if (listaEpisodiosAtual.length) {
+            listaEpisodiosAtual.forEach(ep => montarLiEps(lista, ep.titulo, '▶ Assistir', ep.url, ep.img, 'aq', true));
+        } else {
+            lista.innerHTML = '<div style="color:#ffcc00;font-weight:900;padding:12px 0;">Nenhum episódio encontrado nesta ficha.</div>';
         }
+    }
 
-        ativarTela('telaDetalhes');
+    const __AspiradorAntesANQFinal = AspiradorCentral;
+    AspiradorCentral = function(url, tituloCard, imgCard, engId) {
+        const isANQ = engId === 'aq' || /animeq\.net/i.test(String(url || ''));
+        if (!isANQ) return __AspiradorAntesANQFinal(url, tituloCard, imgCard, engId);
+
+        qcOrdemEpsInvertida = false;
         if (typeof qcGarantirToolbarDetalhes === 'function') qcGarantirToolbarDetalhes();
 
-        document.getElementById('statusDetalhes').innerText = 'Extraindo dados do ANQ...';
+        ativarTela('telaDetalhes');
+        document.getElementById('statusDetalhes').innerText = 'Extraindo dados da obra pelo Worker ANQ...';
         document.getElementById('statusDetalhes').style.display = 'block';
         document.getElementById('blocoDetalhesInfo').style.display = 'none';
         document.getElementById('tituloEpsContainer').style.display = 'none';
         document.getElementById('listaEpisodios').innerHTML = '';
 
-        obraAtual = { url, titulo: tituloCard, img: imgCard, engine: engId };
-        GlobalStore.verificarFavorito();
+        obraAtual = {
+            url,
+            titulo: quadLimparTituloANQFinal(tituloCard),
+            img: quadAnqImagemFinal(imgCard),
+            engine: 'aq'
+        };
+        if (typeof GlobalStore !== 'undefined' && GlobalStore.verificarFavorito) GlobalStore.verificarFavorito();
 
-        fetch(PROXY + encodeURIComponent(url), { cache:'no-store' })
-            .then(r => r.text())
-            .then(html => {
-                const doc = new DOMParser().parseFromString(html, 'text/html');
+        if (String(url).includes('/episodio/') || String(url).match(/-episodio-\d+/i)) {
+            buscarEAssistirEpisodio(url, tituloCard, imgCard, 'aq');
+            return;
+        }
 
-                const tituloFonte = qcANQText(doc.querySelector('h1')) ||
-                                    qcANQMeta(doc, 'og:title') ||
-                                    doc.title ||
-                                    tituloCard ||
-                                    'Anime';
-                const tituloLimpo = qcANQCleanTitle(tituloFonte);
-                const isDublado = /-dublado\/?$/i.test(url) || /\bDublado\b/i.test(tituloFonte + ' ' + tituloCard);
-                const tituloFinal = isDublado ? `${tituloLimpo} (Dublado)` : tituloLimpo;
+        quadAnqApiFinal('detalhes', url).then(data => {
+            document.getElementById('statusDetalhes').style.display = 'none';
+            const o = data.obra || {};
+            const tituloLimpo = quadLimparTituloANQFinal(o.titulo || tituloCard);
+            const poster = quadAnqImagemFinal(o.poster || imgCard);
+            const backdrop = quadAnqImagemFinal(o.backdrop || poster);
+            const generos = quadGenerosANQFinal(o.generos || []);
 
-                let poster = qcANQPickPoster(doc, url, imgCard);
-                if (typeof qcSafeImagem === 'function') poster = qcSafeImagem(poster || imgCard, url);
+            obraAtual = { url, titulo: tituloLimpo, img: poster, engine: 'aq' };
+            if (typeof GlobalStore !== 'undefined' && GlobalStore.verificarFavorito) GlobalStore.verificarFavorito();
 
-                let backdrop = qcANQMeta(doc, 'og:image') || poster || imgCard;
-                if (typeof qcSafeImagem === 'function') backdrop = qcSafeImagem(backdrop, url);
+            document.getElementById('detalheTitulo').innerHTML = typeof qcQuebrarDepoisDoisPontos === 'function' ? qcQuebrarDepoisDoisPontos(tituloLimpo) : qcEscape(tituloLimpo);
+            document.getElementById('detalheImg').src = poster;
+            document.getElementById('detalheSinopse').innerText = quadSinopseANQFinal(o.sinopse);
 
-                const sinopse = qcANQPickSinopse(doc);
-                const anoTexto = qcANQGetYear(doc, html, url);
-                const generos = qcANQGetGenres(doc);
-                const generosHTML = generos.map(g => `<span class="detalhe-tag-gen">${qcEscape ? qcEscape(g) : g}</span>`).join('');
+            const tags = (o.ano ? `<span class="detalhe-tag-ano">Lançamento: ${qcEscape(o.ano)}</span>` : '') +
+                generos.map(g => `<span class="detalhe-tag-gen">${qcEscape(g)}</span>`).join('');
+            document.getElementById('detalheTags').innerHTML = tags;
 
-                document.getElementById('statusDetalhes').style.display = 'none';
-                document.getElementById('detalheTitulo').innerText = tituloFinal;
-                document.getElementById('detalheImg').src = poster || imgCard || '';
-                document.getElementById('detalheSinopse').innerText = sinopse;
-                document.getElementById('detalheTags').innerHTML =
-                    (anoTexto ? `<span class="detalhe-tag-ano">Lançamento: ${anoTexto}</span>` : "") +
-                    generosHTML;
+            const bloco = document.getElementById('blocoDetalhesInfo');
+            bloco.style.backgroundImage = `url("${backdrop}")`;
+            bloco.style.display = 'flex';
 
-                const bloco = document.getElementById('blocoDetalhesInfo');
-                bloco.style.display = 'flex';
-                bloco.style.backgroundImage = `url("${backdrop || poster || imgCard || ''}")`;
+            quadRenderEpisodiosANQFinal(o.episodios || [], tituloLimpo, poster, url);
+        }).catch(e => {
+            document.getElementById('statusDetalhes').innerText = 'Falha ao extrair ficha ANQ pelo Worker.';
+        });
+    };
 
-                const listaEps = document.getElementById('listaEpisodios');
-                listaEps.innerHTML = '';
-                listaEpisodiosAtual = [];
+    const __BuscarEAssistirAntesANQFinal = buscarEAssistirEpisodio;
+    buscarEAssistirEpisodio = function(urlEpisodio, tituloEpisodio, imgCard, engIdOuEpInfo = null) {
+        const engDetectado = typeof engIdOuEpInfo === 'string'
+            ? engIdOuEpInfo
+            : (engIdOuEpInfo && engIdOuEpInfo.engine) || (obraAtual && obraAtual.engine) || '';
+        const isANQ = engDetectado === 'aq' || /animeq\.net/i.test(String(urlEpisodio || ''));
 
-                const isFilme = /\/filme\/|\/filmes\//i.test(url) || /\b(Filme|Movie|Ova|Especial)\b/i.test(tituloFinal);
-                const baseName = tituloFinal;
-                const eps = qcANQExtractEpisodes(doc, html, url, baseName, poster || imgCard, engId);
+        if (!isANQ) return __BuscarEAssistirAntesANQFinal(urlEpisodio, tituloEpisodio, imgCard, engIdOuEpInfo);
 
-                if (eps.length > 0) {
-                    document.getElementById('tituloEpsContainer').innerText = 'Episódios do Anime';
-                    document.getElementById('tituloEpsContainer').style.display = 'block';
-                    eps.forEach(ep => montarLiEps(listaEps, ep.titulo, '▶ Assistir', ep.url, ep.img || poster || imgCard, engId));
-                } else if (isFilme) {
-                    document.getElementById('tituloEpsContainer').innerText = 'Conteúdo Disponível';
-                    document.getElementById('tituloEpsContainer').style.display = 'block';
-                    montarLiEps(listaEps, baseName, '▶ Assistir Filme', url, poster || imgCard, engId);
-                } else {
-                    document.getElementById('tituloEpsContainer').innerText = 'Episódios do Anime';
-                    document.getElementById('tituloEpsContainer').style.display = 'block';
-                    listaEps.innerHTML = '<div class="loading-text">Nenhum episódio foi encontrado nessa ficha.</div>';
+        const st = document.getElementById('statusDetalhes');
+        if (st) {
+            st.innerText = 'Detectando players ANQ pelo Worker...';
+            st.style.display = 'block';
+        }
+
+        const api = quadWorkerBaseFinal() + '?modo=players&url=' + encodeURIComponent(urlEpisodio);
+        fetch(api, { cache: 'no-store' })
+            .then(r => r.json())
+            .then(data => {
+                if (st) st.style.display = 'none';
+
+                let players = Array.isArray(data.players) ? data.players : [];
+                players = players.filter(p => !p.bloqueado && (p.embed || p.embedCode || p.html || p.src || p.srcProxy));
+
+                qcPlayerAtualResolvido = {
+                    players,
+                    titulo: tituloEpisodio,
+                    url: urlEpisodio,
+                    img: imgCard,
+                    engine: 'aq'
+                };
+
+                if (!players.length) {
+                    mostrarModal('Nenhum player seguro foi detectado. Abra diretamente no site original.', () => {
+                        if (typeof GlobalStore !== 'undefined' && GlobalStore.salvarNoHistorico) {
+                            GlobalStore.salvarNoHistorico(urlEpisodio, obraAtual.titulo, tituloEpisodio, imgCard, 'aq');
+                        }
+                        window.open(urlEpisodio, '_blank');
+                    }, 'Escolha o Player');
+                    return;
                 }
+
+                const preferido = qcPlayerFornecedorEscolhido
+                    ? players.find(p => (p.provedorId || p.id || p.nome) === qcPlayerFornecedorEscolhido)
+                    : null;
+
+                if (preferido) {
+                    qcAbrirPlayerResolvido(preferido, tituloEpisodio, urlEpisodio, imgCard, 'aq');
+                    return;
+                }
+
+                if (players.length === 1) {
+                    qcAbrirPlayerResolvido(players[0], tituloEpisodio, urlEpisodio, imgCard, 'aq');
+                    return;
+                }
+
+                qcMostrarModalPlayers(players, idx => {
+                    qcAbrirPlayerResolvido(players[idx] || players[0], tituloEpisodio, urlEpisodio, imgCard, 'aq');
+                });
             })
             .catch(() => {
-                document.getElementById('statusDetalhes').innerText = 'Falha ao extrair dados do ANQ.';
+                if (st) st.style.display = 'none';
+                mostrarModal('Falha ao consultar players ANQ pelo Worker.', () => window.open(urlEpisodio, '_blank'));
             });
+    };
+
+    function quadGybCardFalsoFinal(data, engId) {
+        if (engId !== 'gy') return false;
+        const titulo = String(data?.titulo || data?.title || '').trim().toLowerCase();
+        const img = String(data?.img || '').toLowerCase();
+        const url = String(data?.url || '').toLowerCase().replace(/\/+$/, '');
+        if (titulo === 'goyabu') return true;
+        if (img.includes('logo-min.webp') || img.includes('/logo')) return true;
+        if (url === 'https://goyabu.io' || url === 'https://goyabu.io/inicio') return true;
+        return false;
+    }
+
+    if (typeof EngineHub !== 'undefined' && EngineHub.montarCardUI && !EngineHub.__filtroGybLogoFinal) {
+        const __MontarCardAntesGybFinal = EngineHub.montarCardUI.bind(EngineHub);
+        EngineHub.montarCardUI = function(data, gridId, engId) {
+            if (quadGybCardFalsoFinal(data, engId)) return;
+            return __MontarCardAntesGybFinal(data, gridId, engId);
+        };
+        EngineHub.__filtroGybLogoFinal = true;
+    }
+
+    if (typeof processarImagemGeral === 'function' && !window.__filtroGybLogoImagemFinal) {
+        const __ProcessarImagemAntesGybFinal = processarImagemGeral;
+        processarImagemGeral = function(item, imgElement, basUrl, engId) {
+            const out = __ProcessarImagemAntesGybFinal(item, imgElement, basUrl, engId);
+            if (engId === 'gy') {
+                const t = (item?.innerText || '').trim().toLowerCase();
+                const u = String(item?.querySelector?.('a')?.href || '').toLowerCase().replace(/\/+$/, '');
+                if (String(out || '').toLowerCase().includes('logo-min.webp') || t === 'goyabu' || u === 'https://goyabu.io/inicio') return null;
+            }
+            return out;
+        };
+        window.__filtroGybLogoImagemFinal = true;
+    }
+})();
+
+
+
+/* =========================================================
+   PATCH PLAYER AUTO / TROCAR SOMENTE COM MAIS DE UM PLAYER
+   - Os 4 sites continuam aceitando player novo detectado.
+   - Só usa "Ir para o site" quando não existe player tocável.
+   - Ordem preferida: Kuroda, Aniplay, Mangas Cloud, Blogger, AnimesHD, AnimeP2P.
+   ========================================================= */
+(function(){
+    const ORDEM_PLAYER_QC = [
+        'kuroda',
+        'aniplay',
+        'mangas cloud', 'mangá cloud', 'mangacloud', 'mangascloud',
+        'blogger',
+        'animeshd', 'animehd', 'animes hd', 'anime hd',
+        'animep2p', 'animesp2p', 'anime p2p', 'animes p2p', 'strp2p'
+    ];
+
+    function qcNormPlayerTxt(v) {
+        return String(v || '')
+            .toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9]+/g, ' ')
+            .trim();
+    }
+
+    function qcPlayerTextoBusca(p) {
+        return qcNormPlayerTxt([
+            p && p.nome,
+            p && p.provedorId,
+            p && p.id,
+            p && p.origem,
+            p && p.src,
+            p && p.url
+        ].filter(Boolean).join(' '));
+    }
+
+    function qcPrioridadePlayer(p) {
+        const txt = qcPlayerTextoBusca(p);
+        if ((p && p.tipo) === 'site' || /ir para o site|site original/.test(txt)) return 9000;
+        for (let i = 0; i < ORDEM_PLAYER_QC.length; i++) {
+            if (txt.includes(qcNormPlayerTxt(ORDEM_PLAYER_QC[i]))) return i;
+        }
+        return 1000;
+    }
+
+    function qcEhPlayerValido(p) {
+        if (!p) return false;
+        if (p.bloqueado) return false;
+        if (p.tipo === 'site') return !!(p.url || p.src || p.embed || p.embedCode || p.html);
+        return !!(p.embed || p.embedCode || p.html || p.src || p.srcProxy || p.url);
+    }
+
+    function qcEscapeFinalPlayer(s) {
+        if (typeof qcEscape === 'function') return qcEscape(s);
+        return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+
+    function qcCriarPlayerSite(urlEpisodio) {
+        const safe = String(urlEpisodio || '').replace(/"/g, '&quot;');
+        const embed = `
+            <div style="width:100%;height:100%;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;text-align:center;font-family:Arial;padding:20px;box-sizing:border-box">
+                <h2 style="color:#ffcc00;margin:0 0 12px;font-size:26px">Abrir no site original</h2>
+                <p style="max-width:520px;line-height:1.35;margin:0 0 18px">Nenhum player tocável foi detectado dentro do app. Abra o episódio no site original.</p>
+                <a href="${safe}" target="_blank" rel="noopener" style="background:#00ffff;color:#000;padding:15px 28px;border-radius:7px;text-decoration:none;font-weight:900;letter-spacing:1px">IR PARA O SITE</a>
+            </div>`;
+        return {
+            nome: 'Ir para o site',
+            provedorId: 'site-original',
+            id: 'site-original',
+            tipo: 'site',
+            origem: 'fallback-site-html',
+            src: urlEpisodio,
+            url: urlEpisodio,
+            embed,
+            embedCode: embed,
+            seguro: true,
+            bloqueado: false,
+            motivo: 'sem player tocável detectado; abrir site original'
+        };
+    }
+
+    function qcPrepararPlayersFinal(players, urlEpisodio) {
+        const vistos = new Set();
+        let arr = (Array.isArray(players) ? players : [])
+            .filter(qcEhPlayerValido)
+            .map(p => {
+                const html = p.embed || p.embedCode || p.html || '';
+                if ((!html || html.trim() === '') && (p.src || p.srcProxy || p.url) && p.tipo !== 'site') {
+                    const src = p.srcProxy || p.src || p.url;
+                    return Object.assign({}, p, {
+                        embed: `<iframe src="${String(src).replace(/"/g,'&quot;')}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;background:#000"></iframe>`,
+                        embedCode: `<iframe src="${String(src).replace(/"/g,'&quot;')}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;background:#000"></iframe>`
+                    });
+                }
+                return p;
+            })
+            .filter(p => {
+                const chave = qcNormPlayerTxt((p.provedorId || p.id || p.nome || '') + ' ' + (p.src || p.url || ''));
+                if (vistos.has(chave)) return false;
+                vistos.add(chave);
+                return true;
+            });
+
+        if (!arr.length) arr = [qcCriarPlayerSite(urlEpisodio)];
+
+        arr.sort((a,b) => qcPrioridadePlayer(a) - qcPrioridadePlayer(b));
+        arr.forEach((p,i) => p.index = i + 1);
+        return arr;
+    }
+
+    function qcChaveFornecedor(p) {
+        return p ? String(p.provedorId || p.id || p.nome || '') : '';
+    }
+
+    function qcMostrarModalPlayersFinal(players, callback) {
+        const lista = qcPrepararPlayersFinal(players, (qcPlayerAtualResolvido && qcPlayerAtualResolvido.url) || '');
+        qcModalEscolha('Escolha o Player', `
+            <div class="modal-player-lista-qc">
+                ${lista.map((p,i)=>`<button data-qc-player-final="${i}">${qcEscapeFinalPlayer(p.nome || (p.tipo === 'site' ? 'Ir para o site' : ('Player ' + (i+1))))}</button>`).join('')}
+            </div>
+        `);
+        setTimeout(() => {
+            document.querySelectorAll('[data-qc-player-final]').forEach(btn => {
+                btn.onclick = () => {
+                    const idx = Number(btn.getAttribute('data-qc-player-final'));
+                    const modal = document.getElementById('modalCustom');
+                    if (modal) modal.style.display = 'none';
+                    const ok = document.getElementById('modalBtnOk');
+                    if (ok) ok.style.display = '';
+                    callback(idx, lista);
+                };
+            });
+        }, 0);
+    }
+
+    window.qcMostrarModalPlayers = qcMostrarModalPlayersFinal;
+
+    window.qcAbrirPlayerResolvido = function(player, tituloEpisodio, urlEpisodio, imgCard, engId) {
+        qcPlayerFornecedorEscolhido = qcChaveFornecedor(player) || null;
+        AbrirTelaPlayer(tituloEpisodio, player.embed || player.embedCode || player.html || '', urlEpisodio, imgCard, engId, player.nome || 'Player');
+    };
+
+    window.qcGarantirBarraPlayer = function(nomePlayer = 'Player') {
+        let barra = document.getElementById('playerBarraQC');
+        if (!barra) {
+            barra = document.createElement('div');
+            barra.id = 'playerBarraQC';
+            barra.className = 'player-barra-qc';
+            barra.innerHTML = `
+                <div class="player-left-qc">
+                    <div class="player-badge-qc" id="playerNomeAtualQC">Player</div>
+                    <button class="btn-trocar-player-qc" id="btnTrocarPlayerQC" onclick="qcTrocarPlayer()">Trocar Player</button>
+                </div>
+                <div class="player-right-qc">
+                    <button class="btn-nav-ep" id="btnEpAnteriorQC" style="display:none;">Episódio Anterior</button>
+                    <button class="btn-nav-ep" id="btnEpProximoQC" style="display:none;">Próximo Episódio</button>
+                </div>
+            `;
+            document.getElementById('containerDoPlayerVideo').insertAdjacentElement('afterend', barra);
+        }
+
+        const badge = document.getElementById('playerNomeAtualQC');
+        if (badge) badge.innerText = nomePlayer || 'Player';
+
+        const btnTrocar = document.getElementById('btnTrocarPlayerQC') || barra.querySelector('.btn-trocar-player-qc');
+        const total = qcPlayerAtualResolvido && Array.isArray(qcPlayerAtualResolvido.players) ? qcPlayerAtualResolvido.players.length : 0;
+        if (btnTrocar) btnTrocar.style.display = total > 1 ? '' : 'none';
+
+        const oldNav = document.getElementById('playerNavegacao');
+        if (oldNav) oldNav.style.display = 'none';
+    };
+
+    window.buscarEAssistirEpisodio = function(urlEpisodio, tituloEpisodio, imgCard, engIdOuEpInfo = null) {
+        const engDetectado = typeof engIdOuEpInfo === 'string'
+            ? engIdOuEpInfo
+            : (engIdOuEpInfo && engIdOuEpInfo.engine) || (obraAtual && obraAtual.engine) || '';
+
+        const st = document.getElementById('statusDetalhes');
+        if (st) {
+            st.innerText = 'Detectando players...';
+            st.style.display = 'block';
+        }
+
+        const baseWorker = (typeof qcWorkerBase === 'function' ? qcWorkerBase() : String(PROXY || '').replace(/\?url=$/, '').replace(/\/$/, ''));
+        const api = baseWorker + '?modo=players&url=' + encodeURIComponent(urlEpisodio);
+
+        fetch(api, { cache:'no-store' })
+            .then(r => r.json())
+            .then(data => {
+                if (st) st.style.display = 'none';
+
+                let players = qcPrepararPlayersFinal(data && data.players, urlEpisodio);
+
+                qcPlayerAtualResolvido = {
+                    players,
+                    titulo: tituloEpisodio,
+                    url: urlEpisodio,
+                    img: imgCard,
+                    engine: engDetectado
+                };
+
+                const preferido = qcPlayerFornecedorEscolhido
+                    ? players.find(p => qcChaveFornecedor(p) === qcPlayerFornecedorEscolhido)
+                    : null;
+
+                const escolhido = preferido || players[0] || qcCriarPlayerSite(urlEpisodio);
+                qcAbrirPlayerResolvido(escolhido, tituloEpisodio, urlEpisodio, imgCard, engDetectado);
+            })
+            .catch(() => {
+                if (st) st.style.display = 'none';
+                const fallback = qcCriarPlayerSite(urlEpisodio);
+                qcPlayerAtualResolvido = { players:[fallback], titulo: tituloEpisodio, url:urlEpisodio, img:imgCard, engine:engDetectado };
+                qcAbrirPlayerResolvido(fallback, tituloEpisodio, urlEpisodio, imgCard, engDetectado);
+            });
+    };
+
+    window.qcTrocarPlayer = function() {
+        const lista = qcPlayerAtualResolvido && Array.isArray(qcPlayerAtualResolvido.players) ? qcPlayerAtualResolvido.players : [];
+        if (lista.length <= 1) return;
+        qcMostrarModalPlayersFinal(lista, (idx, ordenada) => {
+            const p = (ordenada && ordenada[idx]) || lista[idx] || lista[0];
+            qcAbrirPlayerResolvido(p, qcPlayerAtualResolvido.titulo, qcPlayerAtualResolvido.url, qcPlayerAtualResolvido.img, qcPlayerAtualResolvido.engine);
+        });
     };
 })();
 
