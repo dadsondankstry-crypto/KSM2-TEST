@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIME MOBILE</title>
+    <title>ANIME TESTE</title>
     <style>
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -868,6 +868,427 @@ button,
     }
 }
 
+
+/* =========================================================
+   PATCH PLAYER EM SEGUNDO PLANO — BOTÃO VOLTAR AO PLAYER
+   Mostra o botão PLAYER ao lado da marca quando o player fica
+   tocando escondido após navegar para outra aba.
+   ========================================================= */
+
+#btnVoltarPlayerAtivoCRONOS {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 8px 14px;
+    margin-left: 10px;
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    background: #ffcc00;
+    color: #000;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(255,204,0,.55);
+    animation: cronosPulsePlayerAtivo 1.4s infinite;
+    z-index: 1005;
+}
+
+#btnVoltarPlayerAtivoCRONOS:hover {
+    background: #00ffff;
+    border-color: #ffcc00;
+    box-shadow: 0 0 16px rgba(0,255,255,.75);
+}
+
+#btnVoltarPlayerAtivoCRONOS.visivel {
+    display: inline-flex;
+}
+
+@keyframes cronosPulsePlayerAtivo {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.04); filter: brightness(1.18); }
+}
+
+@media (max-width: 900px) {
+    #btnVoltarPlayerAtivoCRONOS {
+        margin-left: 0;
+        margin-top: 4px;
+        min-height: 40px;
+        padding: 10px 16px;
+        font-size: 12px;
+        width: auto;
+        max-width: 150px;
+    }
+
+    .navbar .nav-brand + #btnVoltarPlayerAtivoCRONOS {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 430px) {
+    #btnVoltarPlayerAtivoCRONOS {
+        min-height: 38px;
+        padding: 9px 14px;
+        font-size: 11px;
+    }
+}
+
+
+/* =========================================================
+   PATCH CARD EPISÓDIO ABA
+   - Card episódio aba: usado em Últimos Episódios e aba Episódios.
+   - Card episódio obras: usado dentro da ficha técnica, sem mudar visual.
+   ========================================================= */
+
+/* cores oficiais das tags */
+.bg-episodio {
+    background: #00d84a !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.75);
+}
+
+.bg-anime {
+    background: #ff7f00 !important;
+    color: #ffffff !important;
+}
+
+.bg-filme {
+    background: #e50914 !important;
+    color: #ffffff !important;
+}
+
+.badge-tipo {
+    letter-spacing: .3px;
+}
+
+/* padrão visual do card episódio aba */
+.card-item.card-episodio-aba {
+    padding: 8px;
+    background: #050505;
+    border: 1px solid #00ffff;
+    border-radius: 7px;
+    text-align: left;
+    justify-content: flex-start;
+}
+
+.card-item.card-episodio-aba:hover {
+    border-color: #ffcc00;
+    box-shadow: 0 0 18px rgba(255,204,0,.55);
+}
+
+.card-item.card-episodio-aba img {
+    width: 100%;
+    height: 155px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 4px;
+    margin: 0 0 7px 0;
+    background: #111;
+}
+
+.card-item.card-episodio-aba .badges-container {
+    top: 14px;
+    left: 14px;
+}
+
+.card-item.card-episodio-aba .badge-site {
+    bottom: 58px;
+    right: 12px;
+    color: #ffcc00;
+    background: rgba(0,0,0,.86);
+    border: 1px solid #ffcc00;
+}
+
+.card-episodio-info-aba {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    min-height: 42px;
+    padding: 0 4px 2px;
+    text-align: center;
+}
+
+.card-episodio-numero-aba {
+    color: #00ffff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-episodio-obra-aba {
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.18;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* mobile do card episódio aba */
+@media (max-width: 900px) {
+    .card-item.card-episodio-aba {
+        padding: 7px;
+    }
+
+    .card-item.card-episodio-aba img {
+        height: 118px !important;
+        margin-bottom: 6px;
+    }
+
+    .card-item.card-episodio-aba .badges-container {
+        top: 12px;
+        left: 12px;
+    }
+
+    .card-item.card-episodio-aba .badge-site {
+        bottom: 53px;
+        right: 10px;
+    }
+
+    .card-episodio-info-aba {
+        min-height: 40px;
+    }
+
+
+}
+
+@media (max-width: 430px) {
+    .card-item.card-episodio-aba img {
+        height: 105px !important;
+    }
+
+    .card-item.card-episodio-aba .badge-site {
+        bottom: 51px;
+    }
+
+
+}
+
+
+/* =========================================================
+   PATCH FINAL CARD EPISÓDIO ABA — TAGS FORA DA IMAGEM
+   Referência visual: padrão GYB.
+   Card episódio aba = Últimos Episódios + aba Episódios.
+   Card episódio obras = ficha técnica, sem alterar agora.
+   ========================================================= */
+
+.card-item.card-episodio-aba {
+    padding: 8px !important;
+    min-height: 0 !important;
+    background: #111 !important;
+    border: 1px solid #00ffff !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    text-align: center !important;
+    justify-content: flex-start !important;
+}
+
+.card-item.card-episodio-aba:hover {
+    border-color: #ffcc00 !important;
+    box-shadow: 0 0 15px #00ffff !important;
+    transform: scale(1.025) !important;
+}
+
+.card-item.card-episodio-aba .episode-top-tags {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-height: 22px !important;
+    margin: 0 0 6px 0 !important;
+    line-height: 1 !important;
+}
+
+.card-item.card-episodio-aba .episode-left-tags {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+}
+
+.card-item.card-episodio-aba .episode-top-tags .badge-tipo,
+.card-item.card-episodio-aba .episode-top-tags .badge-audio,
+.card-item.card-episodio-aba .episode-top-tags .badge-site {
+    position: static !important;
+    inset: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    pointer-events: none !important;
+    white-space: nowrap !important;
+    padding: 4px 8px !important;
+    border-radius: 3px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,.5) !important;
+}
+
+.card-item.card-episodio-aba .episode-top-tags .bg-episodio {
+    background: #00d84a !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.75) !important;
+}
+
+.card-item.card-episodio-aba .episode-top-tags .bg-anime {
+    background: #ff7f00 !important;
+    color: #ffffff !important;
+}
+
+.card-item.card-episodio-aba .episode-top-tags .bg-filme {
+    background: #e50914 !important;
+    color: #ffffff !important;
+}
+
+.card-item.card-episodio-aba .episode-top-tags .badge-dub {
+    background: #00ffff !important;
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+.card-item.card-episodio-aba .episode-top-tags .badge-leg {
+    background: #ffcc00 !important;
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+.card-item.card-episodio-aba .episode-top-tags .badge-site.badge-site-top {
+    color: #ffcc00 !important;
+    background: rgba(0,0,0,.35) !important;
+    border: 1px solid #ffcc00 !important;
+    min-width: 36px !important;
+}
+
+.card-item.card-episodio-aba .card-media {
+    position: relative !important;
+    width: 100% !important;
+    aspect-ratio: 16 / 10 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 0 7px 0 !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
+    background: #050505 !important;
+    flex-shrink: 0 !important;
+}
+
+.card-item.card-episodio-aba .card-media img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    background: #050505 !important;
+    border-radius: 0 !important;
+}
+
+.card-item.card-episodio-aba > img,
+.card-item.card-episodio-aba > .badges-container,
+.card-item.card-episodio-aba > .badge-site:not(.badge-site-top) {
+    display: none !important;
+}
+
+.card-episodio-info-aba {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    min-height: 38px !important;
+    padding: 0 4px 2px !important;
+    text-align: center !important;
+}
+
+
+
+
+
+@media (max-width: 900px) {
+    .card-item.card-episodio-aba {
+        padding: 7px !important;
+    }
+
+    .card-item.card-episodio-aba .episode-top-tags {
+        gap: 6px !important;
+        min-height: 21px !important;
+        margin-bottom: 6px !important;
+    }
+
+    .card-item.card-episodio-aba .episode-top-tags .badge-tipo,
+    .card-item.card-episodio-aba .episode-top-tags .badge-audio,
+    .card-item.card-episodio-aba .episode-top-tags .badge-site {
+        font-size: 9px !important;
+        padding: 4px 6px !important;
+    }
+
+    .card-item.card-episodio-aba .card-media {
+        aspect-ratio: 16 / 10 !important;
+        height: auto !important;
+        margin-bottom: 6px !important;
+    }
+
+    .card-episodio-info-aba {
+        min-height: 36px !important;
+    }
+
+
+}
+
+@media (max-width: 430px) {
+    .card-item.card-episodio-aba .episode-top-tags {
+        gap: 5px !important;
+    }
+
+    .card-item.card-episodio-aba .episode-top-tags .badge-tipo,
+    .card-item.card-episodio-aba .episode-top-tags .badge-audio,
+    .card-item.card-episodio-aba .episode-top-tags .badge-site {
+        font-size: 8.5px !important;
+        padding: 4px 5px !important;
+    }
+
+
+}
+
+/* botão Atualizar da aba Lançamentos */
+.btn-atualizar-lancamentos {
+    margin-left: auto;
+    padding: 7px 13px;
+    background: #111;
+    color: #00ffff;
+    border: 1px solid #00ffff;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.btn-atualizar-lancamentos:hover {
+    background: #00ffff;
+    color: #000;
+    box-shadow: 0 0 10px #00ffff;
+}
+
+@media (max-width: 430px) {
+    .btn-atualizar-lancamentos {
+        padding: 7px 10px;
+        font-size: 10px;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -1618,23 +2039,39 @@ const EngineHub = {
             }
 
             h3Content = `
-                <div style="display: flex; flex-direction: column; gap: 4px; height: 38px; justify-content: center; margin-bottom: 5px;">
-                    <span style="color: #00ffff; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Episódio ${numEp}</span>
-                    <span style="color: #fff; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${nomeAnime}</span>
+                <div class="card-episodio-info-aba">
+                    <span class="card-episodio-numero-aba">Episódio ${numEp}</span>
+                    <span class="card-episodio-obra-aba">${nomeAnime}</span>
                 </div>
             `;
             tituloDisplay = nomeAnime + ` - Episódio ${numEp}`; 
         }
 
         const li = document.createElement('li');
-        li.className = 'card-item'; li.setAttribute('data-url', data.url); 
-        li.innerHTML = `
-            <div class="badges-container"><span class="badge-tipo ${badgeColor}">${badgeText}</span>${tagAudio}</div>
-            ${btnFavHtml}
-            <div class="badge-site">${ENGINES[engId].nome}</div>
-            <img src="${data.img}" loading="lazy" alt="Poster">
-            ${h3Content}
-        `;
+        li.className = isE ? 'card-item card-episodio-aba' : 'card-item'; li.setAttribute('data-url', data.url); 
+        if (isE) {
+            li.innerHTML = `
+                <div class="episode-top-tags">
+                    <span class="episode-left-tags">
+                        <span class="badge-tipo ${badgeColor}">${badgeText}</span>
+                        ${tagAudio}
+                    </span>
+                    <span class="badge-site badge-site-top">${ENGINES[engId].nome}</span>
+                </div>
+                <div class="card-media">
+                    <img src="${data.img}" loading="lazy" alt="Poster">
+                </div>
+                ${h3Content}
+            `;
+        } else {
+            li.innerHTML = `
+                <div class="badges-container"><span class="badge-tipo ${badgeColor}">${badgeText}</span>${tagAudio}</div>
+                ${btnFavHtml}
+                <div class="badge-site">${ENGINES[engId].nome}</div>
+                <img src="${data.img}" loading="lazy" alt="Poster">
+                ${h3Content}
+            `;
+        }
         
         li.onclick = () => AspiradorCentral(data.url, tituloDisplay, data.img, engId);
         li.onmousedown = (e) => { if (e.button === 1) { e.preventDefault(); window.open(data.url, '_blank'); } };
@@ -2197,7 +2634,7 @@ montarLiEps = function(lista, nomeFormatado, textoBotao, epUrl, img, engId, rend
     }
 
     const li = document.createElement('li');
-    li.className = 'ep-card-qc';
+    li.className = 'ep-card-qc card-episodio-obras';
 
     let num = (String(nomeFormatado).match(/Epis[óo]dio\s*0*([0-9]+)/i) || String(epUrl).match(/episodio-0*([0-9]+)/i) || String(epUrl).match(/\/([0-9]+)\/?$/i) || [])[1] || '';
     const subt = num ? `Episódio ${num}` : 'Assistir';
@@ -2220,22 +2657,68 @@ montarLiEps = function(lista, nomeFormatado, textoBotao, epUrl, img, engId, rend
 
 /* ---------------- LANÇAMENTOS QUAD-CORE ---------------- */
 
-EngineHub.iniciarLancamentos = async function(btn = null) {
-    if (btn) {
+EngineHub.iniciarLancamentos = async function(btn = null, forcarAtualizacao = false) {
+    if (btn && btn.classList && btn.classList.contains('nav-btn')) {
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativa'));
         btn.classList.add('ativa');
     }
+
     ativarTela('telaResultados');
     document.getElementById('botoesExtraAnimes').style.display = 'none';
     document.getElementById('barrinhaLetras').style.display = 'none';
-    document.getElementById('tituloResultados').innerText = 'Lançamentos';
+
+    const tituloEl = document.getElementById('tituloResultados');
+    tituloEl.innerHTML = `Lançamentos <button type="button" class="btn-atualizar-lancamentos" onclick="event.stopPropagation(); EngineHub.iniciarLancamentos(null, true)">Atualizar</button>`;
+
     const st = document.getElementById('statusResultados');
     const grid = document.getElementById('gridResultados');
     const btnMais = document.getElementById('btnMaisFiltro');
+    const CACHE_KEY = 'cronos_anime_lancamentos_cache_v1';
+
+    const self = this;
     grid.innerHTML = '';
     btnMais.style.display = 'none';
     st.style.display = 'block';
-    st.innerText = 'Vasculhando lançamentos...';
+    st.innerText = forcarAtualizacao ? 'Atualizando lançamentos direto dos sites...' : 'Carregando lançamentos...';
+
+    const lerCacheLancamentos = () => {
+        try {
+            const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '[]');
+            return Array.isArray(cache) ? cache : [];
+        } catch(e) {
+            return [];
+        }
+    };
+
+    const salvarCacheLancamentos = (lista) => {
+        try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify(lista.slice(0, 60)));
+        } catch(e) {}
+    };
+
+    const renderizarCacheLancamentos = (lista) => {
+        grid.innerHTML = '';
+        lista.forEach(item => {
+            const engId = item.engId || item.engine || 'aq';
+            if (configFontes[engId] === false) return;
+            self.montarCardUI({
+                url: item.url,
+                titulo: item.titulo,
+                img: item.img,
+                isD: !!item.isD,
+                isL: !!item.isL,
+                itemNode: null
+            }, 'gridResultados', engId);
+        });
+    };
+
+    const cacheAtual = lerCacheLancamentos();
+    if (!forcarAtualizacao && cacheAtual.length) {
+        renderizarCacheLancamentos(cacheAtual);
+        st.style.display = grid.children.length ? 'none' : 'block';
+        if (!grid.children.length) st.innerText = 'Nenhum lançamento no cache para as fontes ativadas.';
+        return;
+    }
 
     const rotas = {
         aq: ['/episodio/'],
@@ -2243,7 +2726,9 @@ EngineHub.iniciarLancamentos = async function(btn = null) {
         gy: ['/lancamentos/'],
         af: ['/home/']
     };
+
     const vistosObra = new Set();
+    const novoCache = [];
 
     const extrair = (item, engId) => {
         const link = item.tagName === 'A' ? item : item.querySelector('a');
@@ -2261,15 +2746,37 @@ EngineHub.iniciarLancamentos = async function(btn = null) {
         let imgSrc = processarImagemGeral(item, img, ENGINES[engId].url, engId);
         if (!imgSrc) return false;
 
-        let titulo = qcLimparTitulo(title.innerText || img.getAttribute('alt') || '');
-        titulo = titulo.replace(/\s*[-–]?\s*Epis[óo]dio\s*\d+.*/i, '').replace(/\s+\d+$/,'').trim();
-        if (!titulo) titulo = qcLimparTitulo(title.innerText || 'Anime');
+        const tituloBruto = qcLimparTitulo(title.innerText || img.getAttribute('alt') || '');
+        const epNum = (
+            String(tituloBruto).match(/Epis[óo]dio\s*0*([0-9]+)/i) ||
+            String(url).match(/episodio-0*([0-9]+)/i) ||
+            String(url).match(/\/([0-9]+)\/?$/i) ||
+            []
+        )[1] || '';
 
-        const chave = engId + ':' + titulo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-');
+        let tituloObra = tituloBruto
+            .replace(/\s*[-–]?\s*Epis[óo]dio\s*\d+.*/i, '')
+            .replace(/\s+\d+$/, '')
+            .trim();
+
+        if (!tituloObra) tituloObra = qcLimparTitulo(tituloBruto || 'Anime');
+
+        const chave = engId + ':' + tituloObra.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-');
         if (vistosObra.has(chave)) return false;
         vistosObra.add(chave);
 
-        this.montarCardUI({ url, titulo, img: imgSrc, isD:/dublado/i.test(titulo + url), isL:false, itemNode:item }, 'gridResultados', engId);
+        const tituloParaCard = epNum ? `${tituloObra} - Episódio ${epNum}` : tituloObra;
+        const dados = {
+            url,
+            titulo: tituloParaCard,
+            img: imgSrc,
+            isD: /dublado/i.test(tituloBruto + url),
+            isL: /legendado/i.test(tituloBruto + url),
+            engId
+        };
+
+        novoCache.push(dados);
+        self.montarCardUI({ ...dados, itemNode: item }, 'gridResultados', engId);
         return true;
     };
 
@@ -2277,26 +2784,42 @@ EngineHub.iniciarLancamentos = async function(btn = null) {
         for (const engId of ['aq','ao','gy','af']) {
             if (!configFontes[engId]) continue;
             let count = 0;
+
             for (let pg = 1; pg <= 4 && count < 15; pg++) {
                 const rota = rotas[engId][0];
                 let urlTarget = '';
-                if (engId === 'af') urlTarget = pg > 1 ? `${ENGINES[engId].url}${rota}${pg}` : `${ENGINES[engId].url}${rota}`;
-                else urlTarget = pg > 1 ? `${ENGINES[engId].url}${rota}page/${pg}/` : `${ENGINES[engId].url}${rota}`;
-                const html = await fetch(PROXY + encodeURIComponent(urlTarget)).then(r => r.text());
+
+                if (engId === 'af') {
+                    urlTarget = pg > 1 ? `${ENGINES[engId].url}${rota}${pg}` : `${ENGINES[engId].url}${rota}`;
+                } else {
+                    urlTarget = pg > 1 ? `${ENGINES[engId].url}${rota}page/${pg}/` : `${ENGINES[engId].url}${rota}`;
+                }
+
+                const html = await fetch(PROXY + encodeURIComponent(urlTarget), { cache: 'no-store' }).then(r => r.text());
                 const doc = new DOMParser().parseFromString(html, 'text/html');
+
                 for (const item of doc.querySelectorAll(SELETORES_AGRESSIVOS)) {
                     if (item.closest('aside') || item.closest('.sidebar') || item.closest('.widget')) continue;
                     if (extrair(item, engId)) count++;
                     if (count >= 15 || vistosObra.size >= 60) break;
                 }
+
                 if (vistosObra.size >= 60) break;
             }
+
             if (vistosObra.size >= 60) break;
         }
     } catch(e) {}
 
+    if (novoCache.length) {
+        salvarCacheLancamentos(novoCache);
+    } else if (!grid.children.length && cacheAtual.length && forcarAtualizacao) {
+        renderizarCacheLancamentos(cacheAtual);
+        st.innerText = 'Não foi possível atualizar agora. Mantive o cache anterior.';
+    }
+
     st.style.display = grid.children.length ? 'none' : 'block';
-    if (!grid.children.length) st.innerText = 'Nenhum lançamento encontrado.';
+    if (!grid.children.length) st.innerText = forcarAtualizacao ? 'Nenhum lançamento encontrado na atualização.' : 'Nenhum lançamento encontrado.';
 };
 
 /* ---------------- PLAYER GLOBAL COM WORKER ---------------- */
@@ -3079,6 +3602,176 @@ if (typeof EngineHub !== 'undefined' && EngineHub.montarCardUI && !EngineHub.__s
             qcAbrirPlayerResolvido(p, qcPlayerAtualResolvido.titulo, qcPlayerAtualResolvido.url, qcPlayerAtualResolvido.img, qcPlayerAtualResolvido.engine);
         });
     };
+})();
+
+
+/* =========================================================
+   PATCH PLAYER EM SEGUNDO PLANO — VOLTAR AO PLAYER
+   Não fecha o player quando muda de aba.
+   Se o player continuar tocando escondido, mostra botão PLAYER.
+   Clicar em PLAYER apenas mostra a tela do player, sem recarregar.
+   ========================================================= */
+(function(){
+    if (window.__CRONOS_PLAYER_BG_PATCH__) return;
+    window.__CRONOS_PLAYER_BG_PATCH__ = true;
+
+    function cronosGetEl(id) {
+        return document.getElementById(id);
+    }
+
+    function cronosPlayerContainer() {
+        return cronosGetEl('containerDoPlayerVideo');
+    }
+
+    function cronosTemPlayerAtivo() {
+        const c = cronosPlayerContainer();
+        if (!c) return false;
+        const temConteudo = String(c.innerHTML || '').trim().length > 0;
+        const temIframe = !!c.querySelector('iframe');
+        const temVideo = !!c.querySelector('video');
+        const temEmbedSite = !!c.querySelector('a[href], button');
+        return temConteudo && (temIframe || temVideo || temEmbedSite || c.children.length > 0);
+    }
+
+    function cronosTelaPlayerVisivel() {
+        const t = cronosGetEl('telaPlayer');
+        if (!t) return false;
+        const style = window.getComputedStyle(t);
+        return style.display !== 'none' && !t.classList.contains('oculto') && !t.hidden;
+    }
+
+    function cronosCriarBotaoPlayer() {
+        let btn = cronosGetEl('btnVoltarPlayerAtivoCRONOS');
+        if (btn) return btn;
+
+        btn = document.createElement('button');
+        btn.id = 'btnVoltarPlayerAtivoCRONOS';
+        btn.type = 'button';
+        btn.textContent = 'PLAYER';
+        btn.title = 'Voltar ao player que está tocando';
+        btn.onclick = function(ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            cronosVoltarAoPlayerAtivo();
+        };
+
+        const brand = document.querySelector('.nav-brand');
+        const nav = document.querySelector('.navbar');
+
+        if (brand && brand.parentNode) {
+            brand.insertAdjacentElement('afterend', btn);
+        } else if (nav) {
+            nav.insertBefore(btn, nav.firstChild);
+        } else {
+            document.body.insertBefore(btn, document.body.firstChild);
+        }
+
+        return btn;
+    }
+
+    function cronosAtualizarBotaoPlayer() {
+        const btn = cronosCriarBotaoPlayer();
+        if (cronosTemPlayerAtivo() && !cronosTelaPlayerVisivel()) {
+            btn.classList.add('visivel');
+            btn.style.display = 'inline-flex';
+        } else {
+            btn.classList.remove('visivel');
+            btn.style.display = 'none';
+        }
+    }
+
+    function cronosVoltarAoPlayerAtivo() {
+        if (!cronosTemPlayerAtivo()) {
+            cronosAtualizarBotaoPlayer();
+            return;
+        }
+
+        if (typeof window.ativarTela === 'function') {
+            window.ativarTela('telaPlayer');
+        } else {
+            document.querySelectorAll('.view-container, .tela, section[id^="tela"]').forEach(el => {
+                if (el.id !== 'telaPlayer') el.style.display = 'none';
+            });
+            const t = cronosGetEl('telaPlayer');
+            if (t) t.style.display = '';
+        }
+
+        setTimeout(cronosAtualizarBotaoPlayer, 50);
+    }
+
+    window.cronosVoltarAoPlayerAtivo = cronosVoltarAoPlayerAtivo;
+    window.cronosAtualizarBotaoPlayer = cronosAtualizarBotaoPlayer;
+
+    // Envolve ativarTela: se sair da tela do player para qualquer aba, mostra o botão PLAYER.
+    if (typeof window.ativarTela === 'function' && !window.ativarTela.__cronosPlayerBgWrapped) {
+        const ativarTelaOriginal = window.ativarTela;
+        const ativarTelaNova = function(telaId) {
+            const tinhaPlayerAntes = cronosTemPlayerAtivo();
+            const r = ativarTelaOriginal.apply(this, arguments);
+            setTimeout(function(){
+                // Se foi para outra aba e o player continua montado, aparece o botão PLAYER.
+                if (tinhaPlayerAntes && telaId !== 'telaPlayer' && cronosTemPlayerAtivo()) {
+                    cronosAtualizarBotaoPlayer();
+                } else {
+                    cronosAtualizarBotaoPlayer();
+                }
+            }, 80);
+            return r;
+        };
+        ativarTelaNova.__cronosPlayerBgWrapped = true;
+        window.ativarTela = ativarTelaNova;
+    }
+
+    // Envolve AbrirTelaPlayer: quando abre player, botão some porque já estamos no player.
+    if (typeof window.AbrirTelaPlayer === 'function' && !window.AbrirTelaPlayer.__cronosPlayerBgWrapped) {
+        const abrirOriginal = window.AbrirTelaPlayer;
+        const abrirNova = function() {
+            const r = abrirOriginal.apply(this, arguments);
+            setTimeout(cronosAtualizarBotaoPlayer, 120);
+            return r;
+        };
+        abrirNova.__cronosPlayerBgWrapped = true;
+        window.AbrirTelaPlayer = abrirNova;
+    }
+
+    // Envolve fecharPlayer: mantém o fechamento como já funciona, só garante sumir o botão PLAYER.
+    if (typeof window.fecharPlayer === 'function' && !window.fecharPlayer.__cronosPlayerBgWrapped) {
+        const fecharOriginal = window.fecharPlayer;
+        const fecharNova = function() {
+            const r = fecharOriginal.apply(this, arguments);
+            setTimeout(cronosAtualizarBotaoPlayer, 120);
+            return r;
+        };
+        fecharNova.__cronosPlayerBgWrapped = true;
+        window.fecharPlayer = fecharNova;
+    }
+
+    // Fallback para cliques em botões de navegação que às vezes mudam a tela sem passar pelo mesmo fluxo.
+    document.addEventListener('click', function(ev) {
+        const alvo = ev.target && ev.target.closest ? ev.target.closest('.nav-btn, [data-tab], [onclick*="iniciar"], [onclick*="Categorias"], [onclick*="Historico"], [onclick*="Favorito"]') : null;
+        if (!alvo) return;
+        setTimeout(cronosAtualizarBotaoPlayer, 180);
+    }, true);
+
+    // Observa mudanças de display/classe nas telas.
+    const obs = new MutationObserver(function(){
+        setTimeout(cronosAtualizarBotaoPlayer, 60);
+    });
+
+    document.addEventListener('DOMContentLoaded', function(){
+        cronosCriarBotaoPlayer();
+        ['telaPlayer','telaHome','telaResultados','telaDetalhes','telaCategorias','telaConfiguracoes'].forEach(id => {
+            const el = cronosGetEl(id);
+            if (el) obs.observe(el, { attributes:true, attributeFilter:['style','class','hidden'] });
+        });
+        cronosAtualizarBotaoPlayer();
+    });
+
+    // Caso o script entre depois do DOM pronto.
+    if (document.readyState !== 'loading') {
+        cronosCriarBotaoPlayer();
+        setTimeout(cronosAtualizarBotaoPlayer, 80);
+    }
 })();
 
 </script>
