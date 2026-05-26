@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIME KSM2</title>
+    <title>ANIME</title>
     <style>
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1499,8 +1499,7 @@ button,
 // ========================================================
 // CORE: QUAD-CORE ENGINE V3.0
 // ========================================================
-const PROXY = 'https://winter-cherry-3baa.getapi-oi.workers.dev/?url=';
-const PROXY_ANIMEFIRE = 'https://delicate-sea-41ab.getapi-oi.workers.dev/?url=';
+const PROXY = 'https://delicate-sea-41ab.getapi-oi.workers.dev/?url=';
 const SELETORES_AGRESSIVOS = '.w_item_b, .item, .card, article.anime, .anime-box, article, .result-item, ul.items li, .box-item, .post-item, .boxAN, .boxEP, .containerAnimes, .cardUltimosEps, .divCardUltimosEpsHome';
 
 const ENGINES = {
@@ -4107,7 +4106,6 @@ if (typeof EngineHub !== 'undefined' && EngineHub.montarCardUI && !EngineHub.__s
    ========================================================= */
 (function(){
     const ORDEM_PLAYER_QC = [
-        'light speed', 'lightspeed', 'lightspeedst',
         'kuroda',
         'aniplay',
         'mangas cloud', 'mangá cloud', 'mangacloud', 'mangascloud',
@@ -4494,252 +4492,6 @@ if (typeof EngineHub !== 'undefined' && EngineHub.montarCardUI && !EngineHub.__s
         setTimeout(cronosAtualizarBotaoPlayer, 80);
     }
 })();
-
-
-/* =========================================================
-   PATCH FINAL DUAL WORKER + LIGHT SPEED
-   - Worker principal: Winter Cherry (AnimeQ/AnimeK, AOC, GYB e carregamento geral)
-   - Worker AnimeFire: Delicate Sea apenas na detecção dos players do AnimeFire
-   - AnimeFire mostra só 1 botão por qualidade: Light Speed FHD / 720p / 360p
-   - O vídeo abre Direto primeiro; se falhar, o <video> troca sozinho para Proxy
-   ========================================================= */
-(function(){
-    if (window.__CRONOS_DUAL_WORKER_LIGHT_SPEED__) return;
-    window.__CRONOS_DUAL_WORKER_LIGHT_SPEED__ = true;
-
-    const QC_PROXY_GERAL = 'https://winter-cherry-3baa.getapi-oi.workers.dev/?url=';
-    const QC_PROXY_ANIMEFIRE = 'https://delicate-sea-41ab.getapi-oi.workers.dev/?url=';
-
-    function qcBaseFromProxyFinalDual(proxy) {
-        return String(proxy || '').replace(/\?url=$/, '').replace(/\/$/, '');
-    }
-
-    function qcIsAnimeFireFinalDual(url, engId) {
-        return engId === 'af' || /animefire\.io/i.test(String(url || ''));
-    }
-
-    function qcWorkerPlayersFinalDual(url, engId) {
-        return qcBaseFromProxyFinalDual(qcIsAnimeFireFinalDual(url, engId) ? QC_PROXY_ANIMEFIRE : QC_PROXY_GERAL);
-    }
-
-    function qcEscAttrFinalDual(s) {
-        return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    function qcNormFinalDual(v) {
-        return String(v || '')
-            .toLowerCase()
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-            .replace(/[^a-z0-9]+/g, ' ')
-            .trim();
-    }
-
-    function qcQualidadeFinalDual(p) {
-        const s = qcNormFinalDual([
-            p && p.label,
-            p && p.qualidade,
-            p && p.quality,
-            p && p.nome,
-            p && p.src,
-            p && p.srcDireto,
-            p && p.url
-        ].filter(Boolean).join(' '));
-        if (/1080|full hd|fullhd|fhd/.test(s)) return 'FHD';
-        if (/720|\bhd\b/.test(s)) return '720p';
-        if (/480/.test(s)) return '480p';
-        if (/360|\bsd\b/.test(s)) return '360p';
-        return '';
-    }
-
-    function qcIsLightSpeedFinalDual(p) {
-        const s = qcNormFinalDual([
-            p && p.nome,
-            p && p.provedorId,
-            p && p.id,
-            p && p.origem,
-            p && p.src,
-            p && p.srcDireto,
-            p && p.srcProxy,
-            p && p.url
-        ].filter(Boolean).join(' '));
-        return /light speed|lightspeed|lightspeedst|animefire/.test(s);
-    }
-
-    function qcSlugFinalDual(s) {
-        return qcNormFinalDual(s).replace(/\s+/g, '-') || 'player';
-    }
-
-    function qcEmbedFallbackVideoFinalDual(p) {
-        const html = p.embed || p.embedCode || p.html || '';
-        if (html && String(html).trim()) return html;
-        const srcDireto = p.srcDireto || p.src || p.url || '';
-        const srcProxy = p.srcProxy || '';
-        const src = srcDireto || srcProxy;
-        if (!src) return '';
-        if (/\.(mp4|m3u8)(\?|#|$)|lightspeedst/i.test(src)) {
-            const alt = srcProxy && srcProxy !== src ? srcProxy : '';
-            return `<video class="cronos-video" src="${qcEscAttrFinalDual(src)}" data-alt="${qcEscAttrFinalDual(alt)}" controls autoplay playsinline preload="auto" style="width:100%;height:100%;background:#000;display:block;object-fit:contain" onerror="if(this.dataset.alt&&!this.dataset.tentouAlt){this.dataset.tentouAlt='1';this.src=this.dataset.alt;this.load();this.play&&this.play().catch(function(){});}"></video>`;
-        }
-        return `<iframe src="${qcEscAttrFinalDual(srcProxy || src)}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;background:#000"></iframe>`;
-    }
-
-    function qcNormalizarPlayerFinalDual(p) {
-        const out = Object.assign({}, p || {});
-        if (qcIsLightSpeedFinalDual(out)) {
-            const q = qcQualidadeFinalDual(out);
-            out.nome = q ? `Light Speed ${q}` : 'Light Speed';
-            out.provedorId = `lightspeed-${qcSlugFinalDual(q || 'mp4')}`;
-            out.id = out.provedorId;
-            out.label = q || out.label || '';
-        } else if (out.nome) {
-            out.nome = String(out.nome).replace(/\s+(Direto|Proxy)$/i, '').trim();
-        }
-        out.embed = qcEmbedFallbackVideoFinalDual(out);
-        out.embedCode = out.embed;
-        return out;
-    }
-
-    function qcPrioridadeFinalDual(p, contextoAnimeFire = false) {
-        if (!p || p.tipo === 'site') return 9000;
-        const txt = qcNormFinalDual([p.nome, p.provedorId, p.id, p.src, p.url].filter(Boolean).join(' '));
-
-        // No AnimeFire, a ordem fica: Blogger primeiro (quando existir),
-        // depois Light Speed por qualidade: FHD, 720p, 480p, 360p.
-        if (contextoAnimeFire) {
-            if (/blogger/.test(txt)) return 0;
-            if (/light speed|lightspeed/.test(txt)) {
-                const q = qcQualidadeFinalDual(p);
-                if (q === 'FHD') return 1;
-                if (q === '720p') return 2;
-                if (q === '480p') return 3;
-                if (q === '360p') return 4;
-                return 5;
-            }
-        }
-
-        if (/light speed|lightspeed/.test(txt)) {
-            const q = qcQualidadeFinalDual(p);
-            if (q === 'FHD') return 0;
-            if (q === '720p') return 1;
-            if (q === '480p') return 2;
-            if (q === '360p') return 3;
-            return 4;
-        }
-        const ordem = ['kuroda','aniplay','mangas cloud','manga cloud','blogger','animeshd','animehd','animep2p','animesp2p','strp2p'];
-        for (let i = 0; i < ordem.length; i++) if (txt.includes(qcNormFinalDual(ordem[i]))) return 100 + i;
-        return 1000;
-    }
-
-    function qcCriarPlayerSiteFinalDual(urlEpisodio) {
-        const safe = qcEscAttrFinalDual(urlEpisodio);
-        const embed = `<div style="width:100%;height:100%;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;text-align:center;font-family:Arial;padding:20px;box-sizing:border-box"><h2 style="color:#ffcc00;margin:0 0 12px;font-size:26px">Abrir no site original</h2><p style="max-width:520px;line-height:1.35;margin:0 0 18px">Nenhum player tocável foi detectado dentro do app.</p><a href="${safe}" target="_blank" rel="noopener" style="background:#00ffff;color:#000;padding:15px 28px;border-radius:7px;text-decoration:none;font-weight:900;letter-spacing:1px">IR PARA O SITE</a></div>`;
-        return { nome:'Ir para o site', provedorId:'site-original', id:'site-original', tipo:'site', origem:'fallback-site-html', src:urlEpisodio, url:urlEpisodio, embed, embedCode:embed, seguro:true, bloqueado:false };
-    }
-
-    function qcPrepararPlayersFinalDual(players, urlEpisodio) {
-        const vistos = new Set();
-        const arr = [];
-        const contextoAnimeFire = qcIsAnimeFireFinalDual(urlEpisodio, qcPlayerAtualResolvido && qcPlayerAtualResolvido.engine);
-        (Array.isArray(players) ? players : []).forEach(p => {
-            if (!p || p.bloqueado) return;
-            if (!(p.embed || p.embedCode || p.html || p.src || p.srcProxy || p.srcDireto || p.url || p.tipo === 'site')) return;
-            const n = qcNormalizarPlayerFinalDual(p);
-            const key = qcIsLightSpeedFinalDual(n)
-                ? `lightspeed-${qcQualidadeFinalDual(n) || 'mp4'}`
-                : qcNormFinalDual((n.provedorId || n.id || n.nome || '') + ' ' + (n.src || n.url || ''));
-            if (vistos.has(key)) return;
-            vistos.add(key);
-            arr.push(n);
-        });
-        if (!arr.length) arr.push(qcCriarPlayerSiteFinalDual(urlEpisodio));
-        arr.sort((a,b) => qcPrioridadeFinalDual(a, contextoAnimeFire) - qcPrioridadeFinalDual(b, contextoAnimeFire));
-        arr.forEach((p,i) => p.index = i + 1);
-        return arr;
-    }
-
-    function qcChaveFornecedorFinalDual(p) {
-        return p ? String(p.provedorId || p.id || p.nome || '') : '';
-    }
-
-    qcAbrirPlayerResolvido = function(player, tituloEpisodio, urlEpisodio, imgCard, engId) {
-        player = qcNormalizarPlayerFinalDual(player || qcCriarPlayerSiteFinalDual(urlEpisodio));
-        qcPlayerFornecedorEscolhido = qcChaveFornecedorFinalDual(player) || null;
-        AbrirTelaPlayer(tituloEpisodio, player.embed || player.embedCode || player.html || '', urlEpisodio, imgCard, engId, player.nome || 'Player');
-    };
-    window.qcAbrirPlayerResolvido = qcAbrirPlayerResolvido;
-
-    function qcMostrarModalPlayersFinalDual(players, callback) {
-        const lista = qcPrepararPlayersFinalDual(players, (qcPlayerAtualResolvido && qcPlayerAtualResolvido.url) || '');
-        qcModalEscolha('Escolha o Player', `
-            <div class="modal-player-lista-qc">
-                ${lista.map((p,i)=>`<button data-qc-player-dual="${i}">${qcEscape(p.nome || (p.tipo === 'site' ? 'Ir para o site' : ('Player ' + (i+1))))}</button>`).join('')}
-            </div>
-        `);
-        setTimeout(() => {
-            document.querySelectorAll('[data-qc-player-dual]').forEach(btn => {
-                btn.onclick = () => {
-                    const idx = Number(btn.getAttribute('data-qc-player-dual'));
-                    const modal = document.getElementById('modalCustom');
-                    if (modal) modal.style.display = 'none';
-                    const ok = document.getElementById('modalBtnOk');
-                    if (ok) ok.style.display = '';
-                    callback(idx, lista);
-                };
-            });
-        }, 0);
-    }
-    qcMostrarModalPlayers = qcMostrarModalPlayersFinalDual;
-    window.qcMostrarModalPlayers = qcMostrarModalPlayersFinalDual;
-
-    buscarEAssistirEpisodio = function(urlEpisodio, tituloEpisodio, imgCard, engIdOuEpInfo = null) {
-        const engDetectado = typeof engIdOuEpInfo === 'string'
-            ? engIdOuEpInfo
-            : (engIdOuEpInfo && engIdOuEpInfo.engine) || (obraAtual && obraAtual.engine) || '';
-
-        const st = document.getElementById('statusDetalhes');
-        if (st) {
-            st.innerText = qcIsAnimeFireFinalDual(urlEpisodio, engDetectado) ? 'Detectando Light Speed no AnimeFire...' : 'Detectando players...';
-            st.style.display = 'block';
-        }
-
-        const api = qcWorkerPlayersFinalDual(urlEpisodio, engDetectado) + '?modo=players&url=' + encodeURIComponent(urlEpisodio);
-
-        fetch(api, { cache:'no-store' })
-            .then(r => r.json())
-            .then(data => {
-                if (st) st.style.display = 'none';
-
-                const players = qcPrepararPlayersFinalDual(data && data.players, urlEpisodio);
-                qcPlayerAtualResolvido = { players, titulo: tituloEpisodio, url: urlEpisodio, img: imgCard, engine: engDetectado };
-
-                const preferido = qcPlayerFornecedorEscolhido
-                    ? players.find(p => qcChaveFornecedorFinalDual(p) === qcPlayerFornecedorEscolhido)
-                    : null;
-
-                const escolhido = preferido || players[0] || qcCriarPlayerSiteFinalDual(urlEpisodio);
-                qcAbrirPlayerResolvido(escolhido, tituloEpisodio, urlEpisodio, imgCard, engDetectado);
-            })
-            .catch(() => {
-                if (st) st.style.display = 'none';
-                const fallback = qcCriarPlayerSiteFinalDual(urlEpisodio);
-                qcPlayerAtualResolvido = { players:[fallback], titulo: tituloEpisodio, url:urlEpisodio, img:imgCard, engine:engDetectado };
-                qcAbrirPlayerResolvido(fallback, tituloEpisodio, urlEpisodio, imgCard, engDetectado);
-            });
-    };
-    window.buscarEAssistirEpisodio = buscarEAssistirEpisodio;
-
-    qcTrocarPlayer = function() {
-        const lista = qcPlayerAtualResolvido && Array.isArray(qcPlayerAtualResolvido.players) ? qcPlayerAtualResolvido.players : [];
-        if (lista.length <= 1) return;
-        qcPlayerFornecedorEscolhido = null;
-        qcMostrarModalPlayersFinalDual(lista, (idx, ordenada) => {
-            const p = (ordenada && ordenada[idx]) || lista[idx] || lista[0];
-            qcAbrirPlayerResolvido(p, qcPlayerAtualResolvido.titulo, qcPlayerAtualResolvido.url, qcPlayerAtualResolvido.img, qcPlayerAtualResolvido.engine);
-        });
-    };
-    window.qcTrocarPlayer = qcTrocarPlayer;
-})();
-
 
 </script>
 </body>
