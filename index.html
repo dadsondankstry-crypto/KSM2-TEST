@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIME</title>
+    <title>ANIME KSM2</title>
     <style>
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -4569,50 +4569,53 @@ if (typeof EngineHub !== 'undefined' && EngineHub.montarCardUI && !EngineHub.__s
         return qcNormFinalDual(s).replace(/\s+/g, '-') || 'player';
     }
 
-function qcEmbedFallbackVideoFinalDual(p) {
-    const isLightSpeed = qcIsLightSpeedFinalDual(p);
+    function qcEmbedFallbackVideoFinalDual(p) {
+        const isLightSpeed = qcIsLightSpeedFinalDual(p);
+        const html = p.embed || p.embedCode || p.html || '';
 
-    const html = p.embed || p.embedCode || p.html || '';
+        // Light Speed / AnimeFire precisa ser remontado aqui.
+        // O embed que vem do Worker pode estar com "Direto" primeiro;
+        // em GitHub Pages/Vercel isso pode travar por hotlink/mixed/CORS.
+        if (!isLightSpeed && html && String(html).trim()) return html;
 
-    // Para players normais, mantém o embed original.
-    // Para Light Speed, ignora o embed antigo e monta de novo com Direto/Proxy inteligente.
-    if (!isLightSpeed && html && String(html).trim()) return html;
+        const srcDireto = p.srcDireto || p.src || p.url || '';
+        const proxyWorker = (typeof PROXY_ANIMEFIRE !== 'undefined' ? PROXY_ANIMEFIRE : 'https://delicate-sea-41ab.getapi-oi.workers.dev/?url=');
+        const srcProxy = p.srcProxy || (srcDireto ? (proxyWorker + encodeURIComponent(srcDireto)) : '');
 
-    const srcDireto = p.srcDireto || p.src || p.url || '';
-    const srcProxy = p.srcProxy || '';
+        if (!srcDireto && !srcProxy) return html || '';
 
-    if (!srcDireto && !srcProxy) return '';
+        const hostAtual = String(location.hostname || '').toLowerCase();
+        const rodandoLocalhost = ['localhost', '127.0.0.1', '0.0.0.0'].includes(hostAtual);
+        const rodandoFile = location.protocol === 'file:';
+        const rodandoOnlineHttps = location.protocol === 'https:';
 
-    const rodandoLocalhost = ['localhost', '127.0.0.1'].includes(location.hostname);
-    const rodandoFile = location.protocol === 'file:';
-    const rodandoOnlineHttps = location.protocol === 'https:';
+        let src = '';
+        let alt = '';
 
-    let src = '';
-    let alt = '';
+        // Localhost: direto primeiro, proxy de reserva.
+        if (rodandoLocalhost) {
+            src = srcDireto || srcProxy;
+            alt = srcProxy && srcProxy !== src ? srcProxy : '';
+        }
+        // GitHub Pages / Vercel / HTTPS / duplo clique:
+        // proxy primeiro, porque o direto geralmente bloqueia fora do localhost.
+        else if (rodandoOnlineHttps || rodandoFile) {
+            src = srcProxy || srcDireto;
+            // No HTTPS, não forçamos fallback para http direto quando ele seria bloqueado.
+            alt = (srcDireto && srcDireto !== src && !/^http:\/\//i.test(srcDireto)) ? srcDireto : '';
+        }
+        // Segurança geral: proxy primeiro.
+        else {
+            src = srcProxy || srcDireto;
+            alt = srcDireto && srcDireto !== src ? srcDireto : '';
+        }
 
-    // Localhost: tenta direto primeiro, porque costuma ser mais rápido.
-    if (rodandoLocalhost) {
-        src = srcDireto || srcProxy;
-        alt = srcProxy && srcProxy !== src ? srcProxy : '';
-    } 
-    // GitHub Pages / HTTPS / arquivo aberto por duplo clique:
-    // tenta proxy primeiro, porque o direto pode travar.
-    else if (rodandoOnlineHttps || rodandoFile) {
-        src = srcProxy || srcDireto;
-        alt = srcDireto && srcDireto !== src ? srcDireto : '';
-    } 
-    // Segurança geral.
-    else {
-        src = srcProxy || srcDireto;
-        alt = srcDireto && srcDireto !== src ? srcDireto : '';
+        if (/\.(mp4|m3u8)(\?|#|$)|lightspeedst/i.test(srcDireto || srcProxy || src)) {
+            return `<video class="cronos-video" src="${qcEscAttrFinalDual(src)}" data-alt="${qcEscAttrFinalDual(alt)}" controls autoplay playsinline preload="auto" style="width:100%;height:100%;background:#000;display:block;object-fit:contain" onerror="if(this.dataset.alt&&!this.dataset.tentouAlt){this.dataset.tentouAlt='1';this.src=this.dataset.alt;this.load();this.play&&this.play().catch(function(){});}"></video>`;
+        }
+
+        return `<iframe src="${qcEscAttrFinalDual(srcProxy || srcDireto)}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;background:#000"></iframe>`;
     }
-
-    if (/\.(mp4|m3u8)(\?|#|$)|lightspeedst/i.test(srcDireto || srcProxy)) {
-        return `<video class="cronos-video" src="${qcEscAttrFinalDual(src)}" data-alt="${qcEscAttrFinalDual(alt)}" controls autoplay playsinline preload="auto" style="width:100%;height:100%;background:#000;display:block;object-fit:contain" onerror="if(this.dataset.alt&&!this.dataset.tentouAlt){this.dataset.tentouAlt='1';this.src=this.dataset.alt;this.load();this.play&&this.play().catch(function(){});}"></video>`;
-    }
-
-    return `<iframe src="${qcEscAttrFinalDual(srcProxy || srcDireto)}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;background:#000"></iframe>`;
-}
 
     function qcNormalizarPlayerFinalDual(p) {
         const out = Object.assign({}, p || {});
