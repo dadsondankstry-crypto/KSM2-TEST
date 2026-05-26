@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CINE5</title>
+    <title>CINE4</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -6480,11 +6480,11 @@ function normalizarImagemCard(url) {
     if (!/^(https?:)?\/\//i.test(limpa)) {
         try {
             const providers = window.CRONOS_MULTI_PROVIDERS || {
-                p01: { base: 'https://www.boraflix.click/' },
+                b01: { base: 'https://www.boraflix.click/' },
                 p02: { base: 'https://www.boraflixtv.com/' }
             };
             const keyAtual = window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || (window.obraSendoVista && window.obraSendoVista.providerKey) || 'p01';
-            const baseAtual = (providers[keyAtual] && providers[keyAtual].base) || providers.p01.base;
+            const baseAtual = (providers[keyAtual] && providers[keyAtual].base) || providers.b01.base;
             limpa = new URL(limpa, baseAtual).href;
         } catch(e) {}
     }
@@ -6503,11 +6503,11 @@ function normalizarBackdropOriginal(url) {
     if (!/^(https?:)?\/\//i.test(limpa)) {
         try {
             const providers = window.CRONOS_MULTI_PROVIDERS || {
-                p01: { base: 'https://www.boraflix.click/' },
+                b01: { base: 'https://www.boraflix.click/' },
                 p02: { base: 'https://www.boraflixtv.com/' }
             };
             const keyAtual = window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || (window.obraSendoVista && window.obraSendoVista.providerKey) || 'p01';
-            const baseAtual = (providers[keyAtual] && providers[keyAtual].base) || providers.p01.base;
+            const baseAtual = (providers[keyAtual] && providers[keyAtual].base) || providers.b01.base;
             limpa = new URL(limpa, baseAtual).href;
         } catch(e) {}
     }
@@ -8066,20 +8066,17 @@ function providerPorUrl(url){
 
 function providerInfoCronos(key){
     const providers = window.CRONOS_MULTI_PROVIDERS || {};
-    const alias = { b01:'p01', p01:'p01', p02:'p02', m03:'p03', p03:'p03', e04:'p04', p04:'p04', s05:'p05', p05:'p05', u06:'p06', p06:'p06', l07:'p07', p07:'p07', primeflix:'p08', p08:'p08' };
-    const k = alias[String(key || '').trim()] || String(key || '').trim() || 'p01';
     const mapaFallback = {
-        p01: { key: 'p01', sigla: 'BORA', nome: 'Fonte BORA', base: 'https://www.boraflix.click/' },
+        b01: { key: 'p01', sigla: 'BORA', nome: 'Fonte BORA', base: 'https://www.boraflix.click/' },
         p02: { key: 'p02', sigla: 'ORG', nome: 'Fonte ORG', base: 'https://www.boraflixtv.com/' },
-        p03: { key: 'p03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/' },
-        p04: { key: 'p04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/' },
-        p05: { key: 'p05', sigla: 'WEB', nome: 'Fonte WEB', base: 'https://www.seriesonlineweb.lol/' },
-        p06: { key: 'p06', sigla: 'SUP', nome: 'Fonte SUP', base: 'https://superseries.life/' },
-        p07: { key: 'p07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/' },
-        p08: { key: 'p08', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/' }
+        m03: { key: 'p03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/' },
+        e04: { key: 'p04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/' },
+        s05: { key: 'p05', sigla: 'WEB', nome: 'Fonte WEB', base: 'https://www.seriesonlineweb.lol/' },
+        u06: { key: 'p06', sigla: 'SUP', nome: 'Fonte SUP', base: 'https://superseries.life/' },
+        l07: { key: 'p07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/' },
+        primeflix: { key: 'p08', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/' }
     };
-    const info = providers[k] || mapaFallback[k] || mapaFallback.p01;
-    return Object.assign({}, info, { key: k });
+    return providers[key] || mapaFallback[key] || mapaFallback.b01;
 }
 
 function providerLabel(key){
@@ -12560,18 +12557,18 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if (window.__CRONOS_MULTI_PROVIDER_PATCH__) return;
     window.__CRONOS_MULTI_PROVIDER_PATCH__ = true;
 
-    const STORAGE_FONTES = 'cronos_cine4_providers_ativos_pkeys_v2';
-    const STORAGE_FILTROS = 'cronos_cine4_filtros_visuais_pkeys_v2';
+    const STORAGE_FONTES = 'cronos_providers_ativos';
+    const STORAGE_FILTROS = 'cronos_filtros_visuais';
     const ORDEM_PROVEDORES = ['p01', 'p02', 'p03', 'p04', 'p05', 'p06', 'p07', 'p08'];
     const PROVIDERS = {
-        p01: { key: 'p01', sigla: 'BORA', nome: 'Fonte BORA', base: 'https://www.boraflix.click/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
+        b01: { key: 'p01', sigla: 'BORA', nome: 'Fonte BORA', base: 'https://www.boraflix.click/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
         p02: { key: 'p02', sigla: 'ORG', nome: 'Fonte ORG', base: 'https://www.boraflixtv.com/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
-        p03: { key: 'p03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/', generoBase: '/generos/', semEpisodios: true, semAno: true, semLetras: true },
-        p04: { key: 'p04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/', generoBase: '', semCategoria: true, semEpisodios: true, semAno: true },
-        p05: { key: 'p05', sigla: 'WEB', nome: 'Fonte WEB', base: 'https://www.seriesonlineweb.lol/', generoBase: '/generos/', semEpisodios: true, semAno: true },
-        p06: { key: 'p06', sigla: 'SUP', nome: 'Fonte SUP', base: 'https://superseries.life/', generoBase: '/generos/', semEpisodios: true, semAno: true },
-        p07: { key: 'p07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/', generoBase: '/category/', filmePath: '/movies/', seriePath: '/series/', episodioPath: '/episodio/', buscaPath: '/?s=', letrasPath: '/letra/', semEpisodios: false, semAno: true },
-        p08: { key: 'p08', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/', generoBase: '', filmePath: '/filmes', seriePath: '/series', episodioPath: '/episodios', buscaPath: '/pesquisar?s=', animePath: '/animes', doramaPath: '/doramas', semCategoria: true, semAno: true, semLetras: true, semEpisodios: false }
+        m03: { key: 'p03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/', generoBase: '/generos/', semEpisodios: true, semAno: true, semLetras: true },
+        e04: { key: 'p04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/', generoBase: '', semCategoria: true, semEpisodios: true, semAno: true },
+        s05: { key: 'p05', sigla: 'WEB', nome: 'Fonte WEB', base: 'https://www.seriesonlineweb.lol/', generoBase: '/generos/', semEpisodios: true, semAno: true },
+        u06: { key: 'p06', sigla: 'SUP', nome: 'Fonte SUP', base: 'https://superseries.life/', generoBase: '/generos/', semEpisodios: true, semAno: true },
+        l07: { key: 'p07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/', generoBase: '/category/', filmePath: '/movies/', seriePath: '/series/', episodioPath: '/episodio/', buscaPath: '/?s=', letrasPath: '/letra/', semEpisodios: false, semAno: true },
+        primeflix: { key: 'p08', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/', generoBase: '', filmePath: '/filmes', seriePath: '/series', episodioPath: '/episodios', buscaPath: '/pesquisar?s=', animePath: '/animes', doramaPath: '/doramas', semCategoria: true, semAno: true, semLetras: true, semEpisodios: false }
     };
     
     const ALIAS_PROVEDOR = { b01:'p01', p01:'p01', p02:'p02', m03:'p03', p03:'p03', e04:'p04', p04:'p04', s05:'p05', p05:'p05', u06:'p06', p06:'p06', l07:'p07', p07:'p07', primeflix:'p08', p08:'p08' };
@@ -12630,10 +12627,10 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     function salvarStorageObj(chave, obj){
         try { localStorage.setItem(chave, JSON.stringify(obj || {})); } catch(e) {}
     }
-    function estadoFontes(){ return normalizarMapaProvider(lerStorageObj(STORAGE_FONTES, PROVIDER_DEFAULTS)); }
-    function estadoFiltros(){ return normalizarMapaProvider(lerStorageObj(STORAGE_FILTROS, PROVIDER_DEFAULTS)); }
-    function fonteAtiva(key){ return !!estadoFontes()[normalizarProviderKey(key)]; }
-    function filtroAtivo(key){ return !!estadoFiltros()[normalizarProviderKey(key)]; }
+    function estadoFontes(){ return lerStorageObj(STORAGE_FONTES, { b01: true, p02: true, m03: true, e04: true, s05: true, u06: true, l07: true, primeflix: true }); }
+    function estadoFiltros(){ return lerStorageObj(STORAGE_FILTROS, { b01: true, p02: true, m03: true, e04: true, s05: true, u06: true, l07: true, primeflix: true }); }
+    function fonteAtiva(key){ return !!estadoFontes()[key]; }
+    function filtroAtivo(key){ return !!estadoFiltros()[key]; }
     function existeFonteAtiva(){ const e = estadoFontes(); return ORDEM_PROVEDORES.some(k => e[k]); }
     function providerPorUrl(url){
         const s = String(url || '');
@@ -13025,7 +13022,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         if(!img && typeof placeholderCronosPoster === 'function') img = placeholderCronosPoster();
         const isMovie = tipo === 'Filme';
         return {
-            id: 'p07::' + url.replace(/[?#].*$/,'').replace(/\/+$/,''),
+            id: 'l07::' + url.replace(/[?#].*$/,'').replace(/\/+$/,''),
             url, titulo, ano, img, poster: img, backdrop: img,
             tipo, isMovie, isSerie: tipo === 'Série', qualidade: 'LISO',
             providerKey: 'p07', providerName: 'Fonte LISO', providerSigla: 'LISO', baseUrl: 'https://lisoflix.net/'
@@ -13384,7 +13381,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         const tipo = url.includes('/movies/') ? 'Filme' : (url.includes('/episodio/') ? 'Episódio' : 'Série');
         const ano = lisoAno(lisoText(item));
         return {
-            id: 'p07::' + url.replace(/[?#].*$/,'').replace(/\/+$/,''),
+            id: 'l07::' + url.replace(/[?#].*$/,'').replace(/\/+$/,''),
             url, titulo, ano,
             img, poster: img, backdrop: img,
             tipo, isMovie: tipo === 'Filme', isSerie: tipo === 'Série',
@@ -15098,9 +15095,9 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     // Reparo seguro: garante que as fontes/filtros antigos não fiquem presos em localStorage desativando a BFTV.
     // Faz isso só uma vez nesta versão do arquivo.
     try {
-        const marca = 'cronos_reparo_fontes_8p_pkeys_v3_ok';
-        const chFontes = 'cronos_cine4_providers_ativos_pkeys_v2';
-        const chFiltros = 'cronos_cine4_filtros_visuais_pkeys_v2';
+        const marca = 'cronos_reparo_fontes_8p_v2_ok';
+        const chFontes = 'cronos_providers_ativos';
+        const chFiltros = 'cronos_filtros_visuais';
         const keys = ['p01','p02','p03','p04','p05','p06','p07','p08'];
         if(!localStorage.getItem(marca)) {
             const fontes = JSON.parse(localStorage.getItem(chFontes) || '{}') || {};
