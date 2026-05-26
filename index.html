@@ -16717,5 +16717,288 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
 })();
 </script>
 
+
+
+<script id="cronos-player-global-organizado-v4">
+(function(){
+    if (window.__CRONOS_PLAYER_GLOBAL_ORGANIZADO_V4__) return;
+    window.__CRONOS_PLAYER_GLOBAL_ORGANIZADO_V4__ = true;
+
+    const ORDEM_DIRETOS = ['superembeds','superflixapi','playerembedapi','warezcdn','mp4'];
+    const ORDEM_ORIGINAIS = ['viewplayer','playerthree','trembed','abyss','original'];
+    const NOMES_PLAYER = {
+        superembeds: 'SuperEmbeds',
+        superflixapi: 'SuperflixAPI',
+        playerembedapi: 'PlayerEmbedAPI',
+        warezcdn: 'WarezCDN',
+        mp4: 'MP4 Direto',
+        viewplayer: 'ViewPlayer Original',
+        playerthree: 'PlayerThree Original',
+        trembed: 'Trembed Original',
+        abyss: 'Abyss Player',
+        original: 'Player Original'
+    };
+
+    function baseDetalheCronos(){
+        try {
+            const o = window.obraSendoVista || (typeof obraSendoVista !== 'undefined' ? obraSendoVista : null) || {};
+            return o.url || o.detalheUrl || o.baseUrl || (typeof CRONOS_BASE_URL !== 'undefined' ? CRONOS_BASE_URL : location.href);
+        } catch(e) {
+            return (typeof CRONOS_BASE_URL !== 'undefined' ? CRONOS_BASE_URL : location.href);
+        }
+    }
+
+    function limparUrlPlayerCronos(url, base){
+        try {
+            let u = String(url || '').trim();
+            if (!u) return '';
+            u = u.replace(/&amp;/g, '&').replace(/&#038;/g, '&').replace(/\\/g, '');
+            u = u.split(/\s+/)[0].replace(/["'<>]/g, '').trim();
+            if (!u || /^javascript:|^mailto:|^tel:/i.test(u)) return '';
+            try { if (/%3A%2F%2F/i.test(u) || /%3a%2f%2f/i.test(u)) u = decodeURIComponent(u); } catch(e) {}
+            if (u.startsWith('//')) u = 'https:' + u;
+            const b = base || baseDetalheCronos();
+            if (/^\//.test(u) || !/^https?:\/\//i.test(u)) u = new URL(u, b).href;
+            u = u.replace(/^http:\/\/(superembeds?\.com|superflixapi\.(?:best|online)|playerembedapi\.link|warezcdn\.lat)/i, 'https://$1');
+            return u;
+        } catch(e) { return ''; }
+    }
+
+    function hostCronos(url){ try { return new URL(url).hostname.replace(/^www\./,'').toLowerCase(); } catch(e){ return ''; } }
+    function pathCronos(url){ try { return (new URL(url).pathname || '').replace(/\/+$/,''); } catch(e){ return ''; } }
+    function txtCronos(v){ return String(v || '').toLowerCase(); }
+
+    function superEmbedsValidoCronos(url){
+        const h = hostCronos(url);
+        const p = pathCronos(url);
+        return (h === 'superembeds.com' || h === 'superembed.com') && /^\/embed\/[A-Za-z0-9_.:-]+$/i.test(p);
+    }
+
+    function superflixValidoCronos(url){
+        const h = hostCronos(url);
+        const p = pathCronos(url);
+        return /^superflixapi\.(best|online)$/i.test(h) && (/^\/filme\/[A-Za-z0-9_.-]+$/i.test(p) || /^\/serie\/[A-Za-z0-9_.-]+\/\d+\/\d+$/i.test(p));
+    }
+
+    function warezValidoCronos(url){
+        const h = hostCronos(url);
+        const p = pathCronos(url);
+        return h === 'warezcdn.lat' && (/^\/filme\/[A-Za-z0-9_.-]+$/i.test(p) || /^\/serie\/[A-Za-z0-9_.-]+\/\d+\/\d+$/i.test(p));
+    }
+
+    function classePlayerGlobalCronos(url, label){
+        const u = txtCronos(url);
+        const h = hostCronos(url);
+        const l = txtCronos(label);
+        if (superEmbedsValidoCronos(url) || /superembeds?\.com\/embed\//i.test(u)) return 'superembeds';
+        if (superflixValidoCronos(url)) return 'superflixapi';
+        if (h === 'playerembedapi.link' && /[?&]v=/i.test(u)) return 'playerembedapi';
+        if (warezValidoCronos(url)) return 'warezcdn';
+        if (/\.mp4(?:$|[?#])/i.test(u) && /(hubby\.cx|fontedecanais|fonte[-_]?de[-_]?canais|fontedecanais-me)/i.test(u)) return 'mp4';
+        if (/viewplayer\.online/i.test(u)) return 'viewplayer';
+        if (/playerthree\.online/i.test(u)) return 'playerthree';
+        if (/trembed/i.test(u + ' ' + l)) return 'trembed';
+        if (/abyssplayer|abyss\.to|lisoflix\.net\/abyss|\babyss\b/i.test(u + ' ' + l)) return 'abyss';
+        if (/\/embed\//i.test(u) && !/youtube|youtu\.be|trailer|ads|doubleclick/i.test(u)) return 'original';
+        return '';
+    }
+
+    function playerBloqueadoGlobalCronos(url, label){
+        const u = txtCronos(url);
+        const l = txtCronos(label);
+        if (!u) return true;
+        if (/trailer|preview|teaser|youtube|youtu\.be|youtube-nocookie/.test(u + ' ' + l)) return true;
+        if (/megaembed|swap|nixplay|nextplay|api\.playerp1|doubleclick|adserver|googlesyndication|facebook\.com|facebook\.net|betano|22bet|\/ads?\/|propag|publicid|advert|banner/.test(u + ' ' + l)) return true;
+        if (/\.(jpg|jpeg|png|webp|gif|svg|css|js)(?:$|[?#])/i.test(u)) return true;
+        if (/\.mp4(?:$|[?#])/i.test(u) && !/(hubby\.cx|fontedecanais|fonte[-_]?de[-_]?canais|fontedecanais-me)/i.test(u)) return true;
+        const h = hostCronos(url);
+        const p = pathCronos(url);
+        if ((h === 'superembeds.com' || h === 'superembed.com') && !superEmbedsValidoCronos(url)) return true;
+        if (/^superflixapi\.(best|online)$/i.test(h) && !superflixValidoCronos(url)) return true;
+        if (h === 'warezcdn.lat' && !warezValidoCronos(url)) return true;
+        if ((h === 'superembeds.com' || h === 'superembed.com') && (!p || p === '/')) return true;
+        return false;
+    }
+
+    function diretoCronos(cls){ return ORDEM_DIRETOS.includes(cls); }
+    function chavePlayerGlobalCronos(url){ return String(url || '').replace(/#.*$/,'').replace(/\/+$/,'').trim().toLowerCase(); }
+    function audioPlayerGlobalCronos(label, url){
+        const t = txtCronos((label || '') + ' ' + (url || ''));
+        if (/\bleg\b|legendado|legendada|legenda/.test(t)) return 'Legendado';
+        if (/\bdub\b|dublado|dublada|lang=dub|audio=dub/.test(t)) return 'Dublado';
+        return '';
+    }
+    function prioridadePlayerGlobalCronos(p){
+        const cls = p.classe || classePlayerGlobalCronos(p.src, p.label);
+        const arr = diretoCronos(cls) ? ORDEM_DIRETOS : ORDEM_ORIGINAIS;
+        const idx = arr.indexOf(cls);
+        return diretoCronos(cls) ? (idx >= 0 ? idx : 99) : (100 + (idx >= 0 ? idx : 99));
+    }
+
+    window.cronosNormalizarUrlPlayer = limparUrlPlayerCronos;
+    window.cronosPlayerBloqueado = playerBloqueadoGlobalCronos;
+    window.cronosClassePlayerGlobal = classePlayerGlobalCronos;
+
+    window.cronosRotuloPlayer = function(player, idx){
+        const src = player && player.src || '';
+        const cls = player && player.classe || classePlayerGlobalCronos(src, player && player.label);
+        const nome = player && (player.nome || player.label) || NOMES_PLAYER[cls] || `Player ${(idx || 0) + 1}`;
+        const audio = player && player.audio || audioPlayerGlobalCronos(player && player.label, src);
+        if (audio && diretoCronos(cls) && !/dublado|legendado/i.test(nome)) return `${audio} — ${NOMES_PLAYER[cls] || nome}`;
+        return NOMES_PLAYER[cls] || nome;
+    };
+
+    window.cronosPushPlayer = function(lista, vistos, src, label = '', tipo = 'direto', base = ''){
+        src = limparUrlPlayerCronos(src, base);
+        if (!src || playerBloqueadoGlobalCronos(src, label)) return;
+        const cls = classePlayerGlobalCronos(src, label);
+        if (!cls) return;
+        const key = chavePlayerGlobalCronos(src);
+        if (!key || vistos.has(key)) return;
+        vistos.add(key);
+        const audio = audioPlayerGlobalCronos(label, src);
+        lista.push({
+            src,
+            label: label || NOMES_PLAYER[cls] || 'Player',
+            tipo: diretoCronos(cls) ? 'direto' : 'original',
+            classe: cls,
+            audio,
+            nome: NOMES_PLAYER[cls] || 'Player',
+            prioridade: prioridadePlayerGlobalCronos({ src, classe: cls, label })
+        });
+    };
+
+    function extrairUrlsPlayerTextoCronos(texto){
+        const out = [];
+        const s = String(texto || '');
+        const regs = [
+            /(https?:\/\/[^"'<>\s]*(?:superembeds?\.com\/embed|superflixapi\.(?:best|online)\/(?:filme|serie)|playerembedapi\.link\/\?v=|warezcdn\.lat\/(?:filme|serie)|hubby\.cx\/[^"'<>\s]*\.mp4|fontedecanais[^"'<>\s]*\.mp4|fonte[-_]?de[-_]?canais[^"'<>\s]*\.mp4|viewplayer\.online|playerthree\.online|trembed|abyssplayer|lisoflix\.net\/abyss)[^"'<>\s]*)/ig,
+            /(?:data-source|data-src|data-url|title|href|src)=["']([^"']*(?:superembeds?\.com\/embed|superflixapi\.(?:best|online)\/(?:filme|serie)|playerembedapi\.link\/\?v=|warezcdn\.lat\/(?:filme|serie)|hubby\.cx\/[^"']*\.mp4|fontedecanais[^"']*\.mp4|fonte[-_]?de[-_]?canais[^"']*\.mp4|viewplayer\.online|playerthree\.online|trembed|abyssplayer|lisoflix\.net\/abyss)[^"']*)["']/ig
+        ];
+        regs.forEach(reg => { let m; while ((m = reg.exec(s))) out.push(m[1]); });
+        return out;
+    }
+
+    window.cronosExtrairPlayersDetalhe = function(doc, html, iframePrincipal = ''){
+        const lista = [];
+        const vistos = new Set();
+        const base = baseDetalheCronos();
+        const add = (src, label, tipo, b) => window.cronosPushPlayer(lista, vistos, src, label || '', tipo || 'direto', b || base);
+        try {
+            if (doc && doc.querySelectorAll) {
+                const labelPorNume = {};
+                doc.querySelectorAll('.dooplay_player_option, #playeroptionsul li, [data-nume][data-post]').forEach(opt => {
+                    const n = opt.getAttribute('data-nume') || (opt.dataset && opt.dataset.nume) || '';
+                    const label = (opt.querySelector('.title') && opt.querySelector('.title').innerText) || opt.innerText || opt.textContent || '';
+                    if (n && label) labelPorNume[n] = label.trim();
+                });
+                doc.querySelectorAll('[id^="source-player-"]').forEach(box => {
+                    const id = box.getAttribute('id') || '';
+                    const nume = (id.match(/source-player-([^\s"']+)/i) || [])[1] || '';
+                    const label = labelPorNume[nume] || (box.querySelector('.title') && box.querySelector('.title').innerText) || box.getAttribute('data-title') || '';
+                    box.querySelectorAll('iframe[src], source[src], [data-source], [data-src], [data-url], a[href], button[title], a[title]').forEach(el => {
+                        ['src','data-source','data-src','data-url','href','title'].forEach(a => {
+                            const v = el.getAttribute && el.getAttribute(a);
+                            if (v) add(v, label || el.innerText || el.textContent || '', 'source-box', base);
+                        });
+                    });
+                });
+                doc.querySelectorAll('iframe[src], source[src], [data-source], [data-src], [data-url], a[href], button[title], a[title]').forEach(el => {
+                    const box = el.closest && el.closest('[id^="source-player-"], .source-box, .dooplay_player, #playcontainer, [data-title]');
+                    const label = (box && box.querySelector && box.querySelector('.title') && box.querySelector('.title').innerText) || (box && box.getAttribute && box.getAttribute('data-title')) || el.innerText || el.textContent || el.getAttribute('aria-label') || el.getAttribute('title') || '';
+                    ['src','data-source','data-src','data-url','href','title'].forEach(a => {
+                        const v = el.getAttribute && el.getAttribute(a);
+                        if (v) add(v, label, 'elemento', base);
+                    });
+                });
+            }
+        } catch(e) {}
+        try { extrairUrlsPlayerTextoCronos(html).forEach(u => add(u, '', 'regex', base)); } catch(e) {}
+        if (iframePrincipal) add(iframePrincipal, 'Player Original', 'principal', base);
+        return lista;
+    };
+
+    window.cronosExpandirPlayerInterno = async function(player){
+        const src = limparUrlPlayerCronos(player && player.src || '', baseDetalheCronos());
+        const cls = player && player.classe || classePlayerGlobalCronos(src, player && player.label);
+        if (!src || !['viewplayer','playerthree','trembed'].includes(cls)) return [];
+        try {
+            const proxy = (typeof PROXY !== 'undefined' && PROXY) ? PROXY + encodeURIComponent(src) : src;
+            const html = await fetch(proxy).then(r => r.ok ? r.text() : Promise.reject());
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            return window.cronosExtrairPlayersDetalhe(doc, html, src).filter(p => chavePlayerGlobalCronos(p.src) !== chavePlayerGlobalCronos(src));
+        } catch(e) { return []; }
+    };
+
+    function ordenarDeduplicarGlobalCronos(lista){
+        const seen = new Set();
+        const out = [];
+        (lista || []).forEach(p => {
+            if (!p || !p.src) return;
+            const cls = p.classe || classePlayerGlobalCronos(p.src, p.label);
+            if (!cls) return;
+            const k = (cls === 'abyss') ? 'abyss' : chavePlayerGlobalCronos(p.src);
+            if (!k || seen.has(k)) return;
+            seen.add(k);
+            const item = { ...p, classe: cls, nome: NOMES_PLAYER[cls] || p.nome || p.label || 'Player', tipo: diretoCronos(cls) ? 'direto' : 'original' };
+            item.audio = item.audio || audioPlayerGlobalCronos(item.label, item.src);
+            item.prioridade = prioridadePlayerGlobalCronos(item);
+            out.push(item);
+        });
+        out.sort((a,b) => (a.prioridade - b.prioridade) || String(a.nome).localeCompare(String(b.nome)));
+        return out;
+    }
+
+    async function renderizarPlayersGlobalCronos(titulo, doc, htmlDetalhe, iframeSrc){
+        const area = document.getElementById('areaAcaoDetalhe');
+        if (!area) return;
+        area.innerHTML = '<span style="color:#ffcc00;font-size:13px;">⏳ Buscando players disponíveis...</span>';
+        const basePlayers = window.cronosExtrairPlayersDetalhe(doc, htmlDetalhe, iframeSrc);
+        const final = [];
+        const vistos = new Set();
+        for (const p of basePlayers) {
+            const internos = await window.cronosExpandirPlayerInterno(p);
+            if (internos && internos.length) {
+                internos.forEach(ip => window.cronosPushPlayer(final, vistos, ip.src, ip.label || p.label, ip.tipo || 'interno', p.src));
+                window.cronosPushPlayer(final, vistos, p.src, NOMES_PLAYER[p.classe || classePlayerGlobalCronos(p.src, p.label)] || 'Player Original', 'original', p.src);
+            } else {
+                window.cronosPushPlayer(final, vistos, p.src, p.label, p.tipo, baseDetalheCronos());
+            }
+        }
+        let render = ordenarDeduplicarGlobalCronos(final);
+        const antesFiltro = render.slice();
+        if (typeof window.cronosFiltrarViewPlayerOpcao === 'function') render = window.cronosFiltrarViewPlayerOpcao(render);
+        area.innerHTML = '';
+        if (!render.length) {
+            if (antesFiltro.length && typeof window.cronosAvisarSomenteViaPlayerEpisodio === 'function') {
+                area.innerHTML = '<span style="color:#ffcc00; font-weight:bold;">Só foi encontrado player Via/ViewPlayer. Ative nas Configurações para exibir.</span>';
+            } else {
+                area.innerHTML = '<span style="color:#ff0055; font-weight:bold;">Player não encontrado na página base.</span>';
+            }
+            return;
+        }
+        render.forEach((p, idx) => {
+            const btn = document.createElement('button');
+            const original = !diretoCronos(p.classe);
+            btn.className = 'btn-assistir ' + (original ? 'btn-cronos-player-original' : 'btn-cronos-player-direto');
+            const label = window.cronosRotuloPlayer(p, idx);
+            btn.innerHTML = `▶ #${idx + 1} ${label}`;
+            btn.title = p.src;
+            btn.onclick = () => {
+                try {
+                    if (typeof window.cronosDefinirPlayerAtualV27 === 'function') window.cronosDefinirPlayerAtualV27(label, { index: idx, classe: p.classe || p.tipo || '', src: p.src, memorizar: false });
+                    else window.__cronosPlayerNomeAtual = label;
+                } catch(e) {}
+                abrirPlayer(titulo, p.src, { playerNome: label, playerIndex: idx, playerClasse: p.classe || p.tipo || '' });
+            };
+            area.appendChild(btn);
+        });
+    }
+
+    window.renderizarBotoesPlayerUnificadoCronos = renderizarPlayersGlobalCronos;
+    try { renderizarBotoesPlayerUnificadoCronos = renderizarPlayersGlobalCronos; } catch(e) {}
+})();
+</script>
+
 </body>
 </html>
