@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRONOS — Teste ViewPlayer 4 Players Corrigido</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:#050505;color:#fff;font-family:Arial,Helvetica,sans-serif;padding:16px}
+.wrap{max-width:1280px;margin:0 auto}
+.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px;border:1px solid #222;background:#090909;border-radius:10px;padding:14px}
+h1{font-size:20px;color:#ffcc00;text-shadow:0 0 8px rgba(255,204,0,.45)}
+.status{color:#00ffff;font-size:13px;line-height:1.45;margin-top:4px}.status b{color:#ffcc00}
+.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0;background:#0b0b0b;border:1px solid #222;border-radius:10px;padding:14px}
+.btn{border:1px solid #00ffff;background:#111;color:#00ffff;padding:12px 14px;border-radius:6px;font-weight:800;cursor:pointer;transition:.15s;text-align:center;line-height:1.25}
+.btn small{display:block;color:#aaa;font-size:11px;margin-top:3px;font-weight:700}.btn:hover,.btn.ativo{background:#00ffff;color:#000;box-shadow:0 0 12px rgba(0,255,255,.55)}.btn:hover small,.btn.ativo small{color:#111}
+.btn.mega{border-color:#ffcc00;color:#ffcc00}.btn.mega:hover,.btn.mega.ativo{background:#ffcc00;color:#000;box-shadow:0 0 12px rgba(255,204,0,.55)}
+.panel{display:grid;grid-template-columns:1fr;gap:12px}.tools{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#0b0b0b;border:1px solid #222;border-radius:10px;padding:12px}.tools-left,.tools-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+select,.smallbtn{background:#111;color:#fff;border:1px solid #555;border-radius:6px;padding:9px 10px;font-weight:700}.smallbtn{cursor:pointer;color:#ffcc00;border-color:#ffcc00;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.smallbtn:hover{background:#ffcc00;color:#000}.label{color:#aaa;font-size:12px;font-weight:700;text-transform:uppercase}.badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #333;background:#111;border-radius:999px;padding:8px 10px;color:#aaa;font-size:12px}.ok{color:#00ffff}.warn{color:#ffcc00}
+.playerbox{background:#000;border:2px solid #00ffff;border-radius:10px;overflow:hidden;height:76vh;min-height:420px;position:relative}.playerbox.loading{border-color:#ffcc00}iframe{width:100%;height:100%;border:0;background:#000;display:block}.empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#777;text-align:center;padding:20px;pointer-events:none}.log{background:#080808;border:1px solid #222;border-radius:8px;padding:10px;color:#bbb;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:44px}
+@media(max-width:900px){.controls{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){body{padding:10px}.controls{grid-template-columns:1fr}.playerbox{height:65vh;min-height:320px}.tools-left,.tools-right{width:100%}.smallbtn,select{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>CRONOS — Teste ViewPlayer sem abrir ViewPlayer</h1>
+      <div class="status">Corrigido: os 4 botões aparecem fixos na página. Clique em um player para carregar direto no iframe.</div>
+    </div>
+    <div class="badge"><span class="ok">●</span> ViewPlayer original não é carregado</div>
+  </div>
+
+  <div class="controls">
+    <button class="btn" type="button" data-player="0">#1 Dublado <small>PlayerEmbedAPI</small></button>
+    <button class="btn mega" type="button" data-player="1">#2 Dublado <small>MegaEmbed</small></button>
+    <button class="btn" type="button" data-player="2">#1 Legendado <small>PlayerEmbedAPI</small></button>
+    <button class="btn mega" type="button" data-player="3">#2 Legendado <small>MegaEmbed</small></button>
+  </div>
+
+  <div class="panel">
+    <div class="tools">
+      <div class="tools-left">
+        <span class="label">Modo</span>
+        <select id="modo">
+          <option value="auto">Auto: PlayerEmbedAPI direto / MegaEmbed proxy Winter com # externo</option>
+          <option value="direct">Direto</option>
+          <option value="proxy-winter-hash">Proxy Winter — MegaEmbed com # externo</option>
+          <option value="proxy-winter-full">Proxy Winter — URL completa codificada</option>
+          <option value="proxy-delicate-hash">Proxy Delicate — MegaEmbed com # externo</option>
+          <option value="proxy-delicate-full">Proxy Delicate — URL completa codificada</option>
+        </select>
+        <label class="badge"><input id="sandboxToggle" type="checkbox" checked> Sandbox</label>
+      </div>
+      <div class="tools-right">
+        <button class="smallbtn" id="loadBtn" type="button">Carregar no frame</button>
+        <button class="smallbtn" id="openNew" type="button">Abrir link atual</button>
+        <button class="smallbtn" id="reloadBtn" type="button">Recarregar iframe</button>
+        <button class="smallbtn" id="clearBtn" type="button">Limpar</button>
+      </div>
+    </div>
+
+    <div class="playerbox" id="playerbox">
+      <div class="empty" id="empty">Clique em um dos 4 botões acima para testar.</div>
+      <iframe id="frame" referrerpolicy="no-referrer" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>
+    </div>
+
+    <div class="log" id="log"></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+const PLAYERS = [
+  { label: '#1 Dublado',  src: 'https://playerembedapi.link/?v=DaMYWcbXG', type: 'jwplayer', id: '369361', host: 'playerembedapi.link' },
+  { label: '#2 Dublado',  src: 'https://megaembed.link/#czs6b8',       type: 'iframe',   id: '374289', host: 'megaembed.link' },
+  { label: '#1 Legendado', src: 'https://playerembedapi.link/?v=H2GFARc4v', type: 'iframe', id: '374291', host: 'playerembedapi.link' },
+  { label: '#2 Legendado', src: 'https://megaembed.link/#ik58j8',       type: 'iframe',   id: '374292', host: 'megaembed.link' }
+];
+
+const PROXY_WINTER = 'https://winter-cherry-3baa.getapi-oi.workers.dev/?url=';
+const PROXY_DELICATE = 'https://delicate-sea-41ab.getapi-oi.workers.dev/?url=';
+
+let atual = null;
+let ultimoSrcFinal = '';
+let ultimoSrcOriginal = '';
+
+const frame = document.getElementById('frame');
+const empty = document.getElementById('empty');
+const logEl = document.getElementById('log');
+const modoEl = document.getElementById('modo');
+const sandboxToggle = document.getElementById('sandboxToggle');
+const playerbox = document.getElementById('playerbox');
+
+function log(msg) {
+  const hora = new Date().toLocaleTimeString();
+  logEl.textContent = '[' + hora + '] ' + msg + '\n' + logEl.textContent;
+}
+
+function isMega(player) {
+  return /megaembed\.link/i.test(player.src);
+}
+
+function splitMega(url) {
+  const base = String(url || '').split('#')[0];
+  const hash = String(url || '').includes('#') ? String(url || '').slice(String(url || '').indexOf('#')) : '';
+  return { base, hash };
+}
+
+function montarUrlProxyHash(proxy, player) {
+  if (!isMega(player)) return proxy + encodeURIComponent(player.src);
+  const partes = splitMega(player.src);
+  return proxy + encodeURIComponent(partes.base) + partes.hash;
+}
+
+function montarUrlProxyFull(proxy, player) {
+  return proxy + encodeURIComponent(player.src);
+}
+
+function montarUrl(player) {
+  const modo = modoEl.value;
+  if (modo === 'direct') return player.src;
+  if (modo === 'proxy-winter-hash') return montarUrlProxyHash(PROXY_WINTER, player);
+  if (modo === 'proxy-winter-full') return montarUrlProxyFull(PROXY_WINTER, player);
+  if (modo === 'proxy-delicate-hash') return montarUrlProxyHash(PROXY_DELICATE, player);
+  if (modo === 'proxy-delicate-full') return montarUrlProxyFull(PROXY_DELICATE, player);
+
+  if (isMega(player)) return montarUrlProxyHash(PROXY_WINTER, player);
+  return player.src;
+}
+
+function aplicarSandbox() {
+  if (sandboxToggle.checked) {
+    frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-presentation');
+  } else {
+    frame.removeAttribute('sandbox');
+  }
+}
+
+function selecionar(index) {
+  atual = PLAYERS[index];
+  document.querySelectorAll('[data-player]').forEach(btn => btn.classList.remove('ativo'));
+  const btnAtual = document.querySelector('[data-player="' + index + '"]');
+  if (btnAtual) btnAtual.classList.add('ativo');
+  carregarAtual();
+}
+
+function carregarAtual() {
+  if (!atual) {
+    log('Escolha primeiro um dos 4 players.');
+    return;
+  }
+  aplicarSandbox();
+  ultimoSrcOriginal = atual.src;
+  ultimoSrcFinal = montarUrl(atual);
+  empty.style.display = 'none';
+  playerbox.classList.add('loading');
+  frame.src = 'about:blank';
+  setTimeout(function() {
+    frame.src = ultimoSrcFinal;
+  }, 80);
+  log('Carregando ' + atual.label + ' | original: ' + ultimoSrcOriginal + ' | iframe: ' + ultimoSrcFinal);
+}
+
+function abrirLinkAtual() {
+  if (!atual) {
+    log('Nenhum player selecionado. Clique em um dos 4 botões primeiro.');
+    return;
+  }
+  window.open(ultimoSrcFinal || ultimoSrcOriginal, '_blank', 'noopener,noreferrer');
+}
+
+document.querySelectorAll('[data-player]').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    selecionar(Number(btn.getAttribute('data-player')));
+  });
+});
+
+document.getElementById('loadBtn').addEventListener('click', carregarAtual);
+document.getElementById('openNew').addEventListener('click', abrirLinkAtual);
+document.getElementById('reloadBtn').addEventListener('click', carregarAtual);
+
+document.getElementById('clearBtn').addEventListener('click', function() {
+  atual = null;
+  ultimoSrcFinal = '';
+  ultimoSrcOriginal = '';
+  frame.src = 'about:blank';
+  empty.style.display = 'flex';
+  document.querySelectorAll('[data-player]').forEach(btn => btn.classList.remove('ativo'));
+  log('Player limpo.');
+});
+
+modoEl.addEventListener('change', function() {
+  if (atual) carregarAtual();
+});
+
+sandboxToggle.addEventListener('change', function() {
+  if (atual) carregarAtual();
+});
+
+frame.addEventListener('load', function() {
+  if (ultimoSrcFinal) {
+    playerbox.classList.remove('loading');
+    log('Iframe terminou a tentativa de carregamento. Se ficar preto/bloqueado, teste outro modo ou desmarque Sandbox.');
+  }
+});
+
+aplicarSandbox();
+log('Teste corrigido pronto. Botões fixos carregados: ' + PLAYERS.length + '.');
+</script>
+</body>
+</html>
