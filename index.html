@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>07</title>
+    <title>CINE 3</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -4874,6 +4874,72 @@ img { max-width: 100%; }
 
 
 
+
+<style id="cronos-v28-viewplayer-player-controls-css">
+/* CRONOS V28 — ViewPlayer toggle + player controls */
+#btnToggleViewPlayerCronos.viewplayer-off-cronos {
+    color: #ffcc00 !important;
+    border-color: #ffcc00 !important;
+}
+#btnVoltarPlayerAtivoCRONOS {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 8px 14px;
+    margin-left: 10px;
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    background: #ffcc00;
+    color: #000;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(255,204,0,.55);
+    animation: cronosPulsePlayerAtivo 1.4s infinite;
+    z-index: 1005;
+}
+#btnVoltarPlayerAtivoCRONOS.visivel { display: inline-flex; }
+#btnVoltarPlayerAtivoCRONOS:hover { background:#00ffff; border-color:#ffcc00; box-shadow:0 0 16px rgba(0,255,255,.75); }
+@keyframes cronosPulsePlayerAtivo { 0%,100%{transform:scale(1);filter:brightness(1)} 50%{transform:scale(1.04);filter:brightness(1.18)} }
+#cronosTrocarPlayerBtnV28 {
+    min-width: 145px;
+    padding: 12px 16px;
+    background: #111;
+    color: #00ffff;
+    border: 1px solid #00ffff;
+    border-radius: 4px;
+    font-weight: 900;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-align: center;
+}
+#cronosTrocarPlayerBtnV28:hover { background:#00ffff; color:#000; box-shadow:0 0 12px rgba(0,255,255,.75); }
+#cronosTrocarPlayerBtnV28[disabled] { opacity:.35; cursor:not-allowed; box-shadow:none; background:#111; color:#777; border-color:#333; }
+#cronosPlayerBottomRowV24 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+}
+#cronosPlayerBottomRowV24 #playerNavegacao {
+    margin: 0 !important;
+}
+@media (max-width: 900px) {
+    #btnVoltarPlayerAtivoCRONOS { margin-left: 0; margin-top: 4px; min-height: 40px; padding: 10px 16px; font-size: 12px; }
+    #cronosTrocarPlayerBtnV28,
+    #cronosPlayerBottomRowV24 .cronos-player-tipo-label-v24,
+    #cronosPlayerBottomRowV24 #playerNavegacao,
+    #cronosPlayerBottomRowV24 #playerNavegacao .btn-nav-ep {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+}
+</style>
+
 </head>
 <body>
 
@@ -5100,7 +5166,7 @@ img { max-width: 100%; }
             <button class="btn-fechar-player" onclick="fecharPlayer()">X Fechar Player</button>
         </div>
         <div class="player-wrapper">
-            <iframe id="iframePlayer" src="" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="origin-when-cross-origin"></iframe>
+            <iframe id="iframePlayer" src="" allowfullscreen></iframe>
         </div>
         <div class="player-navegacao" id="playerNavegacao" style="display:none;">
             <button class="btn-nav-ep" id="btnEpAnterior" style="display:none;">Episódio Anterior</button>
@@ -5109,9 +5175,7 @@ img { max-width: 100%; }
     </div>
 
 <script>
-const PROXY = 'https://dark-boat-e972.getapi-oi.workers.dev/?url=';
-const CRONOS_VIAPLAYER_WORKER_BASE = 'https://dark-boat-e972.getapi-oi.workers.dev';
-const CRONOS_VIAPLAYER_CLEAN = CRONOS_VIAPLAYER_WORKER_BASE.replace(/\/+$/,'') + '/viewplayer-clean?url=';
+const PROXY = 'https://fragrant-unit-a421.dadsondankstry.workers.dev/?url=';
 const SITE_CODE = 'B01';
 let telaAnterior = 'telaInicio'; 
 let paginaAtual = { 'telaFilmes': 1, 'telaSeries': 1, 'telaBusca': 1, 'telaEpisodios': 1, 'telaTemporadas': 1, 'telaAnimes': 1 };
@@ -9074,12 +9138,13 @@ async function renderizarBotoesPlayerUnificadoCronos(titulo, doc, htmlDetalhe, i
     }
 
     area.innerHTML = '';
-    if (!final.length) {
+    const finalRender = (typeof window.cronosFiltrarViewPlayerOpcao === 'function') ? window.cronosFiltrarViewPlayerOpcao(final) : final;
+    if (!finalRender.length) {
         area.innerHTML = '<span style="color:#ff0055; font-weight:bold;">Player não encontrado na página base.</span>';
         return;
     }
 
-    final.forEach((p, idx) => {
+    finalRender.forEach((p, idx) => {
         const isOriginal = /original/i.test(p.label || '') || p.tipo === 'original' || p.tipo === 'principal';
         const btn = document.createElement('button');
         btn.className = 'btn-assistir';
@@ -15971,31 +16036,21 @@ const ROTAS_TELA = {
         lista.innerHTML = '';
         if(!fontes.length) return false;
 
-        // Se tiver só um player, não abre modal: já entra direto.
-        if(fontes.length === 1) {
-            abrirFonteModalV27(titulo, fontes[0], 0, obraHist, false);
-            return true;
-        }
+        try {
+            window.__cronosUltimaListaFontesEpisodio = {
+                titulo,
+                fontes: fontes.slice(),
+                obraHist: obraHist || null,
+                criadaEm: Date.now()
+            };
+        } catch(e) {}
 
-        // Se o usuário já escolheu um player nesta sessão aberta, Próximo/Anterior usa o mesmo.
+        // Comportamento novo: não abre a lista primeiro.
+        // Se houver só um player, abre direto. Se houver vários, abre o primeiro.
+        // O botão "Trocar Player" fica abaixo do player para escolher outra fonte.
         const idxMemoria = escolherFonteMemoriaV27(fontes);
-        if(idxMemoria >= 0) {
-            abrirFonteModalV27(titulo, fontes[idxMemoria], idxMemoria, obraHist, true);
-            return true;
-        }
-
-        if(texto) texto.textContent = 'Escolha uma fonte. Se uma não carregar, volte e teste outra.';
-        fontes.forEach((p, idx) => {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'btn-assistir ' + (isDirect(p.classe) ? 'btn-cronos-player-direto' : 'btn-cronos-player-original');
-            btn.title = p.src;
-            const nome = nomeFonteModalV27(p, idx);
-            btn.textContent = `▶ #${idx + 1} ${nome}`;
-            btn.onclick = () => abrirFonteModalV27(titulo, p, idx, obraHist, true);
-            lista.appendChild(btn);
-        });
-        garantirModal().style.display = 'flex';
+        const idxInicial = idxMemoria >= 0 ? idxMemoria : 0;
+        abrirFonteModalV27(titulo, fontes[idxInicial], idxInicial, obraHist, idxMemoria >= 0);
         return true;
     }
 
@@ -16014,6 +16069,7 @@ const ROTAS_TELA = {
             }
         } catch(e) { fontes = []; }
         fontes = sortAndDedupe(fontes);
+        if (typeof window.cronosFiltrarViewPlayerOpcao === 'function') fontes = window.cronosFiltrarViewPlayerOpcao(fontes);
         if(renderButtons(titulo, fontes, obraHist)) return true;
         fecharModal();
         if(typeof fallback === 'function') return fallback();
@@ -16061,88 +16117,6 @@ const ROTAS_TELA = {
 })();
 </script>
 
-
-
-
-<script id="cronos-viaplayer-worker-limpo-v1">
-(function(){
-    if(window.__CRONOS_VIAPLAYER_WORKER_LIMPO_V1__) return;
-    window.__CRONOS_VIAPLAYER_WORKER_LIMPO_V1__ = true;
-
-    const WORKER_BASE = (typeof CRONOS_VIAPLAYER_WORKER_BASE !== 'undefined' && CRONOS_VIAPLAYER_WORKER_BASE)
-        ? String(CRONOS_VIAPLAYER_WORKER_BASE).replace(/\/+$/,'')
-        : 'https://dark-boat-e972.getapi-oi.workers.dev';
-
-    function isViewPlayer(url){
-        return /https?:\/\/(?:www\.)?viewplayer\.online\//i.test(String(url || ''));
-    }
-    function cleanUrl(url){
-        return WORKER_BASE + '/viewplayer-clean?url=' + encodeURIComponent(String(url || '').trim());
-    }
-    function aplicarPermissoesIframe(iframe){
-        if(!iframe) return;
-        try { iframe.removeAttribute('sandbox'); } catch(e) {}
-        try { iframe.setAttribute('allow', 'autoplay; fullscreen; encrypted-media; picture-in-picture'); } catch(e) {}
-        try { iframe.setAttribute('allowfullscreen', ''); } catch(e) {}
-        try { iframe.setAttribute('referrerpolicy', 'origin-when-cross-origin'); } catch(e) {}
-    }
-    function prepararUrlPlayerCronos(url){
-        url = String(url || '').trim();
-        if(isViewPlayer(url)) return cleanUrl(url);
-        return url;
-    }
-
-    window.cronosViaplayerWorkerLimpoUrl = prepararUrlPlayerCronos;
-
-    function trocarLabelViewPlayer(){
-        try {
-            document.querySelectorAll('button[title*="viewplayer.online"], .btn-assistir[title*="viewplayer.online"]').forEach(btn => {
-                if(btn.__cronosViaLabelOk) return;
-                btn.__cronosViaLabelOk = true;
-                const txt = btn.textContent || '';
-                if(/ViewPlayer Original/i.test(txt)) btn.textContent = txt.replace(/ViewPlayer Original/ig, 'ViaPlayer Limpo');
-                else if(/ViewPlayer/i.test(txt)) btn.textContent = txt.replace(/ViewPlayer/ig, 'ViaPlayer Limpo');
-            });
-        } catch(e) {}
-    }
-    setInterval(trocarLabelViewPlayer, 900);
-    document.addEventListener('DOMContentLoaded', trocarLabelViewPlayer);
-
-    const abrirBase = window.abrirPlayer;
-    if(typeof abrirBase === 'function' && !abrirBase.__cronosViaplayerWorkerLimpo){
-        window.abrirPlayer = function(titulo, urlVideo, meta){
-            const original = String(urlVideo || '').trim();
-            const finalUrl = prepararUrlPlayerCronos(original);
-            try {
-                const iframe = document.getElementById('iframePlayer');
-                aplicarPermissoesIframe(iframe);
-            } catch(e) {}
-            if(isViewPlayer(original)) {
-                try {
-                    meta = Object.assign({}, meta || {}, {
-                        playerNome: (meta && meta.playerNome) || 'ViaPlayer Limpo',
-                        playerClasse: 'viewplayer-clean',
-                        srcOriginal: original
-                    });
-                    if(typeof window.cronosDefinirPlayerAtualV27 === 'function') {
-                        window.cronosDefinirPlayerAtualV27('ViaPlayer Limpo', { src: original, classe: 'viewplayer-clean', memorizar: !!(meta && meta.memorizar) });
-                    }
-                } catch(e) {}
-            }
-            return abrirBase.call(this, titulo, finalUrl, meta);
-        };
-        window.abrirPlayer.__cronosViaplayerWorkerLimpo = true;
-        try { abrirPlayer = window.abrirPlayer; } catch(e) {}
-    }
-
-    // Garante permissões também quando outros trechos mexerem direto no iframe.
-    const obs = new MutationObserver(() => {
-        const iframe = document.getElementById('iframePlayer');
-        if(iframe) aplicarPermissoesIframe(iframe);
-    });
-    try { obs.observe(document.body || document.documentElement, { childList:true, subtree:true, attributes:true, attributeFilter:['src','sandbox','allow'] }); } catch(e) {}
-})();
-</script>
 
 <script id="cronos-v27-player-memoria-label-e-fechamento-js">
 (function(){
@@ -16233,6 +16207,251 @@ const ROTAS_TELA = {
     }
 
     document.addEventListener('DOMContentLoaded', () => aplicarLabel('Player'));
+})();
+</script>
+
+
+<script id="cronos-v28-viewplayer-toggle-player-controls-js">
+(function(){
+    if (window.__CRONOS_V28_VIEWPLAYER_PLAYER_CONTROLS__) return;
+    window.__CRONOS_V28_VIEWPLAYER_PLAYER_CONTROLS__ = true;
+
+    const KEY_VIEWPLAYER = 'cronos_viewplayer_ativo';
+
+    function viewPlayerAtivo(){
+        try { return localStorage.getItem(KEY_VIEWPLAYER) !== '0'; } catch(e) { return true; }
+    }
+    function setViewPlayerAtivo(v){
+        try { localStorage.setItem(KEY_VIEWPLAYER, v ? '1' : '0'); } catch(e) {}
+        aplicarEstadoViewPlayerBotao();
+    }
+    function ehViewPlayer(item){
+        const url = String((item && (item.src || item.url || item.href)) || item || '').toLowerCase();
+        const nome = String((item && (item.nome || item.label || item.tipo || item.classe)) || '').toLowerCase();
+        return /viewplayer\.online|playerthree\.online|trembed/i.test(url) || /viewplayer|playerthree|trembed|player original|original/i.test(nome);
+    }
+    window.cronosViewPlayerAtivoOpcao = viewPlayerAtivo;
+    window.cronosFiltrarViewPlayerOpcao = function(fontes){
+        if (!Array.isArray(fontes)) return [];
+        if (viewPlayerAtivo()) return fontes;
+        return fontes.filter(p => !ehViewPlayer(p));
+    };
+    window.cronosToggleViewPlayerOpcao = function(){
+        setViewPlayerAtivo(!viewPlayerAtivo());
+        try {
+            const area = document.getElementById('areaAcaoDetalhe');
+            if (area) area.querySelectorAll('button').forEach(btn => {
+                const txt = (btn.textContent || '') + ' ' + (btn.title || '');
+                if (/viewplayer|playerthree|trembed|player original|original/i.test(txt)) btn.style.display = viewPlayerAtivo() ? '' : 'none';
+            });
+        } catch(e) {}
+    };
+    function aplicarEstadoViewPlayerBotao(){
+        const btn = document.getElementById('btnToggleViewPlayerCronos');
+        if (!btn) return;
+        const ativo = viewPlayerAtivo();
+        btn.textContent = 'ViewPlayer [' + (ativo ? 'ON' : 'OFF') + ']';
+        btn.classList.toggle('viewplayer-off-cronos', !ativo);
+        btn.classList.toggle('letras-ligadas-cronos', ativo);
+        btn.classList.toggle('letras-desligadas-cronos', !ativo);
+        btn.title = ativo ? 'ViewPlayer aparece nos players.' : 'ViewPlayer oculto nas fichas e episódios.';
+    }
+
+    function limparNome(txt){ return String(txt || '').replace(/^\s*[▶#\d\s.\-–—]+/,'').replace(/\s+/g,' ').trim(); }
+    function detectarNomePorUrl(url){
+        const u = String(url || '').toLowerCase();
+        if(/megaembed\.link/i.test(u)) return 'MegaEmbed';
+        if(/playerembedapi\.link/i.test(u)) return 'PlayerEmbedAPI';
+        if(/superembeds\.com/i.test(u)) return 'SuperEmbeds';
+        if(/warezcdn\.lat/i.test(u)) return 'WarezCDN';
+        if(/superflixapi/i.test(u)) return 'Superflix API';
+        if(/viewplayer\.online/i.test(u)) return 'ViewPlayer';
+        if(/playerthree\.online/i.test(u)) return 'PlayerThree';
+        if(/trembed/i.test(u)) return 'Trembed';
+        return 'Player';
+    }
+    function nomeFonte(p, idx){ return limparNome((p && (p.nomeRender || p.nome || p.label)) || detectarNomePorUrl(p && p.src) || ('Player ' + (idx + 1))); }
+    function chaveFonte(p){ return String(p && p.src || '').replace(/#.*$/,'').replace(/\/+$/,'').trim().toLowerCase(); }
+
+    function garantirBotaoVoltarPlayer(){
+        const nav = document.querySelector('.navbar');
+        const brand = nav && nav.querySelector('.nav-brand');
+        if(!nav || !brand) return null;
+        let btn = document.getElementById('btnVoltarPlayerAtivoCRONOS');
+        if(!btn){
+            btn = document.createElement('button');
+            btn.id = 'btnVoltarPlayerAtivoCRONOS';
+            btn.type = 'button';
+            btn.textContent = 'PLAYER';
+            btn.onclick = function(){
+                try { ativarTela('telaPlayer'); } catch(e) {
+                    document.querySelectorAll('.view-container').forEach(t => t.classList.remove('ativa'));
+                    const tela = document.getElementById('telaPlayer');
+                    if(tela) tela.classList.add('ativa');
+                }
+                atualizarBotaoVoltarPlayer();
+            };
+            brand.insertAdjacentElement('afterend', btn);
+        }
+        return btn;
+    }
+    function playerTemSrc(){
+        const iframe = document.getElementById('iframePlayer');
+        const src = iframe && iframe.getAttribute('src');
+        return !!(src && src !== 'about:blank');
+    }
+    function telaPlayerAtiva(){ return !!document.querySelector('#telaPlayer.view-container.ativa, #telaPlayer.ativa'); }
+    function atualizarBotaoVoltarPlayer(){
+        const btn = garantirBotaoVoltarPlayer();
+        if(!btn) return;
+        btn.classList.toggle('visivel', playerTemSrc() && !telaPlayerAtiva());
+    }
+
+    function garantirBotaoTrocarPlayer(){
+        const tela = document.getElementById('telaPlayer');
+        const wrapper = tela && tela.querySelector('.player-wrapper');
+        if(!tela || !wrapper) return null;
+        let row = document.getElementById('cronosPlayerBottomRowV24');
+        if(!row){
+            row = document.createElement('div');
+            row.id = 'cronosPlayerBottomRowV24';
+            wrapper.insertAdjacentElement('afterend', row);
+        } else if(row.previousElementSibling !== wrapper){
+            wrapper.insertAdjacentElement('afterend', row);
+        }
+        let btn = document.getElementById('cronosTrocarPlayerBtnV28');
+        if(!btn){
+            btn = document.createElement('button');
+            btn.id = 'cronosTrocarPlayerBtnV28';
+            btn.type = 'button';
+            btn.textContent = 'Trocar Player';
+            btn.onclick = window.cronosAbrirTrocarPlayerV28;
+        }
+        const label = document.getElementById('cronosPlayerTipoLabelDesktopV24');
+        const nav = document.getElementById('playerNavegacao');
+        if(label && label.parentElement === row) label.insertAdjacentElement('afterend', btn);
+        else if(btn.parentElement !== row) row.insertBefore(btn, row.firstChild);
+        if(nav && nav.parentElement !== row) row.appendChild(nav);
+        atualizarTrocarPlayerDisponivel();
+        return btn;
+    }
+    function listaAtualFontes(){
+        try {
+            const data = window.__cronosUltimaListaFontesEpisodio;
+            const fontes = data && Array.isArray(data.fontes) ? data.fontes : [];
+            return (typeof window.cronosFiltrarViewPlayerOpcao === 'function') ? window.cronosFiltrarViewPlayerOpcao(fontes) : fontes;
+        } catch(e) { return []; }
+    }
+    function atualizarTrocarPlayerDisponivel(){
+        const btn = document.getElementById('cronosTrocarPlayerBtnV28');
+        if(!btn) return;
+        const fontes = listaAtualFontes();
+        const pode = fontes.length > 1;
+        btn.style.display = pode ? '' : 'none';
+        btn.disabled = !pode;
+    }
+    function modalElementos(){
+        let modal = document.getElementById('modalFontesEpisodioCronos');
+        if(!modal){
+            modal = document.createElement('div');
+            modal.id = 'modalFontesEpisodioCronos';
+            modal.className = 'modal-fontes-episodio-cronos';
+            modal.innerHTML = '<div class="modal-fontes-episodio-box"><h3 id="modalFontesEpisodioTituloCronos">Trocar Player</h3><p id="modalFontesEpisodioTextoCronos">Escolha outra fonte.</p><div class="modal-fontes-episodio-lista" id="modalFontesEpisodioListaCronos"></div><button type="button" class="modal-fontes-episodio-close" id="modalFontesEpisodioFecharCronos">Cancelar</button></div>';
+            document.body.appendChild(modal);
+            modal.addEventListener('click', e => { if(e.target === modal) modal.style.display = 'none'; });
+        }
+        const fechar = document.getElementById('modalFontesEpisodioFecharCronos');
+        if(fechar) fechar.onclick = () => modal.style.display = 'none';
+        return {
+            modal,
+            titulo: document.getElementById('modalFontesEpisodioTituloCronos'),
+            texto: document.getElementById('modalFontesEpisodioTextoCronos'),
+            lista: document.getElementById('modalFontesEpisodioListaCronos')
+        };
+    }
+    window.cronosAbrirTrocarPlayerV28 = function(){
+        const data = window.__cronosUltimaListaFontesEpisodio || {};
+        const fontes = listaAtualFontes();
+        if(!fontes.length) return;
+        const ui = modalElementos();
+        if(ui.titulo) ui.titulo.textContent = 'Trocar Player';
+        if(ui.texto) ui.texto.textContent = 'Escolha outra fonte para continuar o mesmo episódio.';
+        if(ui.lista) {
+            ui.lista.innerHTML = '';
+            fontes.forEach((p, idx) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'btn-assistir ' + (/megaembed|playerembedapi|superembed|warez|superflix/i.test(String(p.src || '')) ? 'btn-cronos-player-direto' : 'btn-cronos-player-original');
+                const nome = nomeFonte(p, idx);
+                btn.textContent = '▶ #' + (idx + 1) + ' ' + nome;
+                btn.title = p.src || '';
+                btn.onclick = function(){
+                    try {
+                        window.__cronosPlayerEscolhidoSessao = { ativo:true, index:idx, nome, classe:String(p.classe || p.tipo || ''), src:String(p.src || ''), chave:chaveFonte(p) };
+                        window.__cronosPlayerNomeAtual = nome;
+                        if(typeof window.cronosDefinirPlayerAtualV27 === 'function') window.cronosDefinirPlayerAtualV27(nome, { index:idx, classe:p.classe || p.tipo || '', src:p.src || '', memorizar:true });
+                    } catch(e) {}
+                    ui.modal.style.display = 'none';
+                    if(typeof window.abrirPlayer === 'function') window.abrirPlayer(data.titulo || document.getElementById('playerTitulo')?.textContent || 'Player', p.src, { playerNome:nome, playerIndex:idx, playerClasse:p.classe || p.tipo || '' });
+                };
+                ui.lista.appendChild(btn);
+            });
+        }
+        ui.modal.style.display = 'flex';
+    };
+
+    const abrirBase = window.abrirPlayer;
+    if(typeof abrirBase === 'function' && !abrirBase.__cronosV28PlayerControls){
+        window.abrirPlayer = function(titulo, urlVideo, meta){
+            const r = abrirBase.apply(this, arguments);
+            setTimeout(() => {
+                garantirBotaoTrocarPlayer();
+                atualizarBotaoVoltarPlayer();
+                atualizarTrocarPlayerDisponivel();
+            }, 50);
+            setTimeout(() => {
+                garantirBotaoTrocarPlayer();
+                atualizarTrocarPlayerDisponivel();
+            }, 250);
+            return r;
+        };
+        window.abrirPlayer.__cronosV28PlayerControls = true;
+        try { abrirPlayer = window.abrirPlayer; } catch(e) {}
+    }
+    const fecharBase = window.fecharPlayer;
+    if(typeof fecharBase === 'function' && !fecharBase.__cronosV28PlayerControls){
+        window.fecharPlayer = function(){
+            const r = fecharBase.apply(this, arguments);
+            window.__cronosUltimaListaFontesEpisodio = null;
+            const btn = document.getElementById('cronosTrocarPlayerBtnV28');
+            if(btn) btn.style.display = 'none';
+            atualizarBotaoVoltarPlayer();
+            return r;
+        };
+        window.fecharPlayer.__cronosV28PlayerControls = true;
+        try { fecharPlayer = window.fecharPlayer; } catch(e) {}
+    }
+    const ativarBase = window.ativarTela;
+    if(typeof ativarBase === 'function' && !ativarBase.__cronosV28PlayerAtivoBtn){
+        window.ativarTela = function(){
+            const r = ativarBase.apply(this, arguments);
+            setTimeout(atualizarBotaoVoltarPlayer, 40);
+            return r;
+        };
+        window.ativarTela.__cronosV28PlayerAtivoBtn = true;
+        try { ativarTela = window.ativarTela; } catch(e) {}
+    }
+
+    function iniciar(){
+        aplicarEstadoViewPlayerBotao();
+        garantirBotaoVoltarPlayer();
+        garantirBotaoTrocarPlayer();
+        atualizarBotaoVoltarPlayer();
+        atualizarTrocarPlayerDisponivel();
+    }
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
+    else iniciar();
+    setInterval(() => { atualizarBotaoVoltarPlayer(); atualizarTrocarPlayerDisponivel(); aplicarEstadoViewPlayerBotao(); }, 1500);
 })();
 </script>
 
