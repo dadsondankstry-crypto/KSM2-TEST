@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CINE4</title>
+    <title>06</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -4874,90 +4874,11 @@ img { max-width: 100%; }
 
 
 
-
-<style id="cronos-v28-viewplayer-player-controls-css">
-/* CRONOS V28 — ViewPlayer toggle + player controls */
-#btnToggleViewPlayerCronos.viewplayer-off-cronos {
-    color: #ffcc00 !important;
-    border-color: #ffcc00 !important;
-}
-#telaConfiguracoes #btnToggleViewPlayerCronos.letras-desligadas-cronos,
-#mobileMenuLinksCronos #btnToggleViewPlayerCronos.letras-desligadas-cronos {
-    color: #ffcc00 !important;
-    border-color: #ffcc00 !important;
-    background: #111 !important;
-}
-#telaConfiguracoes #btnToggleViewPlayerCronos.letras-ligadas-cronos,
-#mobileMenuLinksCronos #btnToggleViewPlayerCronos.letras-ligadas-cronos {
-    background: #8a2be2 !important;
-    border-color: #8a2be2 !important;
-    color: #fff !important;
-    box-shadow: 0 0 10px #8a2be2 !important;
-}
-#btnVoltarPlayerAtivoCRONOS {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    min-height: 34px;
-    padding: 8px 14px;
-    margin-left: 10px;
-    border: 1px solid #00ffff;
-    border-radius: 5px;
-    background: #ffcc00;
-    color: #000;
-    font-size: 12px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: .6px;
-    cursor: pointer;
-    box-shadow: 0 0 12px rgba(255,204,0,.55);
-    animation: cronosPulsePlayerAtivo 1.4s infinite;
-    z-index: 1005;
-}
-#btnVoltarPlayerAtivoCRONOS.visivel { display: inline-flex; }
-#btnVoltarPlayerAtivoCRONOS:hover { background:#00ffff; border-color:#ffcc00; box-shadow:0 0 16px rgba(0,255,255,.75); }
-@keyframes cronosPulsePlayerAtivo { 0%,100%{transform:scale(1);filter:brightness(1)} 50%{transform:scale(1.04);filter:brightness(1.18)} }
-#cronosTrocarPlayerBtnV28 {
-    min-width: 145px;
-    padding: 12px 16px;
-    background: #111;
-    color: #00ffff;
-    border: 1px solid #00ffff;
-    border-radius: 4px;
-    font-weight: 900;
-    cursor: pointer;
-    text-transform: uppercase;
-    text-align: center;
-}
-#cronosTrocarPlayerBtnV28:hover { background:#00ffff; color:#000; box-shadow:0 0 12px rgba(0,255,255,.75); }
-#cronosTrocarPlayerBtnV28[disabled] { opacity:.35; cursor:not-allowed; box-shadow:none; background:#111; color:#777; border-color:#333; }
-#cronosPlayerBottomRowV24 {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 10px !important;
-    flex-wrap: wrap !important;
-}
-#cronosPlayerBottomRowV24 #playerNavegacao {
-    margin: 0 !important;
-}
-@media (max-width: 900px) {
-    #btnVoltarPlayerAtivoCRONOS { margin-left: 0; margin-top: 4px; min-height: 40px; padding: 10px 16px; font-size: 12px; }
-    #cronosTrocarPlayerBtnV28,
-    #cronosPlayerBottomRowV24 .cronos-player-tipo-label-v24,
-    #cronosPlayerBottomRowV24 #playerNavegacao,
-    #cronosPlayerBottomRowV24 #playerNavegacao .btn-nav-ep {
-        width: 100% !important;
-        min-width: 0 !important;
-    }
-}
-</style>
-
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="nav-brand">CINE4</div>
+        <div class="nav-brand">CINE 3</div>
         <ul class="nav-links">
             <li><button class="nav-btn ativa" onclick="iniciarNavegacao('telaInicio', 'https://www.boraflix.click/', this)">Início</button></li>
             <li><button class="nav-btn" onclick="iniciarNavegacao('telaFilmes', 'https://www.boraflix.click/filmes/', this)">Filmes</button></li>
@@ -5179,7 +5100,7 @@ img { max-width: 100%; }
             <button class="btn-fechar-player" onclick="fecharPlayer()">X Fechar Player</button>
         </div>
         <div class="player-wrapper">
-            <iframe id="iframePlayer" src="" allowfullscreen></iframe>
+            <iframe id="iframePlayer" src="" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="origin-when-cross-origin"></iframe>
         </div>
         <div class="player-navegacao" id="playerNavegacao" style="display:none;">
             <button class="btn-nav-ep" id="btnEpAnterior" style="display:none;">Episódio Anterior</button>
@@ -5188,7 +5109,9 @@ img { max-width: 100%; }
     </div>
 
 <script>
-const PROXY = 'https://fragrant-unit-a421.dadsondankstry.workers.dev/?url=';
+const PROXY = 'https://dark-boat-e972.getapi-oi.workers.dev/?url=';
+const CRONOS_VIAPLAYER_WORKER_BASE = 'https://dark-boat-e972.getapi-oi.workers.dev';
+const CRONOS_VIAPLAYER_CLEAN = CRONOS_VIAPLAYER_WORKER_BASE.replace(/\/+$/,'') + '/viewplayer-clean?url=';
 const SITE_CODE = 'B01';
 let telaAnterior = 'telaInicio'; 
 let paginaAtual = { 'telaFilmes': 1, 'telaSeries': 1, 'telaBusca': 1, 'telaEpisodios': 1, 'telaTemporadas': 1, 'telaAnimes': 1 };
@@ -6483,7 +6406,7 @@ function normalizarImagemCard(url) {
                 b01: { base: 'https://www.boraflix.click/' },
                 p02: { base: 'https://www.boraflixtv.com/' }
             };
-            const keyAtual = window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || (window.obraSendoVista && window.obraSendoVista.providerKey) || 'p01';
+            const keyAtual = window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || (window.obraSendoVista && window.obraSendoVista.providerKey) || 'b01';
             const baseAtual = (providers[keyAtual] && providers[keyAtual].base) || providers.b01.base;
             limpa = new URL(limpa, baseAtual).href;
         } catch(e) {}
@@ -6506,7 +6429,7 @@ function normalizarBackdropOriginal(url) {
                 b01: { base: 'https://www.boraflix.click/' },
                 p02: { base: 'https://www.boraflixtv.com/' }
             };
-            const keyAtual = window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || (window.obraSendoVista && window.obraSendoVista.providerKey) || 'p01';
+            const keyAtual = window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || (window.obraSendoVista && window.obraSendoVista.providerKey) || 'b01';
             const baseAtual = (providers[keyAtual] && providers[keyAtual].base) || providers.b01.base;
             limpa = new URL(limpa, baseAtual).href;
         } catch(e) {}
@@ -8053,28 +7976,28 @@ async function dbClear(nomeStore) {
 
 function providerPorUrl(url){
     const s = String(url || '');
-    if (/primeflix\.mom/i.test(s)) return 'p08';
-    if (/lisoflix\.net/i.test(s)) return 'p07';
-    if (/superseries\.life/i.test(s)) return 'p06';
-    if (/seriesonlineweb\.lol/i.test(s)) return 'p05';
-    if (/ebaflix\.com/i.test(s)) return 'p04';
-    if (/megacine\.boats/i.test(s)) return 'p03';
+    if (/primeflix\.mom/i.test(s)) return 'primeflix';
+    if (/lisoflix\.net/i.test(s)) return 'l07';
+    if (/superseries\.life/i.test(s)) return 'u06';
+    if (/seriesonlineweb\.lol/i.test(s)) return 's05';
+    if (/ebaflix\.com/i.test(s)) return 'e04';
+    if (/megacine\.boats/i.test(s)) return 'm03';
     if (/boraflixtv\.com/i.test(s)) return 'p02';
-    if (/boraflix\.click/i.test(s)) return 'p01';
-    return window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || 'p01';
+    if (/boraflix\.click/i.test(s)) return 'b01';
+    return window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || 'b01';
 }
 
 function providerInfoCronos(key){
     const providers = window.CRONOS_MULTI_PROVIDERS || {};
     const mapaFallback = {
-        b01: { key: 'p01', sigla: 'BORA', nome: 'Fonte BORA', base: 'https://www.boraflix.click/' },
-        p02: { key: 'p02', sigla: 'ORG', nome: 'Fonte ORG', base: 'https://www.boraflixtv.com/' },
-        m03: { key: 'p03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/' },
-        e04: { key: 'p04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/' },
-        s05: { key: 'p05', sigla: 'WEB', nome: 'Fonte WEB', base: 'https://www.seriesonlineweb.lol/' },
-        u06: { key: 'p06', sigla: 'SUP', nome: 'Fonte SUP', base: 'https://superseries.life/' },
-        l07: { key: 'p07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/' },
-        primeflix: { key: 'p08', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/' }
+        b01: { key: 'b01', sigla: 'BFCK', nome: 'Fonte BFCK', base: 'https://www.boraflix.click/' },
+        p02: { key: 'p02', sigla: 'BFTV', nome: 'Fonte BFTV', base: 'https://www.boraflixtv.com/' },
+        m03: { key: 'm03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/' },
+        e04: { key: 'e04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/' },
+        s05: { key: 's05', sigla: 'SWEB', nome: 'Fonte SWEB', base: 'https://www.seriesonlineweb.lol/' },
+        u06: { key: 'u06', sigla: 'SSUP', nome: 'Fonte SSUP', base: 'https://superseries.life/' },
+        l07: { key: 'l07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/' },
+        primeflix: { key: 'primeflix', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/' }
     };
     return providers[key] || mapaFallback[key] || mapaFallback.b01;
 }
@@ -9151,13 +9074,12 @@ async function renderizarBotoesPlayerUnificadoCronos(titulo, doc, htmlDetalhe, i
     }
 
     area.innerHTML = '';
-    const finalRender = (typeof window.cronosFiltrarViewPlayerOpcao === 'function') ? window.cronosFiltrarViewPlayerOpcao(final) : final;
-    if (!finalRender.length) {
+    if (!final.length) {
         area.innerHTML = '<span style="color:#ff0055; font-weight:bold;">Player não encontrado na página base.</span>';
         return;
     }
 
-    finalRender.forEach((p, idx) => {
+    final.forEach((p, idx) => {
         const isOriginal = /original/i.test(p.label || '') || p.tipo === 'original' || p.tipo === 'principal';
         const btn = document.createElement('button');
         btn.className = 'btn-assistir';
@@ -11228,10 +11150,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
         if(!ep) return;
         window.__cronosPendingEpisodeV22 = { index: ep.index, titulo: ep.titulo, url: ep.url, nativeUrl: ep.nativeUrl, playerUrl: ep.playerUrl };
         if(ep.nativeUrl && typeof window.prepararEpisodioDooplay === 'function') window.prepararEpisodioDooplay(ep.titulo, ep.nativeUrl);
-        else if((ep.playerUrl || ep.url) && /viewplayer\.online/i.test(String(ep.playerUrl || ep.url)) && typeof window.cronosViewPlayerAtivoOpcao === 'function' && !window.cronosViewPlayerAtivoOpcao()) {
-            if(typeof window.cronosAvisarSomenteViaPlayerEpisodio === 'function') window.cronosAvisarSomenteViaPlayerEpisodio(ep.titulo || 'Episódio');
-            else alert('Este episódio só está disponível no Via Player. Ative o botão Via Player em Configurações para assistir.');
-        }
         else if(typeof window.abrirPlayer === 'function') window.abrirPlayer(ep.titulo, ep.playerUrl || ep.url);
     }
     function aplicar(titulo, urlVideo){
@@ -12404,8 +12322,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 .cronos-provider-btn.desligado:hover { background:#ff3030; color:#000; box-shadow:0 0 12px rgba(255,48,48,.55); }
 .cronos-provider-help { color:#aaa; font-size:13px; line-height:1.45; margin:4px 0 0; }
 .badge-provedor-cronos { display:none !important; }
-.card-item[data-provider="p01"] .badge-qualidade,
-.badge-qualidade.provider-bora {
+.card-item[data-provider="b01"] .badge-qualidade,
+.badge-qualidade.provider-bfck {
     background:#00e5ff;
     color:#000;
     border:1px solid #00e5ff;
@@ -12416,51 +12334,51 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     color:#000;
     border:1px solid #ffcc00;
 }
-.card-item[data-provider="p03"] .badge-qualidade,
+.card-item[data-provider="m03"] .badge-qualidade,
 .badge-qualidade.provider-mega {
     background:#00ff88;
     color:#000;
     border:1px solid #00ff88;
 }
-.card-item[data-provider="p04"] .badge-qualidade,
+.card-item[data-provider="e04"] .badge-qualidade,
 .badge-qualidade.provider-eba {
     background:#ff4dff;
     color:#000;
     border:1px solid #ff4dff;
 }
-.card-item[data-provider="p05"] .badge-qualidade,
+.card-item[data-provider="s05"] .badge-qualidade,
 .badge-qualidade.provider-sweb {
     background:#ff8c00;
     color:#000;
     border:1px solid #ff8c00;
 }
-.card-item[data-provider="p06"] .badge-qualidade,
+.card-item[data-provider="u06"] .badge-qualidade,
 .badge-qualidade.provider-ssup {
     background:#66ccff;
     color:#000;
     border:1px solid #66ccff;
 }
-.card-item[data-provider="p07"] .badge-qualidade,
+.card-item[data-provider="l07"] .badge-qualidade,
 .badge-qualidade.provider-liso {
     background:#b6ff00;
     color:#000;
     border:1px solid #b6ff00;
 }
-.card-item[data-provider="p08"] .badge-qualidade,
+.card-item[data-provider="primeflix"] .badge-qualidade,
 .badge-qualidade.provider-prime {
     background:#ff2d55;
     color:#fff;
     border:1px solid #ff2d55;
 }
 .cronos-provider-oculto { display:none !important; }
-.premium-slide[data-provider="p08"]::before,
-.premium-slide[data-provider="p07"]::before,
-.premium-slide[data-provider="p06"]::before,
-.premium-slide[data-provider="p05"]::before,
-.premium-slide[data-provider="p04"]::before,
-.premium-slide[data-provider="p03"]::before,
+.premium-slide[data-provider="primeflix"]::before,
+.premium-slide[data-provider="l07"]::before,
+.premium-slide[data-provider="u06"]::before,
+.premium-slide[data-provider="s05"]::before,
+.premium-slide[data-provider="e04"]::before,
+.premium-slide[data-provider="m03"]::before,
 .premium-slide[data-provider="p02"]::before,
-.premium-slide[data-provider="p01"]::before {
+.premium-slide[data-provider="b01"]::before {
     content: attr(data-provider-label);
     position:absolute;
     top:14px;
@@ -12475,31 +12393,31 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     font-weight:bold;
 }
 .premium-slide[data-provider="p02"]::before { border-color:#ffcc00; color:#ffcc00; }
-.premium-slide[data-provider="p03"]::before { border-color:#00ff88; color:#00ff88; }
-.premium-slide[data-provider="p04"]::before { border-color:#ff4dff; color:#ff4dff; }
-.premium-slide[data-provider="p05"]::before { border-color:#ff8c00; color:#ff8c00; }
-.premium-slide[data-provider="p06"]::before { border-color:#66ccff; color:#66ccff; }
-.premium-slide[data-provider="p07"]::before { border-color:#b6ff00; color:#b6ff00; }
-.premium-slide[data-provider="p08"]::before { border-color:#ff2d55; color:#ff2d55; }
+.premium-slide[data-provider="m03"]::before { border-color:#00ff88; color:#00ff88; }
+.premium-slide[data-provider="e04"]::before { border-color:#ff4dff; color:#ff4dff; }
+.premium-slide[data-provider="s05"]::before { border-color:#ff8c00; color:#ff8c00; }
+.premium-slide[data-provider="u06"]::before { border-color:#66ccff; color:#66ccff; }
+.premium-slide[data-provider="l07"]::before { border-color:#b6ff00; color:#b6ff00; }
+.premium-slide[data-provider="primeflix"]::before { border-color:#ff2d55; color:#ff2d55; }
 
 /* PRIME — card de episódios no padrão aprovado: tag superior, thumb 16:9 e tags inferiores fora da imagem */
-.card-item.episodio-home-card[data-provider="p08"] {
+.card-item.episodio-home-card[data-provider="primeflix"] {
     justify-content:flex-start !important;
     padding:10px !important;
     min-height:200px !important;
 }
-.card-item.episodio-home-card[data-provider="p08"] .episodio-tag-top {
+.card-item.episodio-home-card[data-provider="primeflix"] .episodio-tag-top {
     width:100% !important;
     display:flex !important;
     justify-content:flex-start !important;
     margin-bottom:6px !important;
 }
-.card-item.episodio-home-card[data-provider="p08"] .episodio-tag-top .badge-tipo {
+.card-item.episodio-home-card[data-provider="primeflix"] .episodio-tag-top .badge-tipo {
     position:static !important;
     display:inline-flex !important;
     width:fit-content !important;
 }
-.card-item.episodio-home-card[data-provider="p08"] .card-media.episodio-media {
+.card-item.episodio-home-card[data-provider="primeflix"] .card-media.episodio-media {
     width:100% !important;
     aspect-ratio:16/9 !important;
     height:auto !important;
@@ -12511,7 +12429,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     align-items:center !important;
     justify-content:center !important;
 }
-.card-item.episodio-home-card[data-provider="p08"] .card-media.episodio-media img {
+.card-item.episodio-home-card[data-provider="primeflix"] .card-media.episodio-media img {
     width:100% !important;
     height:100% !important;
     object-fit:contain !important;
@@ -12520,7 +12438,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     margin:0 !important;
     background:#000 !important;
 }
-.card-item.episodio-home-card[data-provider="p08"] .episodio-tags-bottom {
+.card-item.episodio-home-card[data-provider="primeflix"] .episodio-tags-bottom {
     width:100% !important;
     display:flex !important;
     align-items:center !important;
@@ -12528,14 +12446,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     gap:8px !important;
     margin-bottom:8px !important;
 }
-.card-item.episodio-home-card[data-provider="p08"] .episodio-tags-bottom .badge-data-episodio,
-.card-item.episodio-home-card[data-provider="p08"] .episodio-tags-bottom .badge-qualidade {
+.card-item.episodio-home-card[data-provider="primeflix"] .episodio-tags-bottom .badge-data-episodio,
+.card-item.episodio-home-card[data-provider="primeflix"] .episodio-tags-bottom .badge-qualidade {
     position:static !important;
     display:inline-flex !important;
     align-items:center !important;
     width:fit-content !important;
 }
-.card-item.episodio-home-card[data-provider="p08"] h3 {
+.card-item.episodio-home-card[data-provider="primeflix"] h3 {
     color:#fff !important;
     font-size:14px !important;
     font-weight:bold !important;
@@ -12543,7 +12461,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     text-align:center !important;
     line-height:1.2 !important;
 }
-.card-item.episodio-home-card[data-provider="p08"] .ano-card {
+.card-item.episodio-home-card[data-provider="primeflix"] .ano-card {
     color:#b742ff !important;
     font-size:13px !important;
     font-weight:bold !important;
@@ -12559,39 +12477,24 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
     const STORAGE_FONTES = 'cronos_providers_ativos';
     const STORAGE_FILTROS = 'cronos_filtros_visuais';
-    const ORDEM_PROVEDORES = ['p01', 'p02', 'p03', 'p04', 'p05', 'p06', 'p07', 'p08'];
+    const ORDEM_PROVEDORES = ['b01', 'p02', 'm03', 'e04', 's05', 'u06', 'l07', 'primeflix'];
     const PROVIDERS = {
-        b01: { key: 'p01', sigla: 'BORA', nome: 'Fonte BORA', base: 'https://www.boraflix.click/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
-        p02: { key: 'p02', sigla: 'ORG', nome: 'Fonte ORG', base: 'https://www.boraflixtv.com/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
-        m03: { key: 'p03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/', generoBase: '/generos/', semEpisodios: true, semAno: true, semLetras: true },
-        e04: { key: 'p04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/', generoBase: '', semCategoria: true, semEpisodios: true, semAno: true },
-        s05: { key: 'p05', sigla: 'WEB', nome: 'Fonte WEB', base: 'https://www.seriesonlineweb.lol/', generoBase: '/generos/', semEpisodios: true, semAno: true },
-        u06: { key: 'p06', sigla: 'SUP', nome: 'Fonte SUP', base: 'https://superseries.life/', generoBase: '/generos/', semEpisodios: true, semAno: true },
-        l07: { key: 'p07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/', generoBase: '/category/', filmePath: '/movies/', seriePath: '/series/', episodioPath: '/episodio/', buscaPath: '/?s=', letrasPath: '/letra/', semEpisodios: false, semAno: true },
-        primeflix: { key: 'p08', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/', generoBase: '', filmePath: '/filmes', seriePath: '/series', episodioPath: '/episodios', buscaPath: '/pesquisar?s=', animePath: '/animes', doramaPath: '/doramas', semCategoria: true, semAno: true, semLetras: true, semEpisodios: false }
+        b01: { key: 'b01', sigla: 'BFCK', nome: 'Fonte BFCK', base: 'https://www.boraflix.click/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
+        p02: { key: 'p02', sigla: 'BFTV', nome: 'Fonte BFTV', base: 'https://www.boraflixtv.com/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
+        m03: { key: 'm03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/', generoBase: '/generos/', semEpisodios: true, semAno: true, semLetras: true },
+        e04: { key: 'e04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/', generoBase: '', semCategoria: true, semEpisodios: true, semAno: true },
+        s05: { key: 's05', sigla: 'SWEB', nome: 'Fonte SWEB', base: 'https://www.seriesonlineweb.lol/', generoBase: '/generos/', semEpisodios: true, semAno: true },
+        u06: { key: 'u06', sigla: 'SSUP', nome: 'Fonte SSUP', base: 'https://superseries.life/', generoBase: '/generos/', semEpisodios: true, semAno: true },
+        l07: { key: 'l07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/', generoBase: '/category/', filmePath: '/movies/', seriePath: '/series/', episodioPath: '/episodio/', buscaPath: '/?s=', letrasPath: '/letra/', semEpisodios: false, semAno: true },
+        primeflix: { key: 'primeflix', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/', generoBase: '', filmePath: '/filmes', seriePath: '/series', episodioPath: '/episodios', buscaPath: '/pesquisar?s=', animePath: '/animes', doramaPath: '/doramas', semCategoria: true, semAno: true, semLetras: true, semEpisodios: false }
     };
-    
-    const ALIAS_PROVEDOR = { b01:'p01', p01:'p01', p02:'p02', m03:'p03', p03:'p03', e04:'p04', p04:'p04', s05:'p05', p05:'p05', u06:'p06', p06:'p06', l07:'p07', p07:'p07', primeflix:'p08', p08:'p08' };
-    const PROVIDER_DEFAULTS = ORDEM_PROVEDORES.reduce((acc, k) => { acc[k] = true; return acc; }, {});
-    function normalizarProviderKey(key){
-        const k = String(key || '').trim();
-        return ALIAS_PROVEDOR[k] || (PROVIDERS[k] ? k : 'p01');
-    }
-    function normalizarMapaProvider(obj){
-        const out = Object.assign({}, PROVIDER_DEFAULTS);
-        Object.entries(obj || {}).forEach(([k, v]) => {
-            const nk = normalizarProviderKey(k);
-            if (nk) out[nk] = v !== false;
-        });
-        return out;
-    }
-const GENEROS_P02_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://www.boraflixtv.com/categoria/acao/"}, {"nome": "Action & Adventure", "slug": "action-adventure", "url": "https://www.boraflixtv.com/categoria/action-adventure/"}, {"nome": "Animação", "slug": "animacao", "url": "https://www.boraflixtv.com/categoria/animacao/"}, {"nome": "Aventura", "slug": "aventura", "url": "https://www.boraflixtv.com/categoria/aventura/"}, {"nome": "Canais", "slug": "canais", "url": "https://www.boraflixtv.com/categoria/canais/"}, {"nome": "Cinema TV", "slug": "cinema-tv", "url": "https://www.boraflixtv.com/categoria/cinema-tv/"}, {"nome": "Comédia", "slug": "comedia", "url": "https://www.boraflixtv.com/categoria/comedia/"}, {"nome": "Crime", "slug": "crime", "url": "https://www.boraflixtv.com/categoria/crime/"}, {"nome": "Documentário", "slug": "documentario", "url": "https://www.boraflixtv.com/categoria/documentario/"}, {"nome": "Drama", "slug": "drama", "url": "https://www.boraflixtv.com/categoria/drama/"}, {"nome": "Família", "slug": "familia", "url": "https://www.boraflixtv.com/categoria/familia/"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://www.boraflixtv.com/categoria/fantasia/"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://www.boraflixtv.com/categoria/faroeste/"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://www.boraflixtv.com/categoria/ficcao-cientifica/"}, {"nome": "Guerra & Política", "slug": "guerra-politica", "url": "https://www.boraflixtv.com/categoria/guerra-politica/"}, {"nome": "Guerra", "slug": "guerra", "url": "https://www.boraflixtv.com/categoria/guerra/"}, {"nome": "História", "slug": "historia", "url": "https://www.boraflixtv.com/categoria/historia/"}, {"nome": "Kids", "slug": "kids", "url": "https://www.boraflixtv.com/categoria/kids/"}, {"nome": "Mistério", "slug": "misterio", "url": "https://www.boraflixtv.com/categoria/misterio/"}, {"nome": "Música", "slug": "musica", "url": "https://www.boraflixtv.com/categoria/musica/"}, {"nome": "Reality", "slug": "reality", "url": "https://www.boraflixtv.com/categoria/reality/"}, {"nome": "Romance", "slug": "romance", "url": "https://www.boraflixtv.com/categoria/romance/"}, {"nome": "Sci-Fi & Fantasy", "slug": "sci-fi-fantasy", "url": "https://www.boraflixtv.com/categoria/sci-fi-fantasy/"}, {"nome": "Soap", "slug": "soap", "url": "https://www.boraflixtv.com/categoria/soap/"}, {"nome": "Terror", "slug": "terror", "url": "https://www.boraflixtv.com/categoria/terror/"}, {"nome": "Thriller", "slug": "thriller", "url": "https://www.boraflixtv.com/categoria/thriller/"}, {"nome": "War & Politics", "slug": "war-politics", "url": "https://www.boraflixtv.com/categoria/war-politics/"}];
-        const GENEROS_M03_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://megacine.boats/generos/acao", "providerKey": "p03"}, {"nome": "Animação", "slug": "animacao", "url": "https://megacine.boats/generos/animacao", "providerKey": "p03"}, {"nome": "Aventura", "slug": "aventura", "url": "https://megacine.boats/generos/aventura", "providerKey": "p03"}, {"nome": "Comédia", "slug": "comedia", "url": "https://megacine.boats/generos/comedia", "providerKey": "p03"}, {"nome": "Crime", "slug": "crime", "url": "https://megacine.boats/generos/crime", "providerKey": "p03"}, {"nome": "Documentário", "slug": "documentario", "url": "https://megacine.boats/generos/documentario", "providerKey": "p03"}, {"nome": "Drama", "slug": "drama", "url": "https://megacine.boats/generos/drama", "providerKey": "p03"}, {"nome": "Família", "slug": "familia", "url": "https://megacine.boats/generos/familia", "providerKey": "p03"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://megacine.boats/generos/fantasia", "providerKey": "p03"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://megacine.boats/generos/faroeste", "providerKey": "p03"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://megacine.boats/generos/ficcao-cientifica", "providerKey": "p03"}, {"nome": "Guerra", "slug": "guerra", "url": "https://megacine.boats/generos/guerra", "providerKey": "p03"}, {"nome": "História", "slug": "historia", "url": "https://megacine.boats/generos/historia", "providerKey": "p03"}, {"nome": "Kids", "slug": "kids", "url": "https://megacine.boats/generos/kids", "providerKey": "p03"}, {"nome": "Mistério", "slug": "misterio", "url": "https://megacine.boats/generos/misterio", "providerKey": "p03"}, {"nome": "Música", "slug": "musica", "url": "https://megacine.boats/generos/musica", "providerKey": "p03"}, {"nome": "Reality", "slug": "reality", "url": "https://megacine.boats/generos/reality", "providerKey": "p03"}, {"nome": "Romance", "slug": "romance", "url": "https://megacine.boats/generos/romance", "providerKey": "p03"}, {"nome": "Terror", "slug": "terror", "url": "https://megacine.boats/generos/terror", "providerKey": "p03"}];
+    const GENEROS_P02_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://www.boraflixtv.com/categoria/acao/"}, {"nome": "Action & Adventure", "slug": "action-adventure", "url": "https://www.boraflixtv.com/categoria/action-adventure/"}, {"nome": "Animação", "slug": "animacao", "url": "https://www.boraflixtv.com/categoria/animacao/"}, {"nome": "Aventura", "slug": "aventura", "url": "https://www.boraflixtv.com/categoria/aventura/"}, {"nome": "Canais", "slug": "canais", "url": "https://www.boraflixtv.com/categoria/canais/"}, {"nome": "Cinema TV", "slug": "cinema-tv", "url": "https://www.boraflixtv.com/categoria/cinema-tv/"}, {"nome": "Comédia", "slug": "comedia", "url": "https://www.boraflixtv.com/categoria/comedia/"}, {"nome": "Crime", "slug": "crime", "url": "https://www.boraflixtv.com/categoria/crime/"}, {"nome": "Documentário", "slug": "documentario", "url": "https://www.boraflixtv.com/categoria/documentario/"}, {"nome": "Drama", "slug": "drama", "url": "https://www.boraflixtv.com/categoria/drama/"}, {"nome": "Família", "slug": "familia", "url": "https://www.boraflixtv.com/categoria/familia/"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://www.boraflixtv.com/categoria/fantasia/"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://www.boraflixtv.com/categoria/faroeste/"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://www.boraflixtv.com/categoria/ficcao-cientifica/"}, {"nome": "Guerra & Política", "slug": "guerra-politica", "url": "https://www.boraflixtv.com/categoria/guerra-politica/"}, {"nome": "Guerra", "slug": "guerra", "url": "https://www.boraflixtv.com/categoria/guerra/"}, {"nome": "História", "slug": "historia", "url": "https://www.boraflixtv.com/categoria/historia/"}, {"nome": "Kids", "slug": "kids", "url": "https://www.boraflixtv.com/categoria/kids/"}, {"nome": "Mistério", "slug": "misterio", "url": "https://www.boraflixtv.com/categoria/misterio/"}, {"nome": "Música", "slug": "musica", "url": "https://www.boraflixtv.com/categoria/musica/"}, {"nome": "Reality", "slug": "reality", "url": "https://www.boraflixtv.com/categoria/reality/"}, {"nome": "Romance", "slug": "romance", "url": "https://www.boraflixtv.com/categoria/romance/"}, {"nome": "Sci-Fi & Fantasy", "slug": "sci-fi-fantasy", "url": "https://www.boraflixtv.com/categoria/sci-fi-fantasy/"}, {"nome": "Soap", "slug": "soap", "url": "https://www.boraflixtv.com/categoria/soap/"}, {"nome": "Terror", "slug": "terror", "url": "https://www.boraflixtv.com/categoria/terror/"}, {"nome": "Thriller", "slug": "thriller", "url": "https://www.boraflixtv.com/categoria/thriller/"}, {"nome": "War & Politics", "slug": "war-politics", "url": "https://www.boraflixtv.com/categoria/war-politics/"}];
+        const GENEROS_M03_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://megacine.boats/generos/acao", "providerKey": "m03"}, {"nome": "Animação", "slug": "animacao", "url": "https://megacine.boats/generos/animacao", "providerKey": "m03"}, {"nome": "Aventura", "slug": "aventura", "url": "https://megacine.boats/generos/aventura", "providerKey": "m03"}, {"nome": "Comédia", "slug": "comedia", "url": "https://megacine.boats/generos/comedia", "providerKey": "m03"}, {"nome": "Crime", "slug": "crime", "url": "https://megacine.boats/generos/crime", "providerKey": "m03"}, {"nome": "Documentário", "slug": "documentario", "url": "https://megacine.boats/generos/documentario", "providerKey": "m03"}, {"nome": "Drama", "slug": "drama", "url": "https://megacine.boats/generos/drama", "providerKey": "m03"}, {"nome": "Família", "slug": "familia", "url": "https://megacine.boats/generos/familia", "providerKey": "m03"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://megacine.boats/generos/fantasia", "providerKey": "m03"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://megacine.boats/generos/faroeste", "providerKey": "m03"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://megacine.boats/generos/ficcao-cientifica", "providerKey": "m03"}, {"nome": "Guerra", "slug": "guerra", "url": "https://megacine.boats/generos/guerra", "providerKey": "m03"}, {"nome": "História", "slug": "historia", "url": "https://megacine.boats/generos/historia", "providerKey": "m03"}, {"nome": "Kids", "slug": "kids", "url": "https://megacine.boats/generos/kids", "providerKey": "m03"}, {"nome": "Mistério", "slug": "misterio", "url": "https://megacine.boats/generos/misterio", "providerKey": "m03"}, {"nome": "Música", "slug": "musica", "url": "https://megacine.boats/generos/musica", "providerKey": "m03"}, {"nome": "Reality", "slug": "reality", "url": "https://megacine.boats/generos/reality", "providerKey": "m03"}, {"nome": "Romance", "slug": "romance", "url": "https://megacine.boats/generos/romance", "providerKey": "m03"}, {"nome": "Terror", "slug": "terror", "url": "https://megacine.boats/generos/terror", "providerKey": "m03"}];
 const GENEROS_E04_MULTI = [];
-const GENEROS_PRIME_MULTI = [{"nome": "Animes", "slug": "animes", "url": "https://primeflix.mom/animes", "providerKey": "p08"}, {"nome": "Doramas", "slug": "doramas", "url": "https://primeflix.mom/doramas", "providerKey": "p08"}];
-const GENEROS_S05_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://www.seriesonlineweb.lol/generos/acao", "providerKey": "p05"}, {"nome": "Animação", "slug": "animacao", "url": "https://www.seriesonlineweb.lol/generos/animacao", "providerKey": "p05"}, {"nome": "Aventura", "slug": "aventura", "url": "https://www.seriesonlineweb.lol/generos/aventura", "providerKey": "p05"}, {"nome": "Comédia", "slug": "comedia", "url": "https://www.seriesonlineweb.lol/generos/comedia", "providerKey": "p05"}, {"nome": "Crime", "slug": "crime", "url": "https://www.seriesonlineweb.lol/generos/crime", "providerKey": "p05"}, {"nome": "Documentário", "slug": "documentario", "url": "https://www.seriesonlineweb.lol/generos/documentario", "providerKey": "p05"}, {"nome": "Drama", "slug": "drama", "url": "https://www.seriesonlineweb.lol/generos/drama", "providerKey": "p05"}, {"nome": "Família", "slug": "familia", "url": "https://www.seriesonlineweb.lol/generos/familia", "providerKey": "p05"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://www.seriesonlineweb.lol/generos/fantasia", "providerKey": "p05"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://www.seriesonlineweb.lol/generos/faroeste", "providerKey": "p05"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://www.seriesonlineweb.lol/generos/ficcao-cientifica", "providerKey": "p05"}, {"nome": "Guerra", "slug": "guerra", "url": "https://www.seriesonlineweb.lol/generos/guerra", "providerKey": "p05"}, {"nome": "História", "slug": "historia", "url": "https://www.seriesonlineweb.lol/generos/historia", "providerKey": "p05"}, {"nome": "Kids", "slug": "kids", "url": "https://www.seriesonlineweb.lol/generos/kids", "providerKey": "p05"}, {"nome": "Mistério", "slug": "misterio", "url": "https://www.seriesonlineweb.lol/generos/misterio", "providerKey": "p05"}, {"nome": "Música", "slug": "musica", "url": "https://www.seriesonlineweb.lol/generos/musica", "providerKey": "p05"}, {"nome": "Reality", "slug": "reality", "url": "https://www.seriesonlineweb.lol/generos/reality", "providerKey": "p05"}, {"nome": "Romance", "slug": "romance", "url": "https://www.seriesonlineweb.lol/generos/romance", "providerKey": "p05"}, {"nome": "Terror", "slug": "terror", "url": "https://www.seriesonlineweb.lol/generos/terror", "providerKey": "p05"}];
-const GENEROS_U06_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://superseries.life/generos/acao", "providerKey": "p06"}, {"nome": "Animação", "slug": "animacao", "url": "https://superseries.life/generos/animacao", "providerKey": "p06"}, {"nome": "Aventura", "slug": "aventura", "url": "https://superseries.life/generos/aventura", "providerKey": "p06"}, {"nome": "Comédia", "slug": "comedia", "url": "https://superseries.life/generos/comedia", "providerKey": "p06"}, {"nome": "Crime", "slug": "crime", "url": "https://superseries.life/generos/crime", "providerKey": "p06"}, {"nome": "Documentário", "slug": "documentario", "url": "https://superseries.life/generos/documentario", "providerKey": "p06"}, {"nome": "Drama", "slug": "drama", "url": "https://superseries.life/generos/drama", "providerKey": "p06"}, {"nome": "Família", "slug": "familia", "url": "https://superseries.life/generos/familia", "providerKey": "p06"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://superseries.life/generos/fantasia", "providerKey": "p06"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://superseries.life/generos/faroeste", "providerKey": "p06"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://superseries.life/generos/ficcao-cientifica", "providerKey": "p06"}, {"nome": "Guerra", "slug": "guerra", "url": "https://superseries.life/generos/guerra", "providerKey": "p06"}, {"nome": "História", "slug": "historia", "url": "https://superseries.life/generos/historia", "providerKey": "p06"}, {"nome": "Kids", "slug": "kids", "url": "https://superseries.life/generos/kids", "providerKey": "p06"}, {"nome": "Mistério", "slug": "misterio", "url": "https://superseries.life/generos/misterio", "providerKey": "p06"}, {"nome": "Música", "slug": "musica", "url": "https://superseries.life/generos/musica", "providerKey": "p06"}, {"nome": "Reality", "slug": "reality", "url": "https://superseries.life/generos/reality", "providerKey": "p06"}, {"nome": "Romance", "slug": "romance", "url": "https://superseries.life/generos/romance", "providerKey": "p06"}, {"nome": "Terror", "slug": "terror", "url": "https://superseries.life/generos/terror", "providerKey": "p06"}];
-const GENEROS_L07_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://lisoflix.net/category/acao/", "providerKey": "p07"}, {"nome": "Action & Adventure", "slug": "action-adventure", "url": "https://lisoflix.net/category/action-adventure/", "providerKey": "p07"}, {"nome": "Animação", "slug": "animacao", "url": "https://lisoflix.net/category/animacao/", "providerKey": "p07"}, {"nome": "Aventura", "slug": "aventura", "url": "https://lisoflix.net/category/aventura/", "providerKey": "p07"}, {"nome": "Cinema TV", "slug": "cinema-tv", "url": "https://lisoflix.net/category/cinema-tv/", "providerKey": "p07"}, {"nome": "Comédia", "slug": "comedia", "url": "https://lisoflix.net/category/comedia/", "providerKey": "p07"}, {"nome": "Crime", "slug": "crime", "url": "https://lisoflix.net/category/crime/", "providerKey": "p07"}, {"nome": "Documentário", "slug": "documentario", "url": "https://lisoflix.net/category/documentario/", "providerKey": "p07"}, {"nome": "Dorama", "slug": "dorama", "url": "https://lisoflix.net/category/dorama/", "providerKey": "p07"}, {"nome": "Drama", "slug": "drama", "url": "https://lisoflix.net/category/drama/", "providerKey": "p07"}, {"nome": "Família", "slug": "familia", "url": "https://lisoflix.net/category/familia/", "providerKey": "p07"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://lisoflix.net/category/fantasia/", "providerKey": "p07"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://lisoflix.net/category/faroeste/", "providerKey": "p07"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://lisoflix.net/category/ficcao-cientifica/", "providerKey": "p07"}, {"nome": "Guerra", "slug": "guerra", "url": "https://lisoflix.net/category/guerra/", "providerKey": "p07"}, {"nome": "História", "slug": "historia", "url": "https://lisoflix.net/category/historia/", "providerKey": "p07"}, {"nome": "Kids", "slug": "kids", "url": "https://lisoflix.net/category/kids/", "providerKey": "p07"}, {"nome": "Mistério", "slug": "misterio", "url": "https://lisoflix.net/category/misterio/", "providerKey": "p07"}, {"nome": "Música", "slug": "musica", "url": "https://lisoflix.net/category/musica/", "providerKey": "p07"}, {"nome": "Novelas", "slug": "novelas", "url": "https://lisoflix.net/category/novelas/", "providerKey": "p07"}, {"nome": "Reality", "slug": "reality", "url": "https://lisoflix.net/category/reality/", "providerKey": "p07"}, {"nome": "Romance", "slug": "romance", "url": "https://lisoflix.net/category/romance/", "providerKey": "p07"}, {"nome": "Sci-Fi & Fantasy", "slug": "sci-fi-fantasy", "url": "https://lisoflix.net/category/sci-fi-fantasy/", "providerKey": "p07"}, {"nome": "Soap", "slug": "soap", "url": "https://lisoflix.net/category/soap/", "providerKey": "p07"}, {"nome": "Terror", "slug": "terror", "url": "https://lisoflix.net/category/terror/", "providerKey": "p07"}, {"nome": "Thriller", "slug": "thriller", "url": "https://lisoflix.net/category/thriller/", "providerKey": "p07"}, {"nome": "Uncategorized", "slug": "uncategorized", "url": "https://lisoflix.net/category/uncategorized/", "providerKey": "p07"}];
+const GENEROS_PRIME_MULTI = [{"nome": "Animes", "slug": "animes", "url": "https://primeflix.mom/animes", "providerKey": "primeflix"}, {"nome": "Doramas", "slug": "doramas", "url": "https://primeflix.mom/doramas", "providerKey": "primeflix"}];
+const GENEROS_S05_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://www.seriesonlineweb.lol/generos/acao", "providerKey": "s05"}, {"nome": "Animação", "slug": "animacao", "url": "https://www.seriesonlineweb.lol/generos/animacao", "providerKey": "s05"}, {"nome": "Aventura", "slug": "aventura", "url": "https://www.seriesonlineweb.lol/generos/aventura", "providerKey": "s05"}, {"nome": "Comédia", "slug": "comedia", "url": "https://www.seriesonlineweb.lol/generos/comedia", "providerKey": "s05"}, {"nome": "Crime", "slug": "crime", "url": "https://www.seriesonlineweb.lol/generos/crime", "providerKey": "s05"}, {"nome": "Documentário", "slug": "documentario", "url": "https://www.seriesonlineweb.lol/generos/documentario", "providerKey": "s05"}, {"nome": "Drama", "slug": "drama", "url": "https://www.seriesonlineweb.lol/generos/drama", "providerKey": "s05"}, {"nome": "Família", "slug": "familia", "url": "https://www.seriesonlineweb.lol/generos/familia", "providerKey": "s05"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://www.seriesonlineweb.lol/generos/fantasia", "providerKey": "s05"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://www.seriesonlineweb.lol/generos/faroeste", "providerKey": "s05"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://www.seriesonlineweb.lol/generos/ficcao-cientifica", "providerKey": "s05"}, {"nome": "Guerra", "slug": "guerra", "url": "https://www.seriesonlineweb.lol/generos/guerra", "providerKey": "s05"}, {"nome": "História", "slug": "historia", "url": "https://www.seriesonlineweb.lol/generos/historia", "providerKey": "s05"}, {"nome": "Kids", "slug": "kids", "url": "https://www.seriesonlineweb.lol/generos/kids", "providerKey": "s05"}, {"nome": "Mistério", "slug": "misterio", "url": "https://www.seriesonlineweb.lol/generos/misterio", "providerKey": "s05"}, {"nome": "Música", "slug": "musica", "url": "https://www.seriesonlineweb.lol/generos/musica", "providerKey": "s05"}, {"nome": "Reality", "slug": "reality", "url": "https://www.seriesonlineweb.lol/generos/reality", "providerKey": "s05"}, {"nome": "Romance", "slug": "romance", "url": "https://www.seriesonlineweb.lol/generos/romance", "providerKey": "s05"}, {"nome": "Terror", "slug": "terror", "url": "https://www.seriesonlineweb.lol/generos/terror", "providerKey": "s05"}];
+const GENEROS_U06_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://superseries.life/generos/acao", "providerKey": "u06"}, {"nome": "Animação", "slug": "animacao", "url": "https://superseries.life/generos/animacao", "providerKey": "u06"}, {"nome": "Aventura", "slug": "aventura", "url": "https://superseries.life/generos/aventura", "providerKey": "u06"}, {"nome": "Comédia", "slug": "comedia", "url": "https://superseries.life/generos/comedia", "providerKey": "u06"}, {"nome": "Crime", "slug": "crime", "url": "https://superseries.life/generos/crime", "providerKey": "u06"}, {"nome": "Documentário", "slug": "documentario", "url": "https://superseries.life/generos/documentario", "providerKey": "u06"}, {"nome": "Drama", "slug": "drama", "url": "https://superseries.life/generos/drama", "providerKey": "u06"}, {"nome": "Família", "slug": "familia", "url": "https://superseries.life/generos/familia", "providerKey": "u06"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://superseries.life/generos/fantasia", "providerKey": "u06"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://superseries.life/generos/faroeste", "providerKey": "u06"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://superseries.life/generos/ficcao-cientifica", "providerKey": "u06"}, {"nome": "Guerra", "slug": "guerra", "url": "https://superseries.life/generos/guerra", "providerKey": "u06"}, {"nome": "História", "slug": "historia", "url": "https://superseries.life/generos/historia", "providerKey": "u06"}, {"nome": "Kids", "slug": "kids", "url": "https://superseries.life/generos/kids", "providerKey": "u06"}, {"nome": "Mistério", "slug": "misterio", "url": "https://superseries.life/generos/misterio", "providerKey": "u06"}, {"nome": "Música", "slug": "musica", "url": "https://superseries.life/generos/musica", "providerKey": "u06"}, {"nome": "Reality", "slug": "reality", "url": "https://superseries.life/generos/reality", "providerKey": "u06"}, {"nome": "Romance", "slug": "romance", "url": "https://superseries.life/generos/romance", "providerKey": "u06"}, {"nome": "Terror", "slug": "terror", "url": "https://superseries.life/generos/terror", "providerKey": "u06"}];
+const GENEROS_L07_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://lisoflix.net/category/acao/", "providerKey": "l07"}, {"nome": "Action & Adventure", "slug": "action-adventure", "url": "https://lisoflix.net/category/action-adventure/", "providerKey": "l07"}, {"nome": "Animação", "slug": "animacao", "url": "https://lisoflix.net/category/animacao/", "providerKey": "l07"}, {"nome": "Aventura", "slug": "aventura", "url": "https://lisoflix.net/category/aventura/", "providerKey": "l07"}, {"nome": "Cinema TV", "slug": "cinema-tv", "url": "https://lisoflix.net/category/cinema-tv/", "providerKey": "l07"}, {"nome": "Comédia", "slug": "comedia", "url": "https://lisoflix.net/category/comedia/", "providerKey": "l07"}, {"nome": "Crime", "slug": "crime", "url": "https://lisoflix.net/category/crime/", "providerKey": "l07"}, {"nome": "Documentário", "slug": "documentario", "url": "https://lisoflix.net/category/documentario/", "providerKey": "l07"}, {"nome": "Dorama", "slug": "dorama", "url": "https://lisoflix.net/category/dorama/", "providerKey": "l07"}, {"nome": "Drama", "slug": "drama", "url": "https://lisoflix.net/category/drama/", "providerKey": "l07"}, {"nome": "Família", "slug": "familia", "url": "https://lisoflix.net/category/familia/", "providerKey": "l07"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://lisoflix.net/category/fantasia/", "providerKey": "l07"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://lisoflix.net/category/faroeste/", "providerKey": "l07"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://lisoflix.net/category/ficcao-cientifica/", "providerKey": "l07"}, {"nome": "Guerra", "slug": "guerra", "url": "https://lisoflix.net/category/guerra/", "providerKey": "l07"}, {"nome": "História", "slug": "historia", "url": "https://lisoflix.net/category/historia/", "providerKey": "l07"}, {"nome": "Kids", "slug": "kids", "url": "https://lisoflix.net/category/kids/", "providerKey": "l07"}, {"nome": "Mistério", "slug": "misterio", "url": "https://lisoflix.net/category/misterio/", "providerKey": "l07"}, {"nome": "Música", "slug": "musica", "url": "https://lisoflix.net/category/musica/", "providerKey": "l07"}, {"nome": "Novelas", "slug": "novelas", "url": "https://lisoflix.net/category/novelas/", "providerKey": "l07"}, {"nome": "Reality", "slug": "reality", "url": "https://lisoflix.net/category/reality/", "providerKey": "l07"}, {"nome": "Romance", "slug": "romance", "url": "https://lisoflix.net/category/romance/", "providerKey": "l07"}, {"nome": "Sci-Fi & Fantasy", "slug": "sci-fi-fantasy", "url": "https://lisoflix.net/category/sci-fi-fantasy/", "providerKey": "l07"}, {"nome": "Soap", "slug": "soap", "url": "https://lisoflix.net/category/soap/", "providerKey": "l07"}, {"nome": "Terror", "slug": "terror", "url": "https://lisoflix.net/category/terror/", "providerKey": "l07"}, {"nome": "Thriller", "slug": "thriller", "url": "https://lisoflix.net/category/thriller/", "providerKey": "l07"}, {"nome": "Uncategorized", "slug": "uncategorized", "url": "https://lisoflix.net/category/uncategorized/", "providerKey": "l07"}];
 const ROTAS_TELA = {
         telaInicio: '/',
         telaFilmes: '/filmes/',
@@ -12603,19 +12506,7 @@ const ROTAS_TELA = {
     let contextoBuscaMulti = { tipo: 'busca', path: '', titulo: '' };
     let paginaAtualMulti = {};
 
-    
-    function migrarStorageProvedoresCronos(){
-        [STORAGE_FONTES, STORAGE_FILTROS].forEach(chave => {
-            try {
-                const atual = JSON.parse(localStorage.getItem(chave) || '{}') || {};
-                const normalizado = normalizarMapaProvider(atual);
-                localStorage.setItem(chave, JSON.stringify(normalizado));
-            } catch(e) {}
-        });
-    }
-    migrarStorageProvedoresCronos();
-
-window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
+    window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     window.ORDEM_PROVEDORES = ORDEM_PROVEDORES;
 
     function lerStorageObj(chave, padrao){
@@ -12634,26 +12525,25 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     function existeFonteAtiva(){ const e = estadoFontes(); return ORDEM_PROVEDORES.some(k => e[k]); }
     function providerPorUrl(url){
         const s = String(url || '');
-        if (/primeflix\.mom/i.test(s)) return 'p08';
-        if (/lisoflix\.net/i.test(s)) return 'p07';
-        if (/superseries\.life/i.test(s)) return 'p06';
-        if (/seriesonlineweb\.lol/i.test(s)) return 'p05';
-        if (/ebaflix\.com/i.test(s)) return 'p04';
-        if (/megacine\.boats/i.test(s)) return 'p03';
+        if (/primeflix\.mom/i.test(s)) return 'primeflix';
+        if (/lisoflix\.net/i.test(s)) return 'l07';
+        if (/superseries\.life/i.test(s)) return 'u06';
+        if (/seriesonlineweb\.lol/i.test(s)) return 's05';
+        if (/ebaflix\.com/i.test(s)) return 'e04';
+        if (/megacine\.boats/i.test(s)) return 'm03';
         if (/boraflixtv\.com/i.test(s)) return 'p02';
-        if (/boraflix\.click/i.test(s)) return 'p01';
-        return normalizarProviderKey(window.__CRONOS_RENDER_PROVIDER_KEY || 'p01');
+        if (/boraflix\.click/i.test(s)) return 'b01';
+        return window.__CRONOS_RENDER_PROVIDER_KEY || 'b01';
     }
-    function providerLabel(key){ const k = normalizarProviderKey(key); return (PROVIDERS[k] && PROVIDERS[k].sigla) || String(key || '').toUpperCase(); }
+    function providerLabel(key){ return (PROVIDERS[key] && PROVIDERS[key].sigla) || String(key || '').toUpperCase(); }
     function normalizarUrlCanonicaMulti(url){
         let u = String(url || '').trim().replace(/&amp;/g, '&');
         if (!u) return '';
-        try { const k = normalizarProviderKey(providerPorUrl(u)); u = new URL(u, (PROVIDERS[k] || PROVIDERS.p01).base).href; } catch(e) {}
+        try { u = new URL(u, PROVIDERS[providerPorUrl(u)].base).href; } catch(e) {}
         return u.replace(/[?#].*$/, '').replace(/\/+$/, '');
     }
     function providerUrl(key, urlOuPath){
-        key = normalizarProviderKey(key);
-        const p = PROVIDERS[key] || PROVIDERS.p01;
+        const p = PROVIDERS[key] || PROVIDERS.b01;
         const raw = String(urlOuPath || '/').trim();
         if (!raw) return p.base;
         try {
@@ -12672,7 +12562,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
 
     function slugGeneroMulti(titulo, urlBase){
         try {
-            const u = new URL(urlBase, PROVIDERS.p01.base);
+            const u = new URL(urlBase, PROVIDERS.b01.base);
             const partes = (u.pathname || '').split('/').filter(Boolean);
             const idx = partes.findIndex(p => /^(categoria|category|generos|genero)$/i.test(p));
             if (idx >= 0 && partes[idx + 1]) return partes[idx + 1];
@@ -12683,8 +12573,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     }
 
     function urlProviderComContexto(key, urlAlvo, idTela){
-        key = normalizarProviderKey(key);
-        const p = PROVIDERS[key] || PROVIDERS.p01;
+        const p = PROVIDERS[key] || PROVIDERS.b01;
         const raw = String(urlAlvo || '/');
         const tipoAtual = (contextoBuscaMulti && contextoBuscaMulti.tipo) || '';
         const tituloAtual = (contextoBuscaMulti && contextoBuscaMulti.titulo) || '';
@@ -12701,8 +12590,8 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
             try { termo = new URL(raw, p.base).searchParams.get('s') || ''; } catch(e) { termo = String(raw).split('s=')[1] || ''; }
             return new URL(p.buscaPath + encodeURIComponent(decodeURIComponent(termo)), p.base).href;
         }
-        if (eAnimes) return key === 'p08' ? providerUrl(key, p.animePath || '/animes') : '';
-        if (key === 'p08' && /\/doramas\/?/i.test(raw)) return providerUrl(key, p.doramaPath || '/doramas');
+        if (eAnimes) return key === 'primeflix' ? providerUrl(key, p.animePath || '/animes') : '';
+        if (key === 'primeflix' && /\/doramas\/?/i.test(raw)) return providerUrl(key, p.doramaPath || '/doramas');
 
         if (eAno && p.semAno) return '';
         if (eEpisodios && p.semEpisodios) return '';
@@ -12715,7 +12604,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
             const slug = slugGeneroMulti(tituloAtual, raw);
             if (!slug) return providerUrl(key, raw);
             const baseGenero = p.generoBase || '/categoria/';
-            return new URL(baseGenero.replace(/\/?$/, '/') + slug + ((key === 'p03' || key === 'p05') ? '' : '/'), p.base).href;
+            return new URL(baseGenero.replace(/\/?$/, '/') + slug + ((key === 'm03' || key === 's05') ? '' : '/'), p.base).href;
         }
 
         return providerUrl(key, raw);
@@ -12724,7 +12613,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     function montarUrlPaginadaProvider(key, urlBase, pagina){
         const base = urlProviderComContexto(key, urlBase, 'telaBusca');
         if (!base) return '';
-        if (key === 'p08') {
+        if (key === 'primeflix') {
             try { const u = new URL(base, PROVIDERS[key].base); u.searchParams.set('page', pagina); return u.href; } catch(e) { return base + (base.includes('?') ? '&' : '?') + 'page=' + pagina; }
         }
         try {
@@ -12776,7 +12665,6 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     }
 
     function garantirBadgeProvider(li, key){
-        key = normalizarProviderKey(key);
         if (!li || !key || !PROVIDERS[key]) return;
         li.dataset.provider = key;
         li.dataset.providerKey = key;
@@ -12794,8 +12682,8 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         if (badgeQualidade) {
             badgeQualidade.textContent = PROVIDERS[key].sigla;
             badgeQualidade.dataset.providerSigla = PROVIDERS[key].sigla;
-            badgeQualidade.classList.remove('provider-bora', 'provider-bftv', 'provider-mega', 'provider-eba', 'provider-sweb', 'provider-ssup', 'provider-liso', 'provider-prime');
-            badgeQualidade.classList.add(key === 'p08' ? 'provider-prime' : (key === 'p07' ? 'provider-liso' : (key === 'p06' ? 'provider-ssup' : (key === 'p05' ? 'provider-sweb' : (key === 'p04' ? 'provider-eba' : (key === 'p03' ? 'provider-mega' : (key === 'p02' ? 'provider-bftv' : 'provider-bora')))))));
+            badgeQualidade.classList.remove('provider-bfck', 'provider-bftv', 'provider-mega', 'provider-eba', 'provider-sweb', 'provider-ssup', 'provider-liso', 'provider-prime');
+            badgeQualidade.classList.add(key === 'primeflix' ? 'provider-prime' : (key === 'l07' ? 'provider-liso' : (key === 'u06' ? 'provider-ssup' : (key === 's05' ? 'provider-sweb' : (key === 'e04' ? 'provider-eba' : (key === 'm03' ? 'provider-mega' : (key === 'p02' ? 'provider-bftv' : 'provider-bfck')))))));
         }
         if (!li.__cronosProviderClickWrapped && typeof li.onclick === 'function') {
             const originalClick = li.onclick;
@@ -12853,18 +12741,17 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
             if (btnFonte) {
                 btnFonte.classList.toggle('ativo', !!fontes[k]);
                 btnFonte.classList.toggle('desligado', !fontes[k]);
-                btnFonte.textContent = `${p.sigla}: ${fontes[k] ? 'Ativada' : 'Desativada'}`;
+                btnFonte.textContent = `${p.sigla} — Fonte ${fontes[k] ? 'Ativada' : 'Desativada'}`;
             }
             const btnFiltro = document.querySelector(`[data-cronos-filtro="${k}"]`);
             if (btnFiltro) {
                 btnFiltro.classList.toggle('ativo', !!filtros[k]);
                 btnFiltro.classList.toggle('desligado', !filtros[k]);
-                btnFiltro.textContent = `${p.sigla}: ${filtros[k] ? 'Visível' : 'Oculto'}`;
+                btnFiltro.textContent = `${filtros[k] ? 'Mostrar' : 'Ocultar'} ${p.sigla}`;
             }
         });
     }
     function toggleFonteProvider(key){
-        key = normalizarProviderKey(key);
         const fontes = estadoFontes();
         fontes[key] = !fontes[key];
         salvarStorageObj(STORAGE_FONTES, fontes);
@@ -12876,7 +12763,6 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         }
     }
     function toggleFiltroProvider(key){
-        key = normalizarProviderKey(key);
         const filtros = estadoFiltros();
         filtros[key] = !filtros[key];
         salvarStorageObj(STORAGE_FILTROS, filtros);
@@ -12896,11 +12782,11 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
             painel.className = 'cronos-provider-panel';
             const botoesFonte = ORDEM_PROVEDORES.map(k => {
                 const p = PROVIDERS[k];
-                return `<button type="button" class="cronos-provider-btn" data-cronos-fonte="${k}" onclick="cronosToggleFonteProvider('${k}')">${p.sigla}: Ativada</button>`;
+                return `<button type="button" class="cronos-provider-btn" data-cronos-fonte="${k}" onclick="cronosToggleFonteProvider('${k}')">${p.sigla} — Fonte Ativada</button>`;
             }).join('');
             const botoesFiltro = ORDEM_PROVEDORES.map(k => {
                 const p = PROVIDERS[k];
-                return `<button type="button" class="cronos-provider-btn" data-cronos-filtro="${k}" onclick="cronosToggleFiltroProvider('${k}')">${p.sigla}: Visível</button>`;
+                return `<button type="button" class="cronos-provider-btn" data-cronos-filtro="${k}" onclick="cronosToggleFiltroProvider('${k}')">Mostrar ${p.sigla}</button>`;
             }).join('');
             painel.innerHTML = `
                 <h3>Fontes dos Provedores</h3>
@@ -13025,7 +12911,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
             id: 'l07::' + url.replace(/[?#].*$/,'').replace(/\/+$/,''),
             url, titulo, ano, img, poster: img, backdrop: img,
             tipo, isMovie, isSerie: tipo === 'Série', qualidade: 'LISO',
-            providerKey: 'p07', providerName: 'Fonte LISO', providerSigla: 'LISO', baseUrl: 'https://lisoflix.net/'
+            providerKey: 'l07', providerName: 'Fonte LISO', providerSigla: 'LISO', baseUrl: 'https://lisoflix.net/'
         };
     }
     function renderizarItemLisoNoGrid(item, gridId){
@@ -13045,13 +12931,13 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         if(tipoForcado === 'serie' && dados.tipo !== 'Série') return 0;
         if(tipoForcado === 'episodio' && dados.tipo !== 'Episódio') return 0;
         const canon = dados.url.replace(/[?#].*$/,'').replace(/\/+$/,'');
-        const ja = Array.from(grid.querySelectorAll('[data-url]')).some(li => String(li.dataset.url || '').replace(/[?#].*$/,'').replace(/\/+$/,'') === canon && li.dataset.provider === 'p07');
+        const ja = Array.from(grid.querySelectorAll('[data-url]')).some(li => String(li.dataset.url || '').replace(/[?#].*$/,'').replace(/\/+$/,'') === canon && li.dataset.provider === 'l07');
         if(ja) return 0;
         const li = document.createElement('li');
         li.className = 'card-item ' + (dados.tipo === 'Episódio' ? 'episodio-home-card' : 'global-card');
         li.dataset.url = dados.url;
-        li.dataset.provider = 'p07';
-        li.dataset.providerKey = 'p07';
+        li.dataset.provider = 'l07';
+        li.dataset.providerKey = 'l07';
         li.dataset.providerName = 'Fonte LISO';
         li.dataset.providerSigla = 'LISO';
         const badgeClass = dados.tipo === 'Filme' ? 'badge-filme' : 'badge-serie';
@@ -13070,15 +12956,15 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         `;
         li.onclick = function(){
             const prev = window.__CRONOS_RENDER_PROVIDER_KEY;
-            window.__CRONOS_RENDER_PROVIDER_KEY = 'p07';
-            window.__CRONOS_LAST_PROVIDER_RENDERED = 'p07';
+            window.__CRONOS_RENDER_PROVIDER_KEY = 'l07';
+            window.__CRONOS_LAST_PROVIDER_RENDERED = 'l07';
             try { analisarObra(dados.url, dados.ano || '', dados.titulo, imgFinal, dados.isMovie); }
             finally { setTimeout(() => { window.__CRONOS_RENDER_PROVIDER_KEY = prev; }, 50); }
         };
         grid.appendChild(li);
         try {
             if (dados.tipo !== 'Episódio' && gridId !== 'gridFavoritos' && gridId !== 'gridHistorico' && typeof adicionarBotaoFavoritarHoverCronos === 'function') {
-                adicionarBotaoFavoritarHoverCronos(li, { ...dados, img: imgFinal, poster: imgFinal, providerKey: 'p07', providerName: 'Fonte LISO', providerSigla: 'LISO', baseUrl: 'https://lisoflix.net/' });
+                adicionarBotaoFavoritarHoverCronos(li, { ...dados, img: imgFinal, poster: imgFinal, providerKey: 'l07', providerName: 'Fonte LISO', providerSigla: 'LISO', baseUrl: 'https://lisoflix.net/' });
             }
         } catch(e) {}
         try { if(typeof salvarObraCronos === 'function' && dados.tipo !== 'Episódio') salvarObraCronos(dados); } catch(e) {}
@@ -13086,14 +12972,14 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         return 1;
     }
     function seletorItensProvider(key, idTela){
-        if(key === 'p08') return PRIME_CARD_SELECTOR;
-        if(key === 'p07') return LISO_ITEM_SELECTOR;
+        if(key === 'primeflix') return PRIME_CARD_SELECTOR;
+        if(key === 'l07') return LISO_ITEM_SELECTOR;
         return (typeof obterSeletorItensCronos === 'function') ? obterSeletorItensCronos(idTela) : '#archive-content .item, article.item, .items .item';
     }
 
     async function renderizarItemProvider(item, gridId, key){
-        if (key === 'p08') return renderizarItemPrimeNoGrid(item, gridId);
-        if (key === 'p07') return renderizarItemLisoNoGrid(item, gridId);
+        if (key === 'primeflix') return renderizarItemPrimeNoGrid(item, gridId);
+        if (key === 'l07') return renderizarItemLisoNoGrid(item, gridId);
         const grid = document.getElementById(gridId);
         if (!grid) return 0;
         const antes = new Set(Array.from(grid.children));
@@ -13144,7 +13030,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         window.renderizarTemporadaCronos = function(item, gridId){
             const grid = document.getElementById(gridId);
             const antes = grid ? new Set(Array.from(grid.children)) : null;
-            const key = window.__CRONOS_RENDER_PROVIDER_KEY || 'p01';
+            const key = window.__CRONOS_RENDER_PROVIDER_KEY || 'b01';
             const ret = originalRenderTemp.apply(this, arguments);
             stampCardsNovos(grid, antes, key);
             aplicarFiltroVisualCronos();
@@ -13221,7 +13107,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         const grid = document.getElementById('gridInicioEpisodios');
         const head = document.getElementById('headEpisodiosRecentes');
         if (!grid || !doc || !fonteAtiva(key)) return 0;
-        const seletores = key === 'p07' ? LISO_ITEM_SELECTOR : '#dt-episodes .item, .episodes .item, .episodios .item, article.episodes, article.episode';
+        const seletores = key === 'l07' ? LISO_ITEM_SELECTOR : '#dt-episodes .item, .episodes .item, .episodios .item, article.episodes, article.episode';
         let countProvider = grid.querySelectorAll(`.card-item[data-provider="${key}"]`).length;
         let total = 0;
         for (const item of doc.querySelectorAll(seletores)) {
@@ -13307,8 +13193,8 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     async function lisoExtrairDetalhesDestaquePremium(urlObra){
         const url = lisoAbsUrl(urlObra);
         const prev = window.__CRONOS_RENDER_PROVIDER_KEY;
-        window.__CRONOS_RENDER_PROVIDER_KEY = 'p07';
-        window.__CRONOS_LAST_PROVIDER_RENDERED = 'p07';
+        window.__CRONOS_RENDER_PROVIDER_KEY = 'l07';
+        window.__CRONOS_LAST_PROVIDER_RENDERED = 'l07';
         try {
             const res = await fetch(PROXY + encodeURIComponent(url));
             const html = await res.text();
@@ -13385,7 +13271,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
             url, titulo, ano,
             img, poster: img, backdrop: img,
             tipo, isMovie: tipo === 'Filme', isSerie: tipo === 'Série',
-            qualidade: 'LISO', providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/'
+            qualidade: 'LISO', providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/'
         };
     }
     async function lisoAdicionarDestaquePremium(item, enriquecer = true){
@@ -13397,10 +13283,10 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
                 const salvo = await dbGet('obras', gerarIdCronos(dados.url));
                 const completo = salvo && escolherPosterSeguroCronos(salvo.poster, salvo.img) && salvo.backdrop && salvo.sinopse;
                 if(completo){
-                    dados = { ...dados, ...salvo, providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
+                    dados = { ...dados, ...salvo, providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
                 } else {
                     const detalhes = await lisoExtrairDetalhesDestaquePremium(dados.url);
-                    dados = { ...(salvo || {}), ...dados, ...detalhes, providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
+                    dados = { ...(salvo || {}), ...dados, ...detalhes, providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
                 }
                 dados.img = escolherPosterSeguroCronos(dados.poster, dados.img) || dados.poster || dados.img || '';
                 dados.poster = dados.img || dados.poster || '';
@@ -13410,12 +13296,12 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
                 console.warn('Falha cache/detalhe destaque LISO:', e);
             }
         }
-        dados.providerKey = 'p07';
+        dados.providerKey = 'l07';
         dados.providerName = 'Fonte LISO';
         dados.providerSigla = 'LISO';
         dados.baseUrl = 'https://lisoflix.net/';
         const canon = dados.url.replace(/[?#].*$/,'').replace(/\/+$/,'');
-        const ja = destaquesPremiumHome.some(o => String(o.url || '').replace(/[?#].*$/,'').replace(/\/+$/,'') === canon && o.providerKey === 'p07');
+        const ja = destaquesPremiumHome.some(o => String(o.url || '').replace(/[?#].*$/,'').replace(/\/+$/,'') === canon && o.providerKey === 'l07');
         if(!ja) destaquesPremiumHome.push(dados);
         return ja ? 0 : 1;
     }
@@ -13423,7 +13309,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
 
 
     /* ===== ADAPTADOR ESPECÍFICO PRIMEFLIX — CARDS, HOME, PREMIUM, FICHA E PLAYER PRÓPRIOS ===== */
-    const PRIME_KEY = 'p08';
+    const PRIME_KEY = 'primeflix';
     const PRIME_BASE = 'https://primeflix.mom/';
     const PRIME_PLAYER_APIS = ['warezcdn.lat', 'superflixapi.best', 'superflixapi.online'];
     const PRIME_CARD_SELECTOR = 'a[class*="group/card"], div[class*="group/card"], article[class*="group/item"], article.relative, .swiper-slide article, .swiper-slide a, article, [data-contentid]';
@@ -13907,16 +13793,16 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
                 const doc = new DOMParser().parseFromString(html, 'text/html');
                 if (status) status.innerText = `Carregando Home ${providerLabel(key)}...`;
 
-                if (key === 'p08') {
+                if (key === 'primeflix') {
                     await carregarHomePrimeProvider(doc, status);
                     continue;
                 }
 
-                if (key !== 'p07') await renderizarEpisodiosHomeProvider(doc, key);
+                if (key !== 'l07') await renderizarEpisodiosHomeProvider(doc, key);
 
-                const destaques = Array.from(doc.querySelectorAll(key === 'p07' ? LISO_DESTAQUE_SELECTOR : '#featured-titles .item')).slice(0, 8);
+                const destaques = Array.from(doc.querySelectorAll(key === 'l07' ? LISO_DESTAQUE_SELECTOR : '#featured-titles .item')).slice(0, 8);
                 for (let i = 0; i < destaques.length; i++) {
-                    if (key === 'p07') {
+                    if (key === 'l07') {
                         try {
                             await lisoAdicionarDestaquePremium(destaques[i], true);
                         } catch(e) { console.warn('Destaque LISO falhou', e); }
@@ -13939,50 +13825,50 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
                     if (typeof esperar === 'function') await esperar(80);
                 }
 
-                if (key === 'p01') {
-                    const qtdBfck = destaquesPremiumHome.filter(o => (o.providerKey || providerPorUrl(o.url)) === 'p01').length;
+                if (key === 'b01') {
+                    const qtdBfck = destaquesPremiumHome.filter(o => (o.providerKey || providerPorUrl(o.url)) === 'b01').length;
                     const alvoBfck = Math.min(8, destaques.length);
                     if (qtdBfck < alvoBfck) {
                         for (const itemBfck of destaques) {
                             try {
-                                const cloneBfck = prepararItemParaProvider(itemBfck, 'p01');
+                                const cloneBfck = prepararItemParaProvider(itemBfck, 'b01');
                                 const basicoBfck = extrairDadosBasicosItem(cloneBfck);
                                 if (!basicoBfck || !basicoBfck.url) continue;
-                                const canonBfck = normalizarUrlCanonicaMulti(basicoBfck.url, 'p01');
-                                const jaBfck = destaquesPremiumHome.some(o => (o.providerKey || providerPorUrl(o.url)) === 'p01' && normalizarUrlCanonicaMulti(o.url, 'p01') === canonBfck);
+                                const canonBfck = normalizarUrlCanonicaMulti(basicoBfck.url, 'b01');
+                                const jaBfck = destaquesPremiumHome.some(o => (o.providerKey || providerPorUrl(o.url)) === 'b01' && normalizarUrlCanonicaMulti(o.url, 'b01') === canonBfck);
                                 if (jaBfck) continue;
                                 let dadosBfck = dadosBasicosParaObra(basicoBfck);
-                                dadosBfck.providerKey = 'p01';
-                                dadosBfck.providerName = PROVIDERS.p01.nome;
-                                dadosBfck.providerSigla = PROVIDERS.p01.sigla;
-                                dadosBfck.baseUrl = PROVIDERS.p01.base;
+                                dadosBfck.providerKey = 'b01';
+                                dadosBfck.providerName = PROVIDERS.b01.nome;
+                                dadosBfck.providerSigla = PROVIDERS.b01.sigla;
+                                dadosBfck.baseUrl = PROVIDERS.b01.base;
                                 try {
                                     const detalhesBfck = await extrairDetalhesDestaquePremium(dadosBfck.url);
-                                    dadosBfck = { ...dadosBfck, ...detalhesBfck, providerKey:'p01', providerName:PROVIDERS.p01.nome, providerSigla:PROVIDERS.p01.sigla, baseUrl:PROVIDERS.p01.base };
+                                    dadosBfck = { ...dadosBfck, ...detalhesBfck, providerKey:'b01', providerName:PROVIDERS.b01.nome, providerSigla:PROVIDERS.b01.sigla, baseUrl:PROVIDERS.b01.base };
                                 } catch(e) {}
                                 try { await salvarObraCronos(dadosBfck); } catch(e) {}
                                 destaquesPremiumHome.push(dadosBfck);
-                                if (destaquesPremiumHome.filter(o => (o.providerKey || providerPorUrl(o.url)) === 'p01').length >= alvoBfck) break;
-                            } catch(e) { console.warn('Fallback destaque BORA falhou', e); }
+                                if (destaquesPremiumHome.filter(o => (o.providerKey || providerPorUrl(o.url)) === 'b01').length >= alvoBfck) break;
+                            } catch(e) { console.warn('Fallback destaque BFCK falhou', e); }
                         }
                     }
                 }
 
-                if (key === 'p07' && !destaquesPremiumHome.some(o => o.providerKey === 'p07')) {
+                if (key === 'l07' && !destaquesPremiumHome.some(o => o.providerKey === 'l07')) {
                     const destaquesFallback = Array.from(doc.querySelectorAll(LISO_DESTAQUE_SELECTOR)).slice(0, 8);
                     for (const itemFb of destaquesFallback) {
                         try { await lisoAdicionarDestaquePremium(itemFb, true); } catch(e) { console.warn('Fallback destaque LISO falhou', e); }
                     }
                 }
 
-                const filmes = key === 'p07' ? [] : Array.from(doc.querySelectorAll('#dt-movies .item.movies'));
-                const series = key === 'p07' ? [] : Array.from(doc.querySelectorAll('#dt-tvshows .item.tvshows'));
+                const filmes = key === 'l07' ? [] : Array.from(doc.querySelectorAll('#dt-movies .item.movies'));
+                const series = key === 'l07' ? [] : Array.from(doc.querySelectorAll('#dt-tvshows .item.tvshows'));
                 let cf = 0; for (const item of filmes) { if (cf >= 12) break; cf += await renderizarItemProvider(item, 'gridInicioFilmes', key); }
                 let cs = 0; for (const item of series) { if (cs >= 12) break; cs += await renderizarItemProvider(item, 'gridInicioSeries', key); }
 
-                if (cf < 12) await completarHomeProviderAte(key, key === 'p07' ? '/movies/' : '/filmes/', 'gridInicioFilmes', key === 'p07' ? LISO_ITEM_SELECTOR : '#archive-content .item.movies, #archive-content article.item, .items .item.movies, article.item.movies', 12);
-                if (cs < 12) await completarHomeProviderAte(key, '/series/', 'gridInicioSeries', key === 'p07' ? LISO_ITEM_SELECTOR : '#archive-content .item.tvshows, #archive-content article.item, .items .item.tvshows, article.item.tvshows', 12);
-                await completarHomeProviderAte(key, key === 'p07' ? '/episodio/' : '/episodios/', 'gridInicioEpisodios', key === 'p07' ? LISO_ITEM_SELECTOR : '#archive-content .item, #dt-episodes .item, .episodes .item, article.episodes, article.episode, .items .item', 12);
+                if (cf < 12) await completarHomeProviderAte(key, key === 'l07' ? '/movies/' : '/filmes/', 'gridInicioFilmes', key === 'l07' ? LISO_ITEM_SELECTOR : '#archive-content .item.movies, #archive-content article.item, .items .item.movies, article.item.movies', 12);
+                if (cs < 12) await completarHomeProviderAte(key, '/series/', 'gridInicioSeries', key === 'l07' ? LISO_ITEM_SELECTOR : '#archive-content .item.tvshows, #archive-content article.item, .items .item.tvshows, article.item.tvshows', 12);
+                await completarHomeProviderAte(key, key === 'l07' ? '/episodio/' : '/episodios/', 'gridInicioEpisodios', key === 'l07' ? LISO_ITEM_SELECTOR : '#archive-content .item, #dt-episodes .item, .episodes .item, article.episodes, article.episode, .items .item', 12);
             } catch(e) {
                 console.warn('Home falhou no provider', key, e);
             }
@@ -14008,7 +13894,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
             const doc = new DOMParser().parseFromString(html, 'text/html');
             let count = jaProvider;
             let total = 0;
-            const seletorFinal = (key === 'p07') ? LISO_ITEM_SELECTOR : seletor;
+            const seletorFinal = (key === 'l07') ? LISO_ITEM_SELECTOR : seletor;
             for (const item of doc.querySelectorAll(seletorFinal)) {
                 if (count >= limitePorFonte) break;
                 const add = await renderizarItemProvider(item, gridId, key);
@@ -14113,7 +13999,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     function caminhoCategoriaMulti(tipo, titulo, urlBase){
         if (tipo === 'year') return `/release/${String(titulo || '').trim()}/`;
         try {
-            const u = new URL(urlBase, PROVIDERS.p01.base);
+            const u = new URL(urlBase, PROVIDERS.b01.base);
             return u.pathname || `/categoria/${slugCronos(titulo)}/`;
         } catch(e) {
             const slug = (typeof slugCronos === 'function') ? slugCronos(titulo) : String(titulo||'').toLowerCase().replace(/\s+/g,'-');
@@ -14586,7 +14472,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
                         ano: lisoAno(ep.data || anoSerie || ''),
                         data: ep.data || '',
                         tipo: 'Episódio',
-                        providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/'
+                        providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/'
                     });
                 } catch(e) {}
                 const card = document.createElement('li');
@@ -14655,7 +14541,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
             const backdropEl = document.getElementById('backdropDetalhes');
             if(backdropEl) backdropEl.style.backgroundImage = 'none';
 
-            obraSendoVista = { url, titulo: tituloCard, ano, img, poster: img, isMovie, providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
+            obraSendoVista = { url, titulo: tituloCard, ano, img, poster: img, isMovie, providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
             try { window.obraSendoVista = obraSendoVista; } catch(e) {}
             checarBotaoFavorito(url);
 
@@ -14694,7 +14580,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
                 document.getElementById('linha4Volume').style.display = 'flex';
             }
 
-            obraSendoVista = { url, titulo, ano: anoLimpo || ano, img: posterSrc, poster: posterSrc, backdrop: bgUrl, sinopse, generos, isMovie: ehPlayerUnico, tipo: tipoObra, playerUrl: iframeSrc || '', providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
+            obraSendoVista = { url, titulo, ano: anoLimpo || ano, img: posterSrc, poster: posterSrc, backdrop: bgUrl, sinopse, generos, isMovie: ehPlayerUnico, tipo: tipoObra, playerUrl: iframeSrc || '', providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
             try { window.obraSendoVista = obraSendoVista; } catch(e) {}
             try { await salvarObraCronos(obraSendoVista); await salvarHistoricoHome(obraSendoVista); } catch(e) { console.warn('Falha ao salvar detalhe LISO:', e); }
             checarBotaoFavorito(url);
@@ -14721,8 +14607,8 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     async function lisoExtrairDetalhesDestaquePremium(urlObra){
         const url = lisoAbsUrl(urlObra);
         const prev = window.__CRONOS_RENDER_PROVIDER_KEY;
-        window.__CRONOS_RENDER_PROVIDER_KEY = 'p07';
-        window.__CRONOS_LAST_PROVIDER_RENDERED = 'p07';
+        window.__CRONOS_RENDER_PROVIDER_KEY = 'l07';
+        window.__CRONOS_LAST_PROVIDER_RENDERED = 'l07';
         try {
             const res = await fetch(PROXY + encodeURIComponent(url));
             const html = await res.text();
@@ -14748,8 +14634,8 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         window.analisarObra = function(url, ano, tituloCard, img, isMovie){
             const key = providerPorUrl(url);
             if(!fonteAtiva(key)){ mostrarAvisoFonteDesativada(key); return false; }
-            if(key === 'p08' || /primeflix\.mom/i.test(String(url || ''))) return analisarObraPrimeCorrigido(url, ano, tituloCard, img, isMovie);
-            if(key === 'p07' || lisoEhUrlCronos(url)) return analisarObraLisoCorrigido(url, ano, tituloCard, img, isMovie);
+            if(key === 'primeflix' || /primeflix\.mom/i.test(String(url || ''))) return analisarObraPrimeCorrigido(url, ano, tituloCard, img, isMovie);
+            if(key === 'l07' || lisoEhUrlCronos(url)) return analisarObraLisoCorrigido(url, ano, tituloCard, img, isMovie);
             return analisarObraComMultiProviderAntesDoLiso.apply(this, arguments);
         };
         try { analisarObra = window.analisarObra; } catch(e) {}
@@ -15063,15 +14949,13 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
 
         final.sort((a,b) => (a.prioridade - b.prioridade) || (audioPeso(a.audio) - audioPeso(b.audio)) || String(a.nome).localeCompare(String(b.nome)));
 
-        const finalRender = (typeof window.cronosFiltrarViewPlayerOpcao === 'function') ? window.cronosFiltrarViewPlayerOpcao(final) : final;
-
         area.innerHTML = '';
-        if(!finalRender.length) {
+        if(!final.length) {
             area.innerHTML = '<span style="color:#ff0055; font-weight:bold;">Player não encontrado na página base.</span>';
             return;
         }
 
-        finalRender.forEach((p, idx) => {
+        final.forEach((p, idx) => {
             const btn = document.createElement('button');
             const isOriginal = p.classe === 'viewplayer' || p.classe === 'playerthree' || p.classe === 'liso' || /original/i.test(p.tipo || p.label || p.nome || '');
             btn.className = 'btn-assistir ' + (isOriginal ? 'btn-cronos-player-original' : 'btn-cronos-player-direto');
@@ -15098,7 +14982,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         const marca = 'cronos_reparo_fontes_8p_v2_ok';
         const chFontes = 'cronos_providers_ativos';
         const chFiltros = 'cronos_filtros_visuais';
-        const keys = ['p01','p02','p03','p04','p05','p06','p07','p08'];
+        const keys = ['b01','p02','m03','e04','s05','u06','l07','primeflix'];
         if(!localStorage.getItem(marca)) {
             const fontes = JSON.parse(localStorage.getItem(chFontes) || '{}') || {};
             const filtros = JSON.parse(localStorage.getItem(chFiltros) || '{}') || {};
@@ -15325,10 +15209,10 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
   FIX BFTV (p02) — baseado no HTML real do boraflixtv.com
   =========================================================
   Estrutura confirmada do BFTV:
-  - Home destaques : #featured-titles article.item  (igual BORA ✓)
-  - Home filmes    : #dt-movies article.item.movies  (igual BORA ✓)
-  - Home séries    : #dt-tvshows article.item.tvshows (igual BORA ✓)
-  - Home episódios : #dt-episodes article.item.se.episodes (igual BORA ✓)
+  - Home destaques : #featured-titles article.item  (igual BFCK ✓)
+  - Home filmes    : #dt-movies article.item.movies  (igual BFCK ✓)
+  - Home séries    : #dt-tvshows article.item.tvshows (igual BFCK ✓)
+  - Home episódios : #dt-episodes article.item.se.episodes (igual BFCK ✓)
   - Aba filmes     : /filmes/ → #archive-content article.item.movies ✓
   - Aba séries     : /series/ → #archive-content article.item.tvshows ✓
   - Aba episódios  : /episodios/ → #archive-content article.item (ou #dt-episodes .item) ✓
@@ -15356,7 +15240,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     function patchProvider() {
         const P = window.CRONOS_MULTI_PROVIDERS;
         if (!P || !P[KEY]) return;
-        // O BFTV tem EXATAMENTE os mesmos paths do BORA
+        // O BFTV tem EXATAMENTE os mesmos paths do BFCK
         P[KEY].buscaPath    = P[KEY].buscaPath    || '/?s=';
         P[KEY].filmePath    = P[KEY].filmePath    || '/filmes/';
         P[KEY].seriePath    = P[KEY].seriePath    || '/series/';
@@ -15447,7 +15331,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
                     // Se não tem nada, tenta inferir pela URL
                     if (!slide.dataset.provider && obra.url && /boraflixtv\.com/i.test(obra.url)) {
                         slide.dataset.provider = KEY;
-                        slide.dataset.providerLabel = 'ORG';
+                        slide.dataset.providerLabel = 'BFTV';
                     }
                 });
                 if (typeof aplicarFiltroVisualCronos === 'function') aplicarFiltroVisualCronos();
@@ -15463,7 +15347,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         if (!orig) return;
         window.garantirBadgeProvider = function(li, key) {
             // Se key chegou vazio mas o card tem href para boraflixtv, corrigir
-            if (!key || key === 'p01') {
+            if (!key || key === 'b01') {
                 const href = li && li.querySelector && (li.querySelector('a[href]') || {}).href || '';
                 if (/boraflixtv\.com/i.test(href)) key = KEY;
             }
@@ -15491,7 +15375,7 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
                 const key = obra.providerKey || (obra.url && /boraflixtv\.com/i.test(obra.url) ? KEY : '');
                 if (key) {
                     slide.dataset.provider = key;
-                    slide.dataset.providerLabel = obra.providerSigla || (key === KEY ? 'ORG' : key.toUpperCase());
+                    slide.dataset.providerLabel = obra.providerSigla || (key === KEY ? 'BFTV' : key.toUpperCase());
                 }
             });
         }
@@ -15717,11 +15601,11 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         try {
             if (typeof adicionarBotaoFavoritarHoverCronos !== 'function') return;
             const base = root && root.querySelectorAll ? root : document;
-            base.querySelectorAll('.card-item.global-card[data-provider="p07"], .card-item.global-card[data-provider="p08"]').forEach(li => {
+            base.querySelectorAll('.card-item.global-card[data-provider="l07"], .card-item.global-card[data-provider="primeflix"]').forEach(li => {
                 if (!li || li.querySelector('.btn-favoritar-card')) return;
                 if (li.closest('#gridFavoritos, #gridHistorico')) return;
                 const providerKey = li.dataset.providerKey || li.dataset.provider || '';
-                if (providerKey !== 'p07' && providerKey !== 'p08') return;
+                if (providerKey !== 'l07' && providerKey !== 'primeflix') return;
                 const poster = cronosPosterCard(li);
                 if (poster) li.dataset.poster = poster;
                 const tipoInfo = cronosTipoCard(li);
@@ -15732,9 +15616,9 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
                     img: poster,
                     poster,
                     providerKey,
-                    providerName: providerKey === 'p07' ? 'Fonte LISO' : 'Fonte PRIME',
-                    providerSigla: providerKey === 'p07' ? 'LISO' : 'PRIME',
-                    baseUrl: providerKey === 'p07' ? 'https://lisoflix.net/' : 'https://primeflix.mom/',
+                    providerName: providerKey === 'l07' ? 'Fonte LISO' : 'Fonte PRIME',
+                    providerSigla: providerKey === 'l07' ? 'LISO' : 'PRIME',
+                    baseUrl: providerKey === 'l07' ? 'https://lisoflix.net/' : 'https://primeflix.mom/',
                     ...tipoInfo
                 });
             });
@@ -16087,51 +15971,31 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
         lista.innerHTML = '';
         if(!fontes.length) return false;
 
-        try {
-            window.__cronosUltimaListaFontesEpisodio = {
-                titulo,
-                fontes: fontes.slice(),
-                obraHist: obraHist || null,
-                criadaEm: Date.now()
-            };
-        } catch(e) {}
-
-        // Comportamento novo: não abre a lista primeiro.
-        // Se houver só um player, abre direto. Se houver vários, abre o primeiro.
-        // O botão "Trocar Player" fica abaixo do player para escolher outra fonte.
-        const idxMemoria = escolherFonteMemoriaV27(fontes);
-        const idxInicial = idxMemoria >= 0 ? idxMemoria : 0;
-        abrirFonteModalV27(titulo, fontes[idxInicial], idxInicial, obraHist, idxMemoria >= 0);
-        return true;
-    }
-
-
-    // V29: quando o episódio só tem Via/ViewPlayer e ele está desligado,
-    // não abre o iframe e não chama fallback antigo. Apenas avisa o usuário.
-    function fonteEhViewPlayerCronosV29(p){
-        const src = String((p && (p.src || p.url || p.href)) || p || '').toLowerCase();
-        const nome = String((p && (p.classe || p.nome || p.label || p.tipo || p.nomeRender)) || '').toLowerCase();
-        return /viewplayer\.online|\bviewplayer\b|view\s*player|via\s*player|viaplayer/i.test(src + ' ' + nome);
-    }
-    function viewPlayerEstaDesligadoCronosV29(){
-        try {
-            if(typeof window.cronosViewPlayerAtivoOpcao === 'function') return !window.cronosViewPlayerAtivoOpcao();
-            return localStorage.getItem('cronos_viewplayer_ativo') !== '1';
-        } catch(e) { return true; }
-    }
-    function avisarSomenteViaPlayerCronosV29(titulo){
-        if(typeof window.cronosAvisarSomenteViaPlayerEpisodio === 'function') {
-            window.cronosAvisarSomenteViaPlayerEpisodio(titulo);
+        // Se tiver só um player, não abre modal: já entra direto.
+        if(fontes.length === 1) {
+            abrirFonteModalV27(titulo, fontes[0], 0, obraHist, false);
             return true;
         }
-        const modal = garantirModal();
-        const title = document.getElementById('modalFontesEpisodioTituloCronos');
-        const texto = document.getElementById('modalFontesEpisodioTextoCronos');
-        const lista = document.getElementById('modalFontesEpisodioListaCronos');
-        if(title) title.textContent = String(titulo || 'Episódio').replace(/\s+/g,' ').trim();
-        if(texto) texto.textContent = 'Esse vídeo só foi encontrado no Via Player.';
-        if(lista) lista.innerHTML = '<div class="modal-fontes-episodio-status">Este episódio só está disponível no Via Player. Ative o botão <b>Via Player</b> em Configurações para liberar esse player.</div>';
-        modal.style.display = 'flex';
+
+        // Se o usuário já escolheu um player nesta sessão aberta, Próximo/Anterior usa o mesmo.
+        const idxMemoria = escolherFonteMemoriaV27(fontes);
+        if(idxMemoria >= 0) {
+            abrirFonteModalV27(titulo, fontes[idxMemoria], idxMemoria, obraHist, true);
+            return true;
+        }
+
+        if(texto) texto.textContent = 'Escolha uma fonte. Se uma não carregar, volte e teste outra.';
+        fontes.forEach((p, idx) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn-assistir ' + (isDirect(p.classe) ? 'btn-cronos-player-direto' : 'btn-cronos-player-original');
+            btn.title = p.src;
+            const nome = nomeFonteModalV27(p, idx);
+            btn.textContent = `▶ #${idx + 1} ${nome}`;
+            btn.onclick = () => abrirFonteModalV27(titulo, p, idx, obraHist, true);
+            lista.appendChild(btn);
+        });
+        garantirModal().style.display = 'flex';
         return true;
     }
 
@@ -16150,11 +16014,6 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
             }
         } catch(e) { fontes = []; }
         fontes = sortAndDedupe(fontes);
-        const fontesAntesFiltroCronosV29 = Array.isArray(fontes) ? fontes.slice() : [];
-        if (typeof window.cronosFiltrarViewPlayerOpcao === 'function') fontes = window.cronosFiltrarViewPlayerOpcao(fontes);
-        if(!fontes.length && fontesAntesFiltroCronosV29.length && viewPlayerEstaDesligadoCronosV29() && fontesAntesFiltroCronosV29.every(fonteEhViewPlayerCronosV29)) {
-            return avisarSomenteViaPlayerCronosV29(titulo);
-        }
         if(renderButtons(titulo, fontes, obraHist)) return true;
         fecharModal();
         if(typeof fallback === 'function') return fallback();
@@ -16202,6 +16061,88 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
 })();
 </script>
 
+
+
+
+<script id="cronos-viaplayer-worker-limpo-v1">
+(function(){
+    if(window.__CRONOS_VIAPLAYER_WORKER_LIMPO_V1__) return;
+    window.__CRONOS_VIAPLAYER_WORKER_LIMPO_V1__ = true;
+
+    const WORKER_BASE = (typeof CRONOS_VIAPLAYER_WORKER_BASE !== 'undefined' && CRONOS_VIAPLAYER_WORKER_BASE)
+        ? String(CRONOS_VIAPLAYER_WORKER_BASE).replace(/\/+$/,'')
+        : 'https://dark-boat-e972.getapi-oi.workers.dev';
+
+    function isViewPlayer(url){
+        return /https?:\/\/(?:www\.)?viewplayer\.online\//i.test(String(url || ''));
+    }
+    function cleanUrl(url){
+        return WORKER_BASE + '/viewplayer-clean?url=' + encodeURIComponent(String(url || '').trim());
+    }
+    function aplicarPermissoesIframe(iframe){
+        if(!iframe) return;
+        try { iframe.removeAttribute('sandbox'); } catch(e) {}
+        try { iframe.setAttribute('allow', 'autoplay; fullscreen; encrypted-media; picture-in-picture'); } catch(e) {}
+        try { iframe.setAttribute('allowfullscreen', ''); } catch(e) {}
+        try { iframe.setAttribute('referrerpolicy', 'origin-when-cross-origin'); } catch(e) {}
+    }
+    function prepararUrlPlayerCronos(url){
+        url = String(url || '').trim();
+        if(isViewPlayer(url)) return cleanUrl(url);
+        return url;
+    }
+
+    window.cronosViaplayerWorkerLimpoUrl = prepararUrlPlayerCronos;
+
+    function trocarLabelViewPlayer(){
+        try {
+            document.querySelectorAll('button[title*="viewplayer.online"], .btn-assistir[title*="viewplayer.online"]').forEach(btn => {
+                if(btn.__cronosViaLabelOk) return;
+                btn.__cronosViaLabelOk = true;
+                const txt = btn.textContent || '';
+                if(/ViewPlayer Original/i.test(txt)) btn.textContent = txt.replace(/ViewPlayer Original/ig, 'ViaPlayer Limpo');
+                else if(/ViewPlayer/i.test(txt)) btn.textContent = txt.replace(/ViewPlayer/ig, 'ViaPlayer Limpo');
+            });
+        } catch(e) {}
+    }
+    setInterval(trocarLabelViewPlayer, 900);
+    document.addEventListener('DOMContentLoaded', trocarLabelViewPlayer);
+
+    const abrirBase = window.abrirPlayer;
+    if(typeof abrirBase === 'function' && !abrirBase.__cronosViaplayerWorkerLimpo){
+        window.abrirPlayer = function(titulo, urlVideo, meta){
+            const original = String(urlVideo || '').trim();
+            const finalUrl = prepararUrlPlayerCronos(original);
+            try {
+                const iframe = document.getElementById('iframePlayer');
+                aplicarPermissoesIframe(iframe);
+            } catch(e) {}
+            if(isViewPlayer(original)) {
+                try {
+                    meta = Object.assign({}, meta || {}, {
+                        playerNome: (meta && meta.playerNome) || 'ViaPlayer Limpo',
+                        playerClasse: 'viewplayer-clean',
+                        srcOriginal: original
+                    });
+                    if(typeof window.cronosDefinirPlayerAtualV27 === 'function') {
+                        window.cronosDefinirPlayerAtualV27('ViaPlayer Limpo', { src: original, classe: 'viewplayer-clean', memorizar: !!(meta && meta.memorizar) });
+                    }
+                } catch(e) {}
+            }
+            return abrirBase.call(this, titulo, finalUrl, meta);
+        };
+        window.abrirPlayer.__cronosViaplayerWorkerLimpo = true;
+        try { abrirPlayer = window.abrirPlayer; } catch(e) {}
+    }
+
+    // Garante permissões também quando outros trechos mexerem direto no iframe.
+    const obs = new MutationObserver(() => {
+        const iframe = document.getElementById('iframePlayer');
+        if(iframe) aplicarPermissoesIframe(iframe);
+    });
+    try { obs.observe(document.body || document.documentElement, { childList:true, subtree:true, attributes:true, attributeFilter:['src','sandbox','allow'] }); } catch(e) {}
+})();
+</script>
 
 <script id="cronos-v27-player-memoria-label-e-fechamento-js">
 (function(){
@@ -16292,389 +16233,6 @@ window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     }
 
     document.addEventListener('DOMContentLoaded', () => aplicarLabel('Player'));
-})();
-</script>
-
-
-<script id="cronos-v28-viewplayer-toggle-player-controls-js">
-(function(){
-    if (window.__CRONOS_V28_VIEWPLAYER_PLAYER_CONTROLS__) return;
-    window.__CRONOS_V28_VIEWPLAYER_PLAYER_CONTROLS__ = true;
-
-    const KEY_VIEWPLAYER = 'cronos_viewplayer_ativo';
-
-    function viewPlayerAtivo(){
-        try { return localStorage.getItem(KEY_VIEWPLAYER) === '1'; } catch(e) { return false; }
-    }
-    function setViewPlayerAtivo(v){
-        try { localStorage.setItem(KEY_VIEWPLAYER, v ? '1' : '0'); } catch(e) {}
-        aplicarEstadoViewPlayerBotao();
-        try { aplicarVisibilidadeViewPlayerAtual(); } catch(e) {}
-        try { atualizarTrocarPlayerDisponivel(); } catch(e) {}
-    }
-    function ehViewPlayer(item){
-        const url = String((item && (item.src || item.url || item.href)) || item || '').toLowerCase();
-        const nome = String((item && (item.nome || item.label || item.tipo || item.classe)) || '').toLowerCase();
-        return /viewplayer/i.test(url) || /view\s*player|viewplayer|via\s*player|viaplayer/i.test(nome);
-    }
-    window.cronosViewPlayerAtivoOpcao = viewPlayerAtivo;
-    window.cronosFiltrarViewPlayerOpcao = function(fontes){
-        if (!Array.isArray(fontes)) return [];
-        if (viewPlayerAtivo()) return fontes;
-        return fontes.filter(p => !ehViewPlayer(p));
-    };
-    window.cronosToggleViewPlayerOpcao = function(){
-        setViewPlayerAtivo(!viewPlayerAtivo());
-        try {
-            const area = document.getElementById('areaAcaoDetalhe');
-            if (area) area.querySelectorAll('button').forEach(btn => {
-                const txt = (btn.textContent || '') + ' ' + (btn.title || '');
-                if (/viewplayer|view\s*player|via\s*player|viaplayer/i.test(txt)) btn.style.display = viewPlayerAtivo() ? '' : 'none';
-            });
-        } catch(e) {}
-    };
-    function aplicarEstadoViewPlayerBotao(){
-        const btn = document.getElementById('btnToggleViewPlayerCronos');
-        if (!btn) return;
-        const ativo = viewPlayerAtivo();
-        btn.textContent = 'Via Player';
-        btn.classList.toggle('viewplayer-off-cronos', !ativo);
-        btn.classList.toggle('letras-ligadas-cronos', ativo);
-        btn.classList.toggle('letras-desligadas-cronos', !ativo);
-        btn.title = ativo ? 'Via Player ativado: aparece nas fichas e episódios.' : 'Via Player desativado: fica oculto nas fichas e episódios.';
-    }
-
-    function normalizarTextoViewPlayerCronos(txt){
-        return String(txt || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
-    }
-    function garantirBotaoViewPlayerConfig(){
-        const cfg = document.getElementById('telaConfiguracoes');
-        if(!cfg) return null;
-        let box = cfg.querySelector('.cronos-categoria-atalhos-letras') || cfg.querySelector('.categoria-atalhos');
-        if(!box){
-            box = document.createElement('div');
-            box.className = 'cronos-categoria-atalhos-letras';
-            const titulo = [...cfg.querySelectorAll('h1,h2,h3')].find(h => /configura/i.test(h.textContent || ''));
-            if(titulo && titulo.nextSibling) cfg.insertBefore(box, titulo.nextSibling);
-            else cfg.insertBefore(box, cfg.firstElementChild || null);
-        }
-        box.classList.add('cronos-categoria-atalhos-letras');
-        let btn = document.getElementById('btnToggleViewPlayerCronos');
-        if(!btn){
-            btn = document.createElement('button');
-            btn.id = 'btnToggleViewPlayerCronos';
-            btn.type = 'button';
-            btn.className = 'btn-viewplayer-categoria-cronos';
-            btn.onclick = function(e){
-                e.preventDefault();
-                e.stopPropagation();
-                setViewPlayerAtivo(!viewPlayerAtivo());
-                aplicarVisibilidadeViewPlayerAtual();
-                try { atualizarTrocarPlayerDisponivel(); } catch(err) {}
-            };
-        }
-        const letras = box.querySelector('.btn-letras-categoria-cronos');
-        const jaNoBox = btn.parentElement === box;
-        if(letras){
-            if(!jaNoBox || letras.nextElementSibling !== btn) box.insertBefore(btn, letras.nextSibling);
-        } else if(!jaNoBox) {
-            const lanc = [...box.querySelectorAll('button,a')].find(b => normalizarTextoViewPlayerCronos(b.textContent).includes('lancamento'));
-            if(lanc) box.insertBefore(btn, lanc);
-            else box.appendChild(btn);
-        }
-        aplicarEstadoViewPlayerBotao();
-        return btn;
-    }
-    function aplicarVisibilidadeViewPlayerAtual(){
-        const ativo = viewPlayerAtivo();
-        try {
-            ['areaAcaoDetalhe','modalFontesEpisodioListaCronos','primeCronosFontesLista'].forEach(id => {
-                const area = document.getElementById(id);
-                if(!area) return;
-                area.querySelectorAll('button,a').forEach(btn => {
-                    const txt = (btn.textContent || '') + ' ' + (btn.title || '') + ' ' + (btn.getAttribute('data-source') || '') + ' ' + (btn.getAttribute('data-src') || '') + ' ' + (btn.getAttribute('href') || '');
-                    if (/viewplayer|view\s*player|via\s*player|viaplayer/i.test(txt)) btn.style.display = ativo ? '' : 'none';
-                });
-            });
-        } catch(e) {}
-    }
-
-    function limparNome(txt){ return String(txt || '').replace(/^\s*[▶#\d\s.\-–—]+/,'').replace(/\s+/g,' ').trim(); }
-    function detectarNomePorUrl(url){
-        const u = String(url || '').toLowerCase();
-        if(/megaembed\.link/i.test(u)) return 'MegaEmbed';
-        if(/playerembedapi\.link/i.test(u)) return 'PlayerEmbedAPI';
-        if(/superembeds\.com/i.test(u)) return 'SuperEmbeds';
-        if(/warezcdn\.lat/i.test(u)) return 'WarezCDN';
-        if(/superflixapi/i.test(u)) return 'Superflix API';
-        if(/viewplayer\.online/i.test(u)) return 'ViewPlayer';
-        if(/playerthree\.online/i.test(u)) return 'PlayerThree';
-        if(/trembed/i.test(u)) return 'Trembed';
-        return 'Player';
-    }
-    function nomeFonte(p, idx){ return limparNome((p && (p.nomeRender || p.nome || p.label)) || detectarNomePorUrl(p && p.src) || ('Player ' + (idx + 1))); }
-    function chaveFonte(p){ return String(p && p.src || '').replace(/#.*$/,'').replace(/\/+$/,'').trim().toLowerCase(); }
-
-    function garantirBotaoVoltarPlayer(){
-        const nav = document.querySelector('.navbar');
-        const brand = nav && nav.querySelector('.nav-brand');
-        if(!nav || !brand) return null;
-        let btn = document.getElementById('btnVoltarPlayerAtivoCRONOS');
-        if(!btn){
-            btn = document.createElement('button');
-            btn.id = 'btnVoltarPlayerAtivoCRONOS';
-            btn.type = 'button';
-            btn.textContent = 'PLAYER';
-            btn.onclick = function(){
-                try { ativarTela('telaPlayer'); } catch(e) {
-                    document.querySelectorAll('.view-container').forEach(t => t.classList.remove('ativa'));
-                    const tela = document.getElementById('telaPlayer');
-                    if(tela) tela.classList.add('ativa');
-                }
-                atualizarBotaoVoltarPlayer();
-            };
-            brand.insertAdjacentElement('afterend', btn);
-        }
-        return btn;
-    }
-    function playerTemSrc(){
-        const iframe = document.getElementById('iframePlayer');
-        const src = iframe && iframe.getAttribute('src');
-        return !!(src && src !== 'about:blank');
-    }
-    function telaPlayerAtiva(){ return !!document.querySelector('#telaPlayer.view-container.ativa, #telaPlayer.ativa'); }
-    function atualizarBotaoVoltarPlayer(){
-        const btn = garantirBotaoVoltarPlayer();
-        if(!btn) return;
-        btn.classList.toggle('visivel', playerTemSrc() && !telaPlayerAtiva());
-    }
-
-    function garantirBotaoTrocarPlayer(){
-        const tela = document.getElementById('telaPlayer');
-        const wrapper = tela && tela.querySelector('.player-wrapper');
-        if(!tela || !wrapper) return null;
-        let row = document.getElementById('cronosPlayerBottomRowV24');
-        if(!row){
-            row = document.createElement('div');
-            row.id = 'cronosPlayerBottomRowV24';
-            wrapper.insertAdjacentElement('afterend', row);
-        } else if(row.previousElementSibling !== wrapper){
-            wrapper.insertAdjacentElement('afterend', row);
-        }
-        let btn = document.getElementById('cronosTrocarPlayerBtnV28');
-        if(!btn){
-            btn = document.createElement('button');
-            btn.id = 'cronosTrocarPlayerBtnV28';
-            btn.type = 'button';
-            btn.textContent = 'Trocar Player';
-            btn.onclick = window.cronosAbrirTrocarPlayerV28;
-        }
-        const label = document.getElementById('cronosPlayerTipoLabelDesktopV24');
-        const nav = document.getElementById('playerNavegacao');
-        if(label && label.parentElement === row) label.insertAdjacentElement('afterend', btn);
-        else if(btn.parentElement !== row) row.insertBefore(btn, row.firstChild);
-        if(nav && nav.parentElement !== row) row.appendChild(nav);
-        atualizarTrocarPlayerDisponivel();
-        return btn;
-    }
-    function listaAtualFontes(){
-        try {
-            const data = window.__cronosUltimaListaFontesEpisodio;
-            const fontes = data && Array.isArray(data.fontes) ? data.fontes : [];
-            return (typeof window.cronosFiltrarViewPlayerOpcao === 'function') ? window.cronosFiltrarViewPlayerOpcao(fontes) : fontes;
-        } catch(e) { return []; }
-    }
-    function atualizarTrocarPlayerDisponivel(){
-        const btn = document.getElementById('cronosTrocarPlayerBtnV28');
-        if(!btn) return;
-        const fontes = listaAtualFontes();
-        const pode = fontes.length > 1;
-        btn.style.display = pode ? '' : 'none';
-        btn.disabled = !pode;
-    }
-    function modalElementos(){
-        let modal = document.getElementById('modalFontesEpisodioCronos');
-        if(!modal){
-            modal = document.createElement('div');
-            modal.id = 'modalFontesEpisodioCronos';
-            modal.className = 'modal-fontes-episodio-cronos';
-            modal.innerHTML = '<div class="modal-fontes-episodio-box"><h3 id="modalFontesEpisodioTituloCronos">Trocar Player</h3><p id="modalFontesEpisodioTextoCronos">Escolha outra fonte.</p><div class="modal-fontes-episodio-lista" id="modalFontesEpisodioListaCronos"></div><button type="button" class="modal-fontes-episodio-close" id="modalFontesEpisodioFecharCronos">Cancelar</button></div>';
-            document.body.appendChild(modal);
-            modal.addEventListener('click', e => { if(e.target === modal) modal.style.display = 'none'; });
-        }
-        const fechar = document.getElementById('modalFontesEpisodioFecharCronos');
-        if(fechar) fechar.onclick = () => modal.style.display = 'none';
-        return {
-            modal,
-            titulo: document.getElementById('modalFontesEpisodioTituloCronos'),
-            texto: document.getElementById('modalFontesEpisodioTextoCronos'),
-            lista: document.getElementById('modalFontesEpisodioListaCronos')
-        };
-    }
-    window.cronosAbrirTrocarPlayerV28 = function(){
-        const data = window.__cronosUltimaListaFontesEpisodio || {};
-        const fontes = listaAtualFontes();
-        if(!fontes.length) return;
-        const ui = modalElementos();
-        if(ui.titulo) ui.titulo.textContent = 'Trocar Player';
-        if(ui.texto) ui.texto.textContent = 'Escolha outra fonte para continuar o mesmo episódio.';
-        if(ui.lista) {
-            ui.lista.innerHTML = '';
-            fontes.forEach((p, idx) => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'btn-assistir ' + (/megaembed|playerembedapi|superembed|warez|superflix/i.test(String(p.src || '')) ? 'btn-cronos-player-direto' : 'btn-cronos-player-original');
-                const nome = nomeFonte(p, idx);
-                btn.textContent = '▶ #' + (idx + 1) + ' ' + nome;
-                btn.title = p.src || '';
-                btn.onclick = function(){
-                    try {
-                        window.__cronosPlayerEscolhidoSessao = { ativo:true, index:idx, nome, classe:String(p.classe || p.tipo || ''), src:String(p.src || ''), chave:chaveFonte(p) };
-                        window.__cronosPlayerNomeAtual = nome;
-                        if(typeof window.cronosDefinirPlayerAtualV27 === 'function') window.cronosDefinirPlayerAtualV27(nome, { index:idx, classe:p.classe || p.tipo || '', src:p.src || '', memorizar:true });
-                    } catch(e) {}
-                    ui.modal.style.display = 'none';
-                    if(typeof window.abrirPlayer === 'function') window.abrirPlayer(data.titulo || document.getElementById('playerTitulo')?.textContent || 'Player', p.src, { playerNome:nome, playerIndex:idx, playerClasse:p.classe || p.tipo || '' });
-                };
-                ui.lista.appendChild(btn);
-            });
-        }
-        ui.modal.style.display = 'flex';
-    };
-
-    const abrirBase = window.abrirPlayer;
-    if(typeof abrirBase === 'function' && !abrirBase.__cronosV28PlayerControls){
-        window.abrirPlayer = function(titulo, urlVideo, meta){
-            const r = abrirBase.apply(this, arguments);
-            setTimeout(() => {
-                garantirBotaoTrocarPlayer();
-                atualizarBotaoVoltarPlayer();
-                atualizarTrocarPlayerDisponivel();
-            }, 50);
-            setTimeout(() => {
-                garantirBotaoTrocarPlayer();
-                atualizarTrocarPlayerDisponivel();
-            }, 250);
-            return r;
-        };
-        window.abrirPlayer.__cronosV28PlayerControls = true;
-        try { abrirPlayer = window.abrirPlayer; } catch(e) {}
-    }
-    const fecharBase = window.fecharPlayer;
-    if(typeof fecharBase === 'function' && !fecharBase.__cronosV28PlayerControls){
-        window.fecharPlayer = function(){
-            const r = fecharBase.apply(this, arguments);
-            window.__cronosUltimaListaFontesEpisodio = null;
-            const btn = document.getElementById('cronosTrocarPlayerBtnV28');
-            if(btn) btn.style.display = 'none';
-            atualizarBotaoVoltarPlayer();
-            return r;
-        };
-        window.fecharPlayer.__cronosV28PlayerControls = true;
-        try { fecharPlayer = window.fecharPlayer; } catch(e) {}
-    }
-    const ativarBase = window.ativarTela;
-    if(typeof ativarBase === 'function' && !ativarBase.__cronosV28PlayerAtivoBtn){
-        window.ativarTela = function(){
-            const r = ativarBase.apply(this, arguments);
-            setTimeout(atualizarBotaoVoltarPlayer, 40);
-            return r;
-        };
-        window.ativarTela.__cronosV28PlayerAtivoBtn = true;
-        try { ativarTela = window.ativarTela; } catch(e) {}
-    }
-
-    function iniciar(){
-        garantirBotaoViewPlayerConfig();
-        aplicarEstadoViewPlayerBotao();
-        aplicarVisibilidadeViewPlayerAtual();
-        garantirBotaoVoltarPlayer();
-        garantirBotaoTrocarPlayer();
-        atualizarBotaoVoltarPlayer();
-        atualizarTrocarPlayerDisponivel();
-    }
-    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
-    else iniciar();
-    try {
-        const obs = new MutationObserver(() => aplicarVisibilidadeViewPlayerAtual());
-        obs.observe(document.body, { childList:true, subtree:true });
-    } catch(e) {}
-    setInterval(() => { garantirBotaoViewPlayerConfig(); aplicarVisibilidadeViewPlayerAtual(); atualizarBotaoVoltarPlayer(); atualizarTrocarPlayerDisponivel(); aplicarEstadoViewPlayerBotao(); }, 1000);
-})();
-</script>
-
-
-
-<script id="cronos-v29-viewplayer-episodio-bloqueado-js">
-(function(){
-    if(window.__CRONOS_V29_VIEWPLAYER_EPISODIO_BLOQUEADO__) return;
-    window.__CRONOS_V29_VIEWPLAYER_EPISODIO_BLOQUEADO__ = true;
-
-    function viewPlayerAtivoV29(){
-        try {
-            if(typeof window.cronosViewPlayerAtivoOpcao === 'function') return !!window.cronosViewPlayerAtivoOpcao();
-            return localStorage.getItem('cronos_viewplayer_ativo') === '1';
-        } catch(e) { return false; }
-    }
-    function ehViewPlayerUrlV29(url){
-        return /viewplayer\.online|\bviewplayer\b|via\s*player|viaplayer/i.test(String(url || ''));
-    }
-    function ehEpisodioV29(titulo, url){
-        const t = String(titulo || '');
-        const u = String(url || '');
-        if(/\/episodio\//i.test(u) || /\/episodios\//i.test(u)) return true;
-        if(/S\s*\d{1,3}\s*E\s*\d{1,4}/i.test(t)) return true;
-        if(/epis[oó]dio/i.test(t)) return true;
-        try { if(window.__cronosPendingEpisodeV22) return true; } catch(e) {}
-        return false;
-    }
-    function garantirModalAvisoV29(){
-        let modal = document.getElementById('modalFontesEpisodioCronos');
-        if(!modal){
-            modal = document.createElement('div');
-            modal.id = 'modalFontesEpisodioCronos';
-            modal.className = 'modal-fontes-episodio-cronos';
-            modal.innerHTML = '<div class="modal-fontes-episodio-box"><h3 id="modalFontesEpisodioTituloCronos">Episódio</h3><p id="modalFontesEpisodioTextoCronos"></p><div class="modal-fontes-episodio-lista" id="modalFontesEpisodioListaCronos"></div><button type="button" class="modal-fontes-episodio-close" id="modalFontesEpisodioFecharCronos">Cancelar</button></div>';
-            document.body.appendChild(modal);
-            modal.addEventListener('click', e => { if(e.target === modal) modal.style.display = 'none'; });
-        }
-        const fechar = document.getElementById('modalFontesEpisodioFecharCronos');
-        if(fechar) fechar.onclick = () => { modal.style.display = 'none'; };
-        if(!document.getElementById('cronosViaPlayerAvisoCssV29')){
-            const css = document.createElement('style');
-            css.id = 'cronosViaPlayerAvisoCssV29';
-            css.textContent = '.modal-fontes-episodio-lista .cronos-aviso-viaplayer-v29{color:#ffcc00;font-weight:bold;font-size:13px;line-height:1.5;padding:14px;border:1px dashed #333;border-radius:8px;background:#080808;}';
-            document.head.appendChild(css);
-        }
-        return modal;
-    }
-    window.cronosAvisarSomenteViaPlayerEpisodio = function(titulo){
-        const modal = garantirModalAvisoV29();
-        const title = document.getElementById('modalFontesEpisodioTituloCronos');
-        const texto = document.getElementById('modalFontesEpisodioTextoCronos');
-        const lista = document.getElementById('modalFontesEpisodioListaCronos');
-        if(title) title.textContent = String(titulo || 'Episódio').replace(/\s+/g,' ').trim();
-        if(texto) texto.textContent = 'Esse vídeo só foi encontrado no Via Player.';
-        if(lista) lista.innerHTML = '<div class="cronos-aviso-viaplayer-v29">Este episódio só está disponível no Via Player. Ative o botão <b>Via Player</b> em Configurações para liberar esse player.</div>';
-        modal.style.display = 'flex';
-        try {
-            const btn = document.getElementById('cronosTrocarPlayerBtnV28');
-            if(btn) btn.style.display = 'none';
-        } catch(e) {}
-        return false;
-    };
-
-    const abrirBase = window.abrirPlayer;
-    if(typeof abrirBase === 'function' && !abrirBase.__cronosV29ViewPlayerEpisodioBloqueado){
-        window.abrirPlayer = function(titulo, urlVideo, meta){
-            if(ehViewPlayerUrlV29(urlVideo) && ehEpisodioV29(titulo, urlVideo) && !viewPlayerAtivoV29()) {
-                return window.cronosAvisarSomenteViaPlayerEpisodio(titulo || 'Episódio');
-            }
-            return abrirBase.apply(this, arguments);
-        };
-        window.abrirPlayer.__cronosV29ViewPlayerEpisodioBloqueado = true;
-        try { abrirPlayer = window.abrirPlayer; } catch(e) {}
-    }
 })();
 </script>
 
