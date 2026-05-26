@@ -1,194 +1,213 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CRONOS AnimeFire Testador Separado</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRONOS — Teste ViewPlayer 4 Players Corrigido</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#050505;color:#fff;font-family:Arial,Helvetica,sans-serif}
-header{background:#000;border-bottom:2px solid #8a2be2;padding:18px 28px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.brand{color:#ffcc00;font-size:24px;font-weight:900;text-shadow:0 0 8px #ffcc00}
-.sub{color:#ddd}
-.wrap{max-width:1280px;margin:auto;padding:24px}
-.box{border:1px solid #222;background:#080808;border-radius:10px;padding:18px;margin-bottom:18px}
-.row{display:grid;grid-template-columns:100px 1fr;gap:12px;align-items:center;margin:10px 0}
-label{color:#00ffff;font-weight:900;text-transform:uppercase}
-input,textarea{width:100%;background:#000;color:#fff;border:1px solid #00ffff;border-radius:5px;padding:12px;font-size:15px}
-textarea{min-height:90px;font-family:Consolas,monospace}
-.buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
-button{background:#111;color:#fff;border:1px solid #8a2be2;border-radius:6px;padding:12px 15px;font-weight:900;cursor:pointer}
-button:hover{background:#8a2be2}
-.btn-cyan{border-color:#00ffff;color:#00ffff}
-.btn-cyan:hover{background:#00ffff;color:#000}
-.btn-yellow{border-color:#ffcc00;color:#ffcc00}
-.btn-yellow:hover{background:#ffcc00;color:#000}
-.status{color:#ffcc00;font-size:18px;font-weight:900;margin:12px 0}
-.players{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.card{border:1px solid #00ffff;background:#050505;border-radius:8px;padding:12px;cursor:pointer;min-height:150px}
-.card.active{border-color:#ffcc00;box-shadow:0 0 16px #ffcc00}
-.card h3{margin:0 0 8px;color:#ffcc00}
-.tag{display:inline-block;border:1px solid #00ffff;color:#00ffff;padding:4px 7px;border-radius:3px;font-size:11px;font-weight:900;margin:0 6px 8px 0}
-.url{font-size:12px;color:#ddd;word-break:break-all}
-.playerBox{width:100%;aspect-ratio:16/9;border:2px solid #00ffff;border-radius:8px;background:#000;overflow:hidden}
-.playerBox iframe,.playerBox video{width:100%;height:100%;border:0;background:#000}
-pre{white-space:pre-wrap;word-break:break-word;background:#000;border:1px solid #222;border-radius:8px;padding:14px;max-height:50vh;overflow:auto;color:#ddd}
-small{color:#aaa}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:#050505;color:#fff;font-family:Arial,Helvetica,sans-serif;padding:16px}
+.wrap{max-width:1280px;margin:0 auto}
+.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px;border:1px solid #222;background:#090909;border-radius:10px;padding:14px}
+h1{font-size:20px;color:#ffcc00;text-shadow:0 0 8px rgba(255,204,0,.45)}
+.status{color:#00ffff;font-size:13px;line-height:1.45;margin-top:4px}.status b{color:#ffcc00}
+.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0;background:#0b0b0b;border:1px solid #222;border-radius:10px;padding:14px}
+.btn{border:1px solid #00ffff;background:#111;color:#00ffff;padding:12px 14px;border-radius:6px;font-weight:800;cursor:pointer;transition:.15s;text-align:center;line-height:1.25}
+.btn small{display:block;color:#aaa;font-size:11px;margin-top:3px;font-weight:700}.btn:hover,.btn.ativo{background:#00ffff;color:#000;box-shadow:0 0 12px rgba(0,255,255,.55)}.btn:hover small,.btn.ativo small{color:#111}
+.btn.mega{border-color:#ffcc00;color:#ffcc00}.btn.mega:hover,.btn.mega.ativo{background:#ffcc00;color:#000;box-shadow:0 0 12px rgba(255,204,0,.55)}
+.panel{display:grid;grid-template-columns:1fr;gap:12px}.tools{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#0b0b0b;border:1px solid #222;border-radius:10px;padding:12px}.tools-left,.tools-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+select,.smallbtn{background:#111;color:#fff;border:1px solid #555;border-radius:6px;padding:9px 10px;font-weight:700}.smallbtn{cursor:pointer;color:#ffcc00;border-color:#ffcc00;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.smallbtn:hover{background:#ffcc00;color:#000}.label{color:#aaa;font-size:12px;font-weight:700;text-transform:uppercase}.badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #333;background:#111;border-radius:999px;padding:8px 10px;color:#aaa;font-size:12px}.ok{color:#00ffff}.warn{color:#ffcc00}
+.playerbox{background:#000;border:2px solid #00ffff;border-radius:10px;overflow:hidden;height:76vh;min-height:420px;position:relative}.playerbox.loading{border-color:#ffcc00}iframe{width:100%;height:100%;border:0;background:#000;display:block}.empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#777;text-align:center;padding:20px;pointer-events:none}.log{background:#080808;border:1px solid #222;border-radius:8px;padding:10px;color:#bbb;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-word;min-height:44px}
+@media(max-width:900px){.controls{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){body{padding:10px}.controls{grid-template-columns:1fr}.playerbox{height:65vh;min-height:320px}.tools-left,.tools-right{width:100%}.smallbtn,select{width:100%}}
 </style>
 </head>
 <body>
-<header>
-  <div class="brand">CRONOS AnimeFire</div>
-  <div class="sub">Testador separado • Players • Fonte segura</div>
-</header>
-
-<main class="wrap">
-<section class="box">
-  <div class="row"><label>Worker</label><input id="worker" value="https://dark-boat-e972.getapi-oi.workers.dev/"></div>
-  <div class="row"><label>URL</label><input id="url" value="https://animefire.io/animes/kami-no-shizuku/1"></div>
-  <div class="buttons">
-    <button class="btn-cyan" onclick="detectar()">Detectar players</button>
-    <button class="btn-yellow" onclick="testarSelecionado()">Testar selecionado</button>
-    <button onclick="copiarEmbed()">Copiar embed</button>
-    <button onclick="copiarURL()">Copiar URL</button>
-    <button onclick="abrirFonte()">Fonte segura</button>
-    <button onclick="abrirDados()">Dados</button>
-    <button onclick="baixarJSON()">Baixar JSON</button>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>CRONOS — Teste ViewPlayer sem abrir ViewPlayer</h1>
+      <div class="status">Corrigido: os 4 botões aparecem fixos na página. Clique em um player para carregar direto no iframe.</div>
+    </div>
+    <div class="badge"><span class="ok">●</span> ViewPlayer original não é carregado</div>
   </div>
-  <div id="status" class="status">Pronto.</div>
-  <small>Use uma URL de episódio do AnimeFire.</small>
-</section>
 
-<section class="box">
-  <h2 style="color:#ffcc00;margin-top:0">Players detectados</h2>
-  <div id="players" class="players"></div>
-</section>
+  <div class="controls">
+    <button class="btn" type="button" data-player="0">#1 Dublado <small>PlayerEmbedAPI</small></button>
+    <button class="btn mega" type="button" data-player="1">#2 Dublado <small>MegaEmbed</small></button>
+    <button class="btn" type="button" data-player="2">#1 Legendado <small>PlayerEmbedAPI</small></button>
+    <button class="btn mega" type="button" data-player="3">#2 Legendado <small>MegaEmbed</small></button>
+  </div>
 
-<section class="box">
-  <h2 style="color:#ffcc00;margin-top:0">Teste do player</h2>
-  <div id="playerBox" class="playerBox"></div>
-</section>
+  <div class="panel">
+    <div class="tools">
+      <div class="tools-left">
+        <span class="label">Modo</span>
+        <select id="modo">
+          <option value="auto">Auto: PlayerEmbedAPI direto / MegaEmbed proxy Winter com # externo</option>
+          <option value="direct">Direto</option>
+          <option value="proxy-winter-hash">Proxy Winter — MegaEmbed com # externo</option>
+          <option value="proxy-winter-full">Proxy Winter — URL completa codificada</option>
+          <option value="proxy-delicate-hash">Proxy Delicate — MegaEmbed com # externo</option>
+          <option value="proxy-delicate-full">Proxy Delicate — URL completa codificada</option>
+        </select>
+        <label class="badge"><input id="sandboxToggle" type="checkbox" checked> Sandbox</label>
+      </div>
+      <div class="tools-right">
+        <button class="smallbtn" id="loadBtn" type="button">Carregar no frame</button>
+        <button class="smallbtn" id="openNew" type="button">Abrir link atual</button>
+        <button class="smallbtn" id="reloadBtn" type="button">Recarregar iframe</button>
+        <button class="smallbtn" id="clearBtn" type="button">Limpar</button>
+      </div>
+    </div>
 
-<section class="box">
-  <h2 style="color:#ffcc00;margin-top:0">Embed / JSON</h2>
-  <textarea id="embedOut" placeholder="Embed selecionado aparece aqui"></textarea>
-  <pre id="saida"></pre>
-</section>
-</main>
+    <div class="playerbox" id="playerbox">
+      <div class="empty" id="empty">Clique em um dos 4 botões acima para testar.</div>
+      <iframe id="frame" referrerpolicy="no-referrer" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>
+    </div>
+
+    <div class="log" id="log"></div>
+  </div>
+</div>
 
 <script>
-let ultimo = null;
-let selecionado = -1;
+'use strict';
 
-function workerBase() {
-  return document.getElementById('worker').value.trim().replace(/\/?$/, '/');
+const PLAYERS = [
+  { label: '#1 Dublado',  src: 'https://playerembedapi.link/?v=DaMYWcbXG', type: 'jwplayer', id: '369361', host: 'playerembedapi.link' },
+  { label: '#2 Dublado',  src: 'https://megaembed.link/#czs6b8',       type: 'iframe',   id: '374289', host: 'megaembed.link' },
+  { label: '#1 Legendado', src: 'https://playerembedapi.link/?v=H2GFARc4v', type: 'iframe', id: '374291', host: 'playerembedapi.link' },
+  { label: '#2 Legendado', src: 'https://megaembed.link/#ik58j8',       type: 'iframe',   id: '374292', host: 'megaembed.link' }
+];
+
+const PROXY_WINTER = 'https://winter-cherry-3baa.getapi-oi.workers.dev/?url=';
+const PROXY_DELICATE = 'https://delicate-sea-41ab.getapi-oi.workers.dev/?url=';
+
+let atual = null;
+let ultimoSrcFinal = '';
+let ultimoSrcOriginal = '';
+
+const frame = document.getElementById('frame');
+const empty = document.getElementById('empty');
+const logEl = document.getElementById('log');
+const modoEl = document.getElementById('modo');
+const sandboxToggle = document.getElementById('sandboxToggle');
+const playerbox = document.getElementById('playerbox');
+
+function log(msg) {
+  const hora = new Date().toLocaleTimeString();
+  logEl.textContent = '[' + hora + '] ' + msg + '\n' + logEl.textContent;
 }
 
-function alvoURL() {
-  return document.getElementById('url').value.trim();
+function isMega(player) {
+  return /megaembed\.link/i.test(player.src);
 }
 
-function api(modo) {
-  return workerBase() + '?modo=' + encodeURIComponent(modo) + '&url=' + encodeURIComponent(alvoURL());
+function splitMega(url) {
+  const base = String(url || '').split('#')[0];
+  const hash = String(url || '').includes('#') ? String(url || '').slice(String(url || '').indexOf('#')) : '';
+  return { base, hash };
 }
 
-async function detectar() {
-  const status = document.getElementById('status');
-  const saida = document.getElementById('saida');
-  const playersBox = document.getElementById('players');
-  const playerBox = document.getElementById('playerBox');
+function montarUrlProxyHash(proxy, player) {
+  if (!isMega(player)) return proxy + encodeURIComponent(player.src);
+  const partes = splitMega(player.src);
+  return proxy + encodeURIComponent(partes.base) + partes.hash;
+}
 
-  status.textContent = 'Detectando players...';
-  saida.textContent = '';
-  playersBox.innerHTML = '';
-  playerBox.innerHTML = '';
-  selecionado = -1;
+function montarUrlProxyFull(proxy, player) {
+  return proxy + encodeURIComponent(player.src);
+}
 
-  try {
-    const r = await fetch(api('players'), {cache:'no-store'});
-    const data = await r.json();
-    ultimo = data;
-    saida.textContent = JSON.stringify(data, null, 2);
-    status.textContent = 'HTTP ' + r.status + ' • ' + (data.totalDetectado || 0) + ' player(s)';
+function montarUrl(player) {
+  const modo = modoEl.value;
+  if (modo === 'direct') return player.src;
+  if (modo === 'proxy-winter-hash') return montarUrlProxyHash(PROXY_WINTER, player);
+  if (modo === 'proxy-winter-full') return montarUrlProxyFull(PROXY_WINTER, player);
+  if (modo === 'proxy-delicate-hash') return montarUrlProxyHash(PROXY_DELICATE, player);
+  if (modo === 'proxy-delicate-full') return montarUrlProxyFull(PROXY_DELICATE, player);
 
-    if (!data.players || !data.players.length) {
-      playersBox.innerHTML = '<div class="card"><h3>Nenhum player encontrado</h3><div class="url">Tente outra URL de episódio ou veja a fonte segura.</div></div>';
-      return;
-    }
+  if (isMega(player)) return montarUrlProxyHash(PROXY_WINTER, player);
+  return player.src;
+}
 
-    playersBox.innerHTML = data.players.map((p, i) => `
-      <div class="card" onclick="selecionar(${i})" id="cardPlayer${i}">
-        <h3>${escapeHtml(p.nome || 'Player')}</h3>
-        <div class="tag">${escapeHtml(p.tipo || '')}</div>
-        <div class="tag">${escapeHtml(p.origem || '')}</div>
-        <div class="tag">${p.bloqueado ? 'bloqueado/info' : 'seguro'}</div>
-        <div class="url">${escapeHtml(p.src || '')}</div>
-        <div class="url" style="color:#ffcc00;margin-top:8px;">${escapeHtml(p.motivo || '')}</div>
-      </div>
-    `).join('');
-
-    selecionar(0);
-  } catch(e) {
-    status.textContent = 'Erro ao detectar';
-    saida.textContent = e.message || String(e);
+function aplicarSandbox() {
+  if (sandboxToggle.checked) {
+    frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-presentation');
+  } else {
+    frame.removeAttribute('sandbox');
   }
 }
 
-function selecionar(i) {
-  selecionado = i;
-  document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-  const card = document.getElementById('cardPlayer' + i);
-  if (card) card.classList.add('active');
-
-  const p = ultimo && ultimo.players ? ultimo.players[i] : null;
-  document.getElementById('embedOut').value = p ? (p.embedCode || p.embed || '') : '';
+function selecionar(index) {
+  atual = PLAYERS[index];
+  document.querySelectorAll('[data-player]').forEach(btn => btn.classList.remove('ativo'));
+  const btnAtual = document.querySelector('[data-player="' + index + '"]');
+  if (btnAtual) btnAtual.classList.add('ativo');
+  carregarAtual();
 }
 
-function testarSelecionado() {
-  const p = ultimo && ultimo.players ? ultimo.players[selecionado] : null;
-  if (!p) {
-    document.getElementById('status').textContent = 'Nenhum player selecionado.';
+function carregarAtual() {
+  if (!atual) {
+    log('Escolha primeiro um dos 4 players.');
     return;
   }
-  document.getElementById('playerBox').innerHTML = p.embed || p.embedCode || '';
-  document.getElementById('status').textContent = 'Testando: ' + (p.nome || 'Player');
+  aplicarSandbox();
+  ultimoSrcOriginal = atual.src;
+  ultimoSrcFinal = montarUrl(atual);
+  empty.style.display = 'none';
+  playerbox.classList.add('loading');
+  frame.src = 'about:blank';
+  setTimeout(function() {
+    frame.src = ultimoSrcFinal;
+  }, 80);
+  log('Carregando ' + atual.label + ' | original: ' + ultimoSrcOriginal + ' | iframe: ' + ultimoSrcFinal);
 }
 
-async function copiarEmbed() {
-  const txt = document.getElementById('embedOut').value;
-  if (!txt) return;
-  await navigator.clipboard.writeText(txt);
-  document.getElementById('status').textContent = 'Embed copiado.';
+function abrirLinkAtual() {
+  if (!atual) {
+    log('Nenhum player selecionado. Clique em um dos 4 botões primeiro.');
+    return;
+  }
+  window.open(ultimoSrcFinal || ultimoSrcOriginal, '_blank', 'noopener,noreferrer');
 }
 
-async function copiarURL() {
-  const p = ultimo && ultimo.players ? ultimo.players[selecionado] : null;
-  if (!p) return;
-  await navigator.clipboard.writeText(p.src || '');
-  document.getElementById('status').textContent = 'URL copiada.';
-}
+document.querySelectorAll('[data-player]').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    selecionar(Number(btn.getAttribute('data-player')));
+  });
+});
 
-function abrirFonte() {
-  window.open(api('fonte'), '_blank');
-}
+document.getElementById('loadBtn').addEventListener('click', carregarAtual);
+document.getElementById('openNew').addEventListener('click', abrirLinkAtual);
+document.getElementById('reloadBtn').addEventListener('click', carregarAtual);
 
-function abrirDados() {
-  window.open(api('dados'), '_blank');
-}
+document.getElementById('clearBtn').addEventListener('click', function() {
+  atual = null;
+  ultimoSrcFinal = '';
+  ultimoSrcOriginal = '';
+  frame.src = 'about:blank';
+  empty.style.display = 'flex';
+  document.querySelectorAll('[data-player]').forEach(btn => btn.classList.remove('ativo'));
+  log('Player limpo.');
+});
 
-async function baixarJSON() {
-  if (!ultimo) await detectar();
-  const blob = new Blob([JSON.stringify(ultimo, null, 2)], {type:'application/json;charset=utf-8'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'animefire-players-detectados.json';
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
+modoEl.addEventListener('change', function() {
+  if (atual) carregarAtual();
+});
 
-function escapeHtml(s) {
-  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-}
+sandboxToggle.addEventListener('change', function() {
+  if (atual) carregarAtual();
+});
+
+frame.addEventListener('load', function() {
+  if (ultimoSrcFinal) {
+    playerbox.classList.remove('loading');
+    log('Iframe terminou a tentativa de carregamento. Se ficar preto/bloqueado, teste outro modo ou desmarque Sandbox.');
+  }
+});
+
+aplicarSandbox();
+log('Teste corrigido pronto. Botões fixos carregados: ' + PLAYERS.length + '.');
 </script>
 </body>
 </html>
