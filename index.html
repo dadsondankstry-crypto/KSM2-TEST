@@ -1,23 +1,22 @@
-<!-- CRONOS DUPLO MELHORADO V1 - PC + Mobile no mesmo arquivo -->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CINE 3</title>
+    <title>CINE4</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background-color: #050505; 
-            color: #00ffff; 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #050505;
+            color: #00ffff;
             font-family: sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
-        
-        /* Navegação */
+
         .navbar {
             width: 100%; background-color: #000; border-bottom: 2px solid #8a2be2;
             padding: 15px 20px; display: flex; justify-content: space-between;
@@ -33,8 +32,7 @@
         }
         .nav-btn:hover { background-color: #00ffff; box-shadow: 0 0 14px #00ffff; color: #000; transform: translateY(-1px); }
         .nav-btn.ativa { background-color: #8a2be2; border-color: #8a2be2; box-shadow: 0 0 16px #8a2be2; color: #fff; }
-        
-        /* Busca */
+
         .search-box { display: flex; gap: 10px; }
         .search-box input {
             padding: 10px 15px; background-color: #050505; border: 1px solid #00ffff;
@@ -45,14 +43,12 @@
             font-weight: bold; border-radius: 6px; cursor: pointer;
         }
 
-        /* Telas Principais */
         .view-container { width: 100%; max-width: 1200px; padding: 20px; display: none; }
         .view-container.ativa { display: block; }
 
-        /* Grids e Cards */
         .sessao-titulo { color: #ffcc00; border-bottom: 1px solid #8a2be2; padding-bottom: 10px; margin-top: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
         .grid-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; list-style: none; margin-bottom: 40px; }
-        
+
         .card-item {
             background-color: #111; border: 1px solid #00ffff; border-radius: 5px; padding: 10px;
             text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; justify-content: space-between;
@@ -78,7 +74,7 @@
         .card-item img { width: 100%; border-radius: 4px; margin-bottom: 10px; height: 250px; object-fit: cover; }
         .card-item h3 { font-size: 14px; color: #fff; margin-bottom: 5px; }
         .card-item span.ano-card { font-size: 12px; color: #8a2be2; font-weight: bold; }
-        
+
         .badge-tipo {
             position: absolute; top: 15px; left: 15px; padding: 4px 8px; border-radius: 3px;
             font-size: 11px; font-weight: bold; color: #fff; text-transform: uppercase;
@@ -98,7 +94,6 @@
         }
         .btn-carregar-mais:hover { background-color: #ffcc00; color: #000; }
 
-        /* Ficha Técnica Premium - padrão do arquivo base */
         .detalhes-barra-acoes { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; width: 100%; gap: 15px; }
         .detalhes-header {
             display: flex; gap: 25px; background: #111; border: 1px solid #333;
@@ -128,31 +123,27 @@
         .btn-favorito { padding: 10px 20px; background-color: rgba(17,17,17,0.85); color: #ffcc00; border: 1px solid #ffcc00; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; backdrop-filter: blur(5px); white-space: nowrap; }
         .btn-favorito:hover, .btn-favorito.ativo { background-color: #ffcc00; color: #000; box-shadow: 0 0 12px rgba(255,204,0,0.5); }
 
-        /* Estrutura de Temporadas e Episódios */
-        .grupo-temporada { 
-            color: #ffcc00; 
-            margin-top: 35px; /* Espaçamento ajustado para não grudar no ep de cima */
-            margin-bottom: 10px; 
-            border-bottom: 1px solid #00ffff; 
-            padding-bottom: 5px; 
+        .grupo-temporada {
+            color: #ffcc00;
+            margin-top: 35px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #00ffff;
+            padding-bottom: 5px;
             font-size: 18px;
             text-transform: uppercase;
         }
         .lista-botoes { display: flex; flex-direction: column; gap: 10px; list-style: none; margin-bottom: 10px;}
         .ep-item { background-color: #111; border-left: 4px solid #ffcc00; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
-        
+
         .btn-assistir { padding: 10px 20px; background-color: #8a2be2; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
         .btn-assistir:hover { box-shadow: 0 0 10px #8a2be2; background-color: #9b45e4; }
 
-        /* Player Embutido */
         .header-player { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .btn-fechar-player { background-color: #ff0000; color: #fff; border: 1px solid #ff0000; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .player-wrapper { width: 100%; background: #000; border: 2px solid #00ffff; border-radius: 5px; padding: 0; margin-top: 10px; height: 75vh; overflow: hidden; }
         iframe { width: 100%; height: 100%; border: none; }
         .loading-text { color: #fff; font-size: 18px; margin: 20px 0; }
-    
 
-        /* ================= HOME NOVA: ESTILO PAINEL LIMPO ================= */
         .home-chip {
             background: #111; border: 1px solid #00ffff; color: #00ffff;
             padding: 10px 16px; border-radius: 999px; font-weight: bold; cursor: pointer; transition: 0.2s;
@@ -172,7 +163,6 @@
         .home-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
         .home-grid-4 .card-item img { height: 310px; object-fit: contain; object-position: center; background: #0b0b0b; }
 
-        /* Carrossel: uma fileira só, 4 cards visíveis, setas em overlay */
         .home-carousel-wrap {
             position: relative;
             margin-bottom: 28px;
@@ -298,9 +288,7 @@
             .glass-arrow { width: 36px; height: 110px; }
             .premium-info h3 { font-size: 24px; }
         }
-/* AJUSTE FINAL DOS CARDS DA HOME */
 
-/* Filmes e séries: remove faixas pretas */
 #gridInicioFilmes .card-item img,
 #gridInicioSeries .card-item img {
     height: 300px;
@@ -308,8 +296,6 @@
     object-position: center;
 }
 
-/* Episódios: card mais baixo */
-/* EPISÓDIOS ADICIONADOS RECENTEMENTE - FORÇADO */
 #gridInicioEpisodios .card-item img {
     width: 100% !important;
     height: auto !important;
@@ -319,11 +305,10 @@
     background: #000;
 }
 
-/* Reduz um pouco o espaço interno dos cards de episódios */
 #gridInicioEpisodios .card-item {
     padding: 8px;
 }
-/* TAG DE DATA NOS CARDS DE EPISÓDIO */
+
 .badge-data-episodio {
     position: absolute;
     left: 12px;
@@ -339,7 +324,6 @@
     box-shadow: 0 0 8px rgba(0,0,0,0.8);
 }
 
-/* Texto dos episódios */
 #gridInicioEpisodios .card-item h3 {
     color: #fff;
     font-size: 14px;
@@ -354,8 +338,6 @@
     font-weight: bold;
 }
 
-
-/* AJUSTE: ANO EM TAG PARA CARDS GLOBAIS E CARROSSEL */
 .badge-ano-card {
     position: absolute;
     left: 12px;
@@ -371,24 +353,19 @@
     box-shadow: 0 0 8px rgba(0,0,0,0.8);
 }
 
-/* Na Home de filmes/séries, o ano fica colado na parte inferior da imagem */
 #gridInicioFilmes .badge-ano-card,
 #gridInicioSeries .badge-ano-card {
     bottom: 50px;
 }
 
-/* No carrossel Continuar Assistindo / Minha Lista, o ano também fica em cima da imagem */
 .home-row .badge-ano-card {
     bottom: 58px;
 }
 
-/* Como o ano virou tag, o texto de baixo fica só para título */
 .card-item .ano-card:empty {
     display: none;
 }
-    
 
-/* ===== AJUSTE FINAL DOS CARDS GLOBAIS, CARROSSEL E EPISÓDIOS HOME ===== */
 .card-item.global-card,
 .card-item.carousel-card,
 .card-item.episodio-home-card {
@@ -405,7 +382,6 @@
     flex-shrink: 0;
 }
 
-/* Card global padrão: filmes, séries, favoritos e grids principais */
 .card-item.global-card .card-media {
     height: 300px;
 }
@@ -426,7 +402,6 @@
     text-align: center;
 }
 
-/* Card compacto do carrossel: continuar assistindo e minha lista */
 .card-item.carousel-card .card-media {
     height: 250px;
 }
@@ -447,7 +422,6 @@
     text-align: center;
 }
 
-/* Posicionamento das tags dentro da área visual do card */
 .card-item.global-card .badge-tipo,
 .card-item.carousel-card .badge-tipo,
 .card-item.episodio-home-card .badge-tipo {
@@ -470,13 +444,11 @@
     bottom: 10px;
 }
 
-/* Home filmes e séries: garantir altura da imagem fixa, sem mover a tag do ano quando o título quebra */
 #gridInicioFilmes .card-item.global-card .card-media,
 #gridInicioSeries .card-item.global-card .card-media {
     height: 300px;
 }
 
-/* Card especial de episódio na Home / futura aba episódios */
 #gridInicioEpisodios .card-item.episodio-home-card {
     padding: 10px;
 }
@@ -518,8 +490,6 @@
     line-height: 1.2;
 }
 
-
-/* AJUSTE FINO: ano dos cards globais fixo no canto inferior esquerdo da imagem */
 #gridInicioFilmes .card-item.global-card .badge-ano-card,
 #gridInicioSeries .card-item.global-card .badge-ano-card,
 #gridFavoritos .card-item.global-card .badge-ano-card,
@@ -530,13 +500,10 @@
     bottom: 10px !important;
 }
 
-
-/* ===== AJUSTE RESPONSIVO FINAL: cards mantêm proporção e aumentam colunas ===== */
 .view-container {
     max-width: 1500px;
 }
 
-/* Os grids principais não esticam o card até ficar gordo; eles adicionam mais colunas quando cabe */
 #gridInicioFilmes,
 #gridInicioSeries,
 #gridInicioEpisodios,
@@ -550,7 +517,6 @@
     gap: 20px;
 }
 
-/* Card global: proporção vertical constante. A largura aumenta junto com a altura. */
 .card-item.global-card .card-media {
     width: 100%;
     height: auto !important;
@@ -564,14 +530,12 @@
     object-position: center;
 }
 
-/* Filmes e séries da Home seguem o mesmo padrão do card global */
 #gridInicioFilmes .card-item.global-card .card-media,
 #gridInicioSeries .card-item.global-card .card-media {
     height: auto !important;
     aspect-ratio: 2 / 3;
 }
 
-/* Episódio Home: card no mesmo tamanho do global, mas imagem interna é paisagem 16:9 centralizada */
 #gridInicioEpisodios .card-item.episodio-home-card .card-media {
     width: 100%;
     height: auto !important;
@@ -589,7 +553,6 @@
     object-position: center;
 }
 
-/* Tags continuam presas dentro da área da imagem, no canto certo */
 .card-item.global-card .badge-ano-card,
 .card-item.carousel-card .badge-ano-card {
     left: 10px !important;
@@ -601,7 +564,6 @@
     bottom: 10px !important;
 }
 
-/* Navbar: botões menos redondos e busca mais arredondada para ficar no mesmo padrão */
 .nav-btn {
     border-radius: 14px !important;
 }
@@ -639,15 +601,10 @@
     }
 }
 
-
-/* ===== AJUSTE RESPONSIVO FINAL: MANTER PROPORÇÃO DO CARD ===== */
-
-/* Permite que a Home use mais colunas quando a tela for larga */
 .view-container {
     max-width: 1600px;
 }
 
-/* Grid da Home: mantém card com largura padrão e só aumenta a quantidade de colunas */
 .home-grid-4 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 240px));
@@ -656,7 +613,6 @@
     gap: 15px;
 }
 
-/* Card Global: a caixa da imagem acompanha a largura, mantendo proporção vertical */
 .card-item.global-card .card-media,
 #gridInicioFilmes .card-item.global-card .card-media,
 #gridInicioSeries .card-item.global-card .card-media,
@@ -669,7 +625,6 @@
     aspect-ratio: 2 / 3;
 }
 
-/* Imagem inteira, sem achatar e sem “subir/comer” topo */
 .card-item.global-card .card-media img,
 #gridInicioFilmes .card-item.global-card .card-media img,
 #gridInicioSeries .card-item.global-card .card-media img,
@@ -685,7 +640,6 @@
     background: #000;
 }
 
-/* Episódios Home: card no mesmo tamanho do global, imagem 16:9 centralizada dentro */
 #gridInicioEpisodios .card-item.episodio-home-card .card-media {
     width: 100%;
     height: auto !important;
@@ -704,7 +658,6 @@
     background: transparent;
 }
 
-/* Navbar: botões menos pílula, busca um pouco mais arredondada para combinar */
 .nav-btn {
     border-radius: 14px !important;
 }
@@ -717,8 +670,6 @@
     border-radius: 12px !important;
 }
 
-
-/* ===== NAVBAR PADRÃO ANTIGO / MAIS COMPACTA ===== */
 .navbar {
     flex-wrap: wrap;
     gap: 10px;
@@ -780,7 +731,6 @@
     cursor: pointer !important;
 }
 
-/* A aba Episódios usa o mesmo Card dos Episódios Home */
 #gridEpisodios .card-item.episodio-home-card {
     padding: 10px;
 }
@@ -820,7 +770,6 @@
     line-height: 1.2;
 }
 
-/* Episódios: tag do provedor no canto inferior direito */
 #gridInicioEpisodios .card-item.episodio-home-card .badge-qualidade,
 #gridEpisodios .card-item.episodio-home-card .badge-qualidade {
     top: auto !important;
@@ -828,8 +777,6 @@
     right: 10px !important;
 }
 
-
-/* ===== CATEGORIAS + BARRA A-Z ===== */
 .abc-bar {
     display: flex;
     flex-wrap: wrap;
@@ -925,8 +872,6 @@ color: #fff;
     transform: translateY(-1px);
 }
 
-
-/* Skeleton: usado quando o poster correto ainda vai ser buscado no IndexedDB/site */
 .card-item.card-skeleton {
     pointer-events: none;
     min-height: 360px;
@@ -965,10 +910,7 @@ color: #fff;
 @keyframes cronosSkeleton {
     100% { transform: translateX(100%); }
 }
-/* =========================================================
-   AJUSTE NAVBAR — LOGO, MENU E BUSCA NO MESMO PADRÃO BASE
-   Remove o espaço grande entre CRONOS e botão Início.
-========================================================= */
+
 .navbar {
     justify-content: flex-start !important;
     flex-wrap: nowrap !important;
@@ -996,11 +938,6 @@ color: #fff;
     }
 }
 
-
-/* =========================================================
-   AJUSTE FINAL — VISUAL 80% EM ZOOM 100%
-   Mantém navbar alinhada e volta cards para proporção maior.
-========================================================= */
 .navbar {
     justify-content: flex-start !important;
     flex-wrap: nowrap !important;
@@ -1048,7 +985,6 @@ color: #fff;
     max-width: 1600px !important;
     padding: 18px !important;
 }
-
 
 .home-grid-4,
 #gridInicioFilmes.home-grid-4,
@@ -1133,8 +1069,6 @@ color: #fff;
     .search-box { margin-left: 0 !important; flex: 1 1 240px !important; max-width: 100% !important; }
 }
 
-
-/* AJUSTE FINAL: episódios no mesmo tamanho dos cards globais */
 #gridInicioEpisodios,
 #gridEpisodios,
 #gridInicioEpisodios.home-grid-4,
@@ -1203,8 +1137,6 @@ color: #fff;
     }
 }
 
-
-        /* Detalhes e episódios da série - padrão CRONOS CLICK */
         .grid-episodios { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; list-style: none; margin-bottom: 30px; }
         .tabs-temporadas { display: flex; gap: 10px; margin: 30px 0 20px 0; overflow-x: auto; padding-bottom: 10px; }
         .tabs-temporadas::-webkit-scrollbar { height: 6px; }
@@ -1225,8 +1157,6 @@ color: #fff;
         .ep-title { color: #fff; font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .ep-year { color: #888; font-size: 11px; font-weight: bold; }
 
-    
-        /* Botão de voltar específico dos filtros de Categoria/Ano */
         .btn-voltar-categorias {
             display: none;
             width: fit-content;
@@ -1249,8 +1179,6 @@ color: #fff;
             transform: translateY(-1px);
         }
 
-
-/* Botão Atualizar na tela de detalhes */
 .btn-atualizar-detalhe {
     padding: 10px 20px;
     background-color: rgba(17,17,17,0.88);
@@ -1273,7 +1201,6 @@ color: #fff;
     pointer-events: none;
 }
 
-/* Painel de sincronização do catálogo */
 .sync-panel-cronos {
     background: #0a0a0a;
     border: 1px solid #8a2be2;
@@ -1421,7 +1348,6 @@ color: #fff;
     box-shadow: none;
 }
 
-
 .sync-contadores-cronos {
     display: flex;
     flex-wrap: wrap;
@@ -1445,11 +1371,6 @@ color: #fff;
     padding: 8px 0;
 }
 
-    
-
-/* AJUSTE FINAL — Destaque Premium imagem 100% inteira
-   Regra: nunca cortar a imagem. Mostra o backdrop completo em cima, embaixo e laterais.
-   Usa contain, fundo escuro e proporção 16/9 para preservar a imagem original. */
 .premium-slider {
     width: min(calc(100% - 48px), 1460px) !important;
     max-width: 1460px !important;
@@ -1507,9 +1428,6 @@ color: #fff;
     }
 }
 
-
-/* AJUSTE TESTE — Premium 100% sem corte em tamanho 75%
-   Mantém a imagem inteira com contain, mas limita o bloco a ~75% do tamanho anterior. */
 .premium-slider {
     width: min(calc(100% - 48px), 1095px) !important;
     max-width: 1095px !important;
@@ -1557,12 +1475,6 @@ color: #fff;
     }
 }
 
-
-/* ===== AJUSTE NOVO — Premium 10% menor + grids com máximo de 6 cards =====
-   - Destaque Premium reduzido em ~10% em relação à versão 75.
-   - Cards principais com limite máximo de 6 colunas em telas largas.
-   - Em telas menores, os cards continuam reduzindo proporcionalmente.
-*/
 .premium-slider {
     width: min(calc(100% - 48px), 986px) !important;
     max-width: 986px !important;
@@ -1610,9 +1522,6 @@ color: #fff;
     }
 }
 
-
-
-/* ===== AJUSTE FINAL — NAV CENTRALIZADA E DETALHE NO PADRÃO PREMIUM ===== */
 @media (min-width: 901px) {
     .navbar {
         display: grid !important;
@@ -1651,7 +1560,6 @@ color: #fff;
     }
 }
 
-/* A ficha de detalhes fica centralizada, com o mesmo comportamento visual do Premium */
 #telaDetalhes {
     max-width: 1120px !important;
     width: 100% !important;
@@ -1750,8 +1658,6 @@ color: #fff;
     }
 }
 
-
-/* ===== POSTER MANUAL — galeria + recorte vertical ===== */
 #detalheImg.poster-sem-imagem-manual {
     cursor: pointer !important;
     outline: 1px dashed #00ffff;
@@ -1914,11 +1820,6 @@ color: #fff;
     .poster-manual-box { padding: 12px; }
 }
 
-/* =========================================================
-   AJUSTE FINAL — SOMENTE DESTAQUE PREMIUM DA HOME
-   Visual estilo Liso: sem badges, sem botões, imagem sem corte,
-   laterais preenchidas, texto um pouco mais alto e dots afastados.
-========================================================= */
 #sliderDestaquesPremium.premium-slider {
     position: relative !important;
     width: 100% !important;
@@ -1989,7 +1890,6 @@ color: #fff;
     pointer-events: none !important;
 }
 
-/* mantém a classe antiga .premium-info para não afetar o resto do arquivo */
 #sliderDestaquesPremium .premium-info {
     position: absolute !important;
     left: 30px !important;
@@ -2155,8 +2055,6 @@ color: #fff;
     }
 }
 
-/* === CSS CONSOLIDADO DOS BLOCOS EXTRAS === */
-/* CORREÇÃO V2 — impede duplicação do botão Iniciar Transmissão no mobile */
 #areaAcaoDetalhe {
     width: 100%;
 }
@@ -2173,7 +2071,6 @@ color: #fff;
     }
 }
 
-/* ===== AJUSTE — Poster manual sem recorte e galeria limpa ===== */
 #telaDetalhes .detalhes-poster img,
 #detalheImg.poster-sem-imagem-manual {
     width: 205px !important;
@@ -2213,7 +2110,6 @@ color: #fff;
     font-size:13px;
 }
 
-/* ===== PATCH — poster manual oficial e persistente ===== */
 #detalheImg.poster-manual-editavel {
     cursor: pointer !important;
 }
@@ -2233,7 +2129,6 @@ color: #fff;
     font-size:13px;
 }
 
-/* ===== AJUSTE MOBILE PROFISSIONAL — deixa celular agradável sem mexer no desktop ===== */
 @media (max-width: 768px) {
     html, body {
         max-width: 100% !important;
@@ -2251,7 +2146,6 @@ color: #fff;
         overflow-x: hidden !important;
     }
 
-    /* topo: logo, abas e busca mais organizados no celular */
     .navbar {
         position: sticky !important;
         top: 0 !important;
@@ -2342,7 +2236,6 @@ color: #fff;
         border-radius: 999px !important;
     }
 
-    /* Destaque Premium menor e mais limpo no celular */
     .premium-slider {
         width: 100% !important;
         max-width: 100% !important;
@@ -2395,7 +2288,6 @@ color: #fff;
     .premium-slider .glass-arrow.left { left: 12px !important; }
     .premium-slider .glass-arrow.right { right: 12px !important; }
 
-    /* grids: mantém 2 cards, mas com respiro melhor */
     .grid-lista,
     #gridInicioFilmes,
     #gridInicioSeries,
@@ -2442,7 +2334,6 @@ color: #fff;
         font-size: 10px !important;
     }
 
-    /* ficha de detalhes: não deixa mais cortar para a direita */
     #telaDetalhes {
         max-width: 100% !important;
         width: 100% !important;
@@ -2551,7 +2442,6 @@ color: #fff;
         font-size: 14px !important;
     }
 
-    /* episódios da série: card grande, mas sem estourar lateral */
     .lista-episodios,
     #listaEpisodios {
         width: 100% !important;
@@ -2566,7 +2456,6 @@ color: #fff;
         overflow: hidden !important;
     }
 
-    /* categorias/sync: menos pesado no celular */
     .painel-sync,
     .sync-box,
     .categoria-extra-box,
@@ -2675,7 +2564,6 @@ color: #fff;
     }
 }
 
-/* ===== MOBILE MENU + A-Z compacto ===== */
 .mobile-menu-btn, .mobile-menu-overlay, .btn-toggle-az-cronos { display:none; }
 
 @media (max-width: 720px) {
@@ -2890,7 +2778,6 @@ color: #fff;
     }
 }
 
-/* ===== MOBILE HOME FINAL — layout conforme modelo enviado ===== */
 @media (max-width: 720px) {
     html, body {
         width: 100% !important;
@@ -3037,7 +2924,6 @@ color: #fff;
         padding-top: 0 !important;
     }
 
-    /* remove o grande vazio que apareceu entre busca e destaque */
     header + *,
     .navbar + *,
     .topbar + *,
@@ -3258,7 +3144,6 @@ color: #fff;
     }
 }
 
-/* ===== PATCH — Menu mobile final: só CRONOS + ☰ + busca no topo ===== */
 @media (max-width: 720px) {
     header nav,
     header .nav,
@@ -3292,9 +3177,6 @@ color: #fff;
     }
 }
 
-/* ===== DETALHE FINAL — sem pulo do botão transmissão ===== */
-
-/* Atualizar removido no desktop e no celular */
 #telaDetalhes button[onclick*="atualizar"],
 #telaDetalhes button[onclick*="Atualizar"],
 #telaDetalhes button[onclick*="recarregar"],
@@ -3323,7 +3205,7 @@ color: #fff;
 }
 
 @media (max-width: 720px) {
-    /* Voltar/Favorito: mantém o padrão aprovado */
+
     #telaDetalhes .detalhe-actions-cronos-mobile {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
@@ -3355,7 +3237,6 @@ color: #fff;
         white-space: nowrap !important;
     }
 
-    /* Linha do botão transmissão: já nasce centralizada */
     #telaDetalhes .cronos-transmissao-sem-pulo-wrap {
         display: flex !important;
         justify-content: center !important;
@@ -3412,8 +3293,6 @@ color: #fff;
 .navbar{display:grid!important;grid-template-columns:1fr auto!important;grid-template-areas:"brand menu" "search search"!important;gap:8px 10px!important;align-items:center!important;width:100%!important;padding:8px 14px 10px!important;background:#050505!important;border-bottom:2px solid #8a2be2!important;box-sizing:border-box!important;position:sticky!important;top:0!important;z-index:999!important}.nav-brand{grid-area:brand!important;display:block!important;visibility:visible!important;opacity:1!important;color:#ffcc00!important;font-size:24px!important;letter-spacing:8px!important;line-height:1.1!important;text-shadow:0 0 10px #ffcc00!important;white-space:nowrap!important;margin:0!important;padding:0!important;max-width:calc(100vw - 92px)!important;overflow:hidden!important}.search-box{grid-area:search!important;display:flex!important;visibility:visible!important;opacity:1!important;width:100%!important;max-width:100%!important;min-width:0!important;gap:8px!important;margin:0!important;padding:0!important;height:auto!important;min-height:44px!important;overflow:visible!important;box-sizing:border-box!important}.search-box input{display:block!important;flex:1 1 auto!important;width:auto!important;min-width:0!important;height:44px!important;padding:0 14px!important;font-size:15px!important;border:1px solid #00ffff!important;border-radius:3px!important;background:#0b0b0b!important;color:#fff!important;box-sizing:border-box!important}.search-box button{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 58px!important;width:58px!important;height:44px!important;min-height:44px!important;margin:0!important;padding:0!important;border-radius:4px!important;font-size:17px!important;font-weight:800!important;overflow:visible!important}.navbar .nav-links,.nav-links,ul.nav-links{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;width:0!important;height:0!important;min-height:0!important;max-height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;border:0!important;position:absolute!important;left:-99999px!important}#mobileMenuBtnCronos{grid-area:menu!important;display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;align-items:center!important;justify-content:center!important;width:56px!important;height:42px!important;min-width:56px!important;min-height:42px!important;margin:0!important;padding:0!important;border:1px solid #8a2be2!important;border-radius:6px!important;background:#090909!important;color:#ffcc00!important;font-size:28px!important;font-weight:900!important;line-height:1!important;box-shadow:0 0 12px rgba(138,43,226,.55)!important;position:static!important;overflow:visible!important;z-index:1002!important}#mobileMenuOverlayCronos{display:none!important;position:fixed!important;inset:0!important;z-index:99999!important;background:rgba(0,0,0,.72)!important}#mobileMenuOverlayCronos.ativo{display:block!important}#mobileMenuOverlayCronos .mobile-menu-panel{width:min(82vw,340px)!important;height:100vh!important;background:#050505!important;border-right:2px solid #8a2be2!important;box-shadow:0 0 28px rgba(138,43,226,.75)!important;padding:22px 18px!important;box-sizing:border-box!important;overflow-y:auto!important;transform:none!important}#mobileMenuOverlayCronos .mobile-menu-title{color:#ffcc00!important;font-size:28px!important;font-weight:900!important;letter-spacing:8px!important;margin:0 0 20px!important;padding-bottom:14px!important;border-bottom:1px solid #8a2be2!important}#mobileMenuLinksCronos button{display:flex!important;align-items:center!important;justify-content:flex-start!important;width:100%!important;height:58px!important;min-height:58px!important;margin:0 0 10px!important;padding:0 18px!important;border:1px solid #8a2be2!important;border-radius:8px!important;background:#0a0a0a!important;color:#fff!important;font-size:20px!important;font-weight:800!important;text-align:left!important;box-sizing:border-box!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;transition:none!important;animation:none!important}#mobileMenuLinksCronos button.menu-atual-cronos,#mobileMenuLinksCronos button.letras-ligadas-cronos{background:#8a2be2!important;color:#fff!important;box-shadow:0 0 16px rgba(138,43,226,.7)!important}#mobileMenuLinksCronos button.letras-desligadas-cronos{color:#ffcc00!important;border-color:#ffcc00!important}}
 body.letras-cronos-off .abc-bar,body.letras-cronos-off .az-bar,body.letras-cronos-off .alfabeto,body.letras-cronos-off .filtro-letras{display:none!important}body.letras-cronos-on .abc-bar.letras-forcada-cronos,body.letras-cronos-on .abc-bar,body.letras-cronos-on .az-bar,body.letras-cronos-on .alfabeto,body.letras-cronos-on .filtro-letras{display:flex!important;flex-wrap:wrap!important}.cronos-categoria-atalhos-letras{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:14px!important;margin:12px 0 24px!important;padding:16px!important;border:1px solid #202020!important;border-radius:10px!important;background:rgba(255,255,255,.02)!important}.cronos-categoria-atalhos-letras button{min-width:150px!important;height:48px!important;padding:0 22px!important;border:1px solid #ffcc00!important;border-radius:999px!important;background:transparent!important;color:#ffcc00!important;font-size:16px!important;font-weight:900!important;cursor:pointer!important}.cronos-categoria-atalhos-letras button.letras-ligadas-cronos{background:#8a2be2!important;border-color:#8a2be2!important;color:#fff!important;box-shadow:0 0 14px rgba(138,43,226,.65)!important}
 
-/* ===== CRONOS DUPLO MELHORADO V1 — camada final PC + Mobile =====
-   Mantém um arquivo único, mas separa o comportamento visual de desktop e celular. */
 :root {
     --cronos-bg: #050505;
     --cronos-card: #101010;
@@ -3426,7 +3305,6 @@ html, body { max-width: 100%; }
 body { background: var(--cronos-bg); }
 img { max-width: 100%; }
 
-/* Desktop real: desfaz patches móveis que estavam globais no final do arquivo. */
 @media (min-width: 769px) {
     .navbar {
         display: flex !important;
@@ -3511,7 +3389,6 @@ img { max-width: 100%; }
     }
 }
 
-/* Mobile real: todos os ajustes móveis ficam confinados aqui. */
 @media (max-width: 768px) {
     html, body {
         width: 100% !important;
@@ -3635,7 +3512,6 @@ img { max-width: 100%; }
     }
 }
 
-/* Desktop continua igual; este bloco só melhora a tela do player no celular. */
 @media (max-width: 768px) {
     #telaPlayer.view-container {
         padding: 18px 14px 24px !important;
@@ -3683,8 +3559,6 @@ img { max-width: 100%; }
         box-shadow: 0 0 10px rgba(255,0,0,.35) !important;
     }
 
-    /* O problema do player esticado era a altura fixa de 75vh.
-       No celular o wrapper vira uma caixa 16:9, evitando o vazio enorme embaixo. */
     #telaPlayer .player-wrapper {
         width: 100% !important;
         max-width: 100% !important;
@@ -3709,7 +3583,6 @@ img { max-width: 100%; }
         background: #000 !important;
     }
 
-    /* Quando o navegador está mais alto/estreito, mantém a área compacta. */
     @media (max-width: 430px) {
         #telaPlayer.view-container {
             padding-left: 12px !important;
@@ -3728,13 +3601,6 @@ img { max-width: 100%; }
     }
 }
 
-/*
-   V5: no celular o cabeçalho do player fica em 2 linhas:
-   1) botão Fechar Player
-   2) nome do filme/episódio
-   E a caixa do iframe fica mais alta para caber telas de seleção de servidor
-   com Dublado/Legendado + Servidor Principal + Servidor Alternativo.
-*/
 @media (max-width: 768px) {
     #telaPlayer.view-container {
         padding: 16px 14px 26px !important;
@@ -3841,11 +3707,6 @@ img { max-width: 100%; }
     }
 }
 
-/*
-   V6: mantém a caixa do player alta o suficiente para telas de seleção
-   de servidor, mas centraliza o iframe dentro dela.
-   Assim, quando o player real é 16:9, ele não fica grudado no topo.
-*/
 @media (max-width: 768px) {
     #telaPlayer .player-wrapper {
         display: flex !important;
@@ -3885,11 +3746,6 @@ img { max-width: 100%; }
     }
 }
 
-/*
-   V7: existem dois comportamentos de player no site.
-   1) Player com tela de escolha de áudio/servidor: fica no TOPO da caixa e usa altura cheia.
-   2) Player de vídeo direto 16:9: fica CENTRALIZADO dentro da caixa alta.
-*/
 @media (max-width: 768px) {
     #telaPlayer.player-modo-seletor .player-wrapper {
         display: block !important;
@@ -3958,11 +3814,6 @@ img { max-width: 100%; }
     }
 }
 
-/*
-   V8: aplica a mesma lógica também no computador.
-   - Player com seleção de áudio/servidor fica no topo e ocupa a caixa inteira.
-   - Player de vídeo direto fica centralizado sem esticar.
-*/
 #telaPlayer.player-modo-seletor .player-wrapper {
     display: block !important;
     align-items: initial !important;
@@ -4056,7 +3907,6 @@ img { max-width: 100%; }
     }
 }
 
-/* V15 — Player com padrão tipo app: largura 90%, título/guia e navegação de episódios */
 #telaPlayer.view-container {
     max-width: 100% !important;
     width: 100% !important;
@@ -4217,14 +4067,6 @@ img { max-width: 100%; }
     }
 }
 
-/*
-   V19 corrige a briga entre V16/V17/V18:
-   - só existe uma posição oficial para Anterior/Próximo;
-   - Fechar fica no topo direito;
-   - Anterior/Próximo ficam abaixo do player, alinhados à direita;
-   - se for filme ou não houver episódio anterior/próximo, a navegação fica escondida;
-   - player com 95% de largura e altura levemente menor.
-*/
 #telaPlayer .header-player {
     width: 95% !important;
     max-width: 1200px !important;
@@ -4398,17 +4240,14 @@ img { max-width: 100%; }
     }
 }
 
-/* Botão Lançamentos foi removido do menu principal e agora fica nos atalhos de Configurações. */
 .navbar .nav-links > li.cronos-remover-lancamentos-desktop {
     display: none !important;
 }
 
-/* Garante que os botões de episódio só apareçam quando o JS V20 autorizar. */
 #telaPlayer .player-navegacao.cronos-nav-after-player-v19.cronos-nav-bloqueada-v20 {
     display: none !important;
 }
 
-/* A posição visual continua a da V19/V20: Fechar em cima, Anterior/Próximo embaixo do player. */
 #telaPlayer .player-navegacao.cronos-nav-after-player-v19 {
     display: none;
 }
@@ -4416,7 +4255,6 @@ img { max-width: 100%; }
     display: flex !important;
 }
 
-/* V22 manda por último: se não houver classe de autorização, nada aparece, mesmo que patches antigos tentem mostrar. */
 #telaPlayer #playerNavegacao.cronos-v22-lock {
     display: none !important;
 }
@@ -4432,11 +4270,6 @@ img { max-width: 100%; }
     display: inline-flex !important;
 }
 
-/*
-   V24 adiciona uma etiqueta visual para identificar qual player está aberto.
-   - Desktop: etiqueta abaixo do player, à esquerda; navegação continua abaixo, à direita.
-   - Mobile: etiqueta sobe para a linha do Fechar Player.
-*/
 #cronosPlayerBottomRowV24 {
     width: 95% !important;
     max-width: 1200px !important;
@@ -4532,12 +4365,6 @@ img { max-width: 100%; }
     order: 2 !important;
 }
 
-
-/* ==========================================================
-   V29 - CORREÇÃO HISTÓRICO/FAVORITOS
-   Mantém o tamanho dos cards igual quando tiver 1, 2, 3, 4 ou 10 itens.
-   O problema era o 1fr/auto-fit esticando os cards quando havia poucos itens.
-========================================================== */
 @media (min-width: 561px) {
     #gridFavoritos,
     #gridHistorico {
@@ -4551,8 +4378,6 @@ img { max-width: 100%; }
         margin-left: 0 !important;
         margin-right: 0 !important;
     }
-
-
 
     #gridFavoritos .card-item.global-card .card-media,
     #gridHistorico .card-item.global-card .card-media,
@@ -4613,7 +4438,7 @@ img { max-width: 100%; }
     max-width: 1400px !important;
     padding: 18px !important;
 }
-/* PADRÃO GERAL — CARD OBRA VERTICAL */
+
 #gridInicioFilmes,
 #gridInicioSeries,
 #gridFilmes,
@@ -4637,7 +4462,6 @@ img { max-width: 100%; }
     list-style: none !important;
 }
 
-/* CARD OBRA VERTICAL */
 #gridInicioFilmes > .card-item,
 #gridInicioSeries > .card-item,
 #gridFilmes > .card-item,
@@ -4653,7 +4477,6 @@ img { max-width: 100%; }
     max-width: none !important;
 }
 
-/* IMAGEM DOS CARDS DE OBRA */
 #gridInicioFilmes .card-media,
 #gridInicioSeries .card-media,
 #gridFilmes .card-media,
@@ -4670,7 +4493,6 @@ img { max-width: 100%; }
     margin-bottom: 10px !important;
 }
 
-/* EPISÓDIO GRADE 16:9 — Início e Aba Episódios */
 #gridInicioEpisodios,
 #gridEpisodios {
     display: grid !important;
@@ -4693,7 +4515,6 @@ img { max-width: 100%; }
     max-width: none !important;
 }
 
-/* Mantém visual interno de episódio com thumbnail 16:9 */
 #gridInicioEpisodios .card-item.episodio-home-card .card-media,
 #gridEpisodios .card-item.episodio-home-card .card-media {
     width: 100% !important;
@@ -4714,7 +4535,6 @@ img { max-width: 100%; }
     object-position: center !important;
 }
 
-/* Responsivo */
 @media (max-width: 1100px) {
     #gridInicioFilmes,
     #gridInicioSeries,
@@ -4750,11 +4570,6 @@ img { max-width: 100%; }
     }
 }
 
-
-/* ===== AJUSTE FINAL PEDIDO — ATALHOS EM CONFIGURAÇÕES =====
-   Lançamentos e Anime ficam junto com Temporadas, Episódios e Letras em Configurações.
-   Os cinco botões seguem o padrão visual compacto da barra principal.
-*/
 #telaConfiguracoes > .categoria-atalhos,
 #telaConfiguracoes .cronos-categoria-atalhos-letras {
     display: flex !important;
@@ -4828,7 +4643,6 @@ img { max-width: 100%; }
     transform: none !important;
 }
 
-/* PLAYER UNIFICADO — botões de players encontrados */
 #areaAcaoDetalhe {
     display: flex;
     flex-wrap: wrap;
@@ -4870,16 +4684,22 @@ img { max-width: 100%; }
     box-shadow: 0 0 10px rgba(0,170,255,0.8) !important;
 }
 
-</style>
-
-
-
-
-<style id="cronos-v28-viewplayer-player-controls-css">
-/* CRONOS V28 — ViewPlayer toggle + player controls */
 #btnToggleViewPlayerCronos.viewplayer-off-cronos {
     color: #ffcc00 !important;
     border-color: #ffcc00 !important;
+}
+#telaConfiguracoes #btnToggleViewPlayerCronos.letras-desligadas-cronos,
+#mobileMenuLinksCronos #btnToggleViewPlayerCronos.letras-desligadas-cronos {
+    color: #ffcc00 !important;
+    border-color: #ffcc00 !important;
+    background: #111 !important;
+}
+#telaConfiguracoes #btnToggleViewPlayerCronos.letras-ligadas-cronos,
+#mobileMenuLinksCronos #btnToggleViewPlayerCronos.letras-ligadas-cronos {
+    background: #8a2be2 !important;
+    border-color: #8a2be2 !important;
+    color: #fff !important;
+    box-shadow: 0 0 10px #8a2be2 !important;
 }
 #btnVoltarPlayerAtivoCRONOS {
     display: none;
@@ -4938,13 +4758,309 @@ img { max-width: 100%; }
         min-width: 0 !important;
     }
 }
-</style>
+
+#gridInicioEpisodios,
+#gridEpisodios{
+    display:grid !important;
+    grid-template-columns:repeat(auto-fill,minmax(205px,1fr)) !important;
+    gap:16px !important;
+    align-items:start !important;
+}
+
+#gridInicioEpisodios .card-item.episodio-home-card,
+#gridEpisodios .card-item.episodio-home-card{
+    padding:10px !important;
+    min-height:0 !important;
+    justify-content:flex-start !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+}
+
+#gridInicioEpisodios .card-item.episodio-home-card .card-media,
+#gridEpisodios .card-item.episodio-home-card .card-media{
+    position:relative !important;
+    width:100% !important;
+    height:auto !important;
+    aspect-ratio:auto !important;
+    padding:32px 10px 34px !important;
+    box-sizing:border-box !important;
+    display:block !important;
+    background:#050505 !important;
+    border-radius:4px !important;
+    overflow:hidden !important;
+    margin-bottom:10px !important;
+}
+
+#gridInicioEpisodios .card-item.episodio-home-card .card-media img,
+#gridEpisodios .card-item.episodio-home-card .card-media img{
+    display:block !important;
+    width:100% !important;
+    height:auto !important;
+    aspect-ratio:16/9 !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    margin:0 !important;
+    border-radius:3px !important;
+    background:#000 !important;
+    transform:none !important;
+    max-width:none !important;
+}
+
+#gridInicioEpisodios .card-item.episodio-home-card .badge-tipo,
+#gridEpisodios .card-item.episodio-home-card .badge-tipo{
+    position:absolute !important;
+    top:8px !important;
+    left:10px !important;
+    right:auto !important;
+    bottom:auto !important;
+    z-index:8 !important;
+}
+
+#gridInicioEpisodios .card-item.episodio-home-card .badge-data-episodio,
+#gridEpisodios .card-item.episodio-home-card .badge-data-episodio{
+    position:absolute !important;
+    left:10px !important;
+    bottom:8px !important;
+    top:auto !important;
+    right:auto !important;
+    z-index:8 !important;
+    display:inline-flex !important;
+}
+
+#gridInicioEpisodios .card-item.episodio-home-card .badge-qualidade,
+#gridEpisodios .card-item.episodio-home-card .badge-qualidade{
+    position:absolute !important;
+    right:10px !important;
+    bottom:8px !important;
+    top:auto !important;
+    left:auto !important;
+    z-index:8 !important;
+}
+
+#gridInicioEpisodios .card-item.episodio-home-card h3,
+#gridEpisodios .card-item.episodio-home-card h3{
+    color:#fff !important;
+    font-size:13px !important;
+    font-weight:bold !important;
+    line-height:1.2 !important;
+    margin:6px 0 5px !important;
+    min-height:18px !important;
+    text-align:center !important;
+    display:block !important;
+}
+
+#gridInicioEpisodios .card-item.episodio-home-card .ano-card,
+#gridEpisodios .card-item.episodio-home-card .ano-card{
+    display:-webkit-box !important;
+    -webkit-line-clamp:2 !important;
+    -webkit-box-orient:vertical !important;
+    overflow:hidden !important;
+    color:#b742ff !important;
+    font-size:12px !important;
+    font-weight:bold !important;
+    line-height:1.2 !important;
+    text-align:center !important;
+    min-height:28px !important;
+    word-break:normal !important;
+}
+
+@media (max-width:560px){
+    #gridInicioEpisodios,
+    #gridEpisodios{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        gap:14px !important;
+    }
+}
+
+.cronos-provider-panel {
+    background: #080808;
+    border: 1px solid #222;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 16px 0 24px;
+    box-shadow: inset 0 0 18px rgba(0,255,255,0.03);
+}
+.cronos-provider-panel h3 {
+    color: #ffcc00;
+    font-size: 16px;
+    margin: 6px 0 10px;
+    text-transform: uppercase;
+}
+.cronos-provider-linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.cronos-provider-btn {
+    background: #111;
+    color: #00ffff;
+    border: 1px solid #00ffff;
+    border-radius: 999px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: .2s;
+}
+.cronos-provider-btn:hover { background:#00ffff; color:#000; box-shadow:0 0 12px rgba(0,255,255,.55); }
+.cronos-provider-btn.ativo { background:#00ffff; color:#000; box-shadow:0 0 14px rgba(0,255,255,.65); }
+.cronos-provider-btn.desligado { border-color:#ff3030; color:#ff4d4d; background:#160909; }
+.cronos-provider-btn.desligado:hover { background:#ff3030; color:#000; box-shadow:0 0 12px rgba(255,48,48,.55); }
+.cronos-provider-help { color:#aaa; font-size:13px; line-height:1.45; margin:4px 0 0; }
+.badge-provedor-cronos { display:none !important; }
+.card-item[data-provider="p01"] .badge-qualidade,
+.badge-qualidade.provider-bora {
+    background:#00e5ff;
+    color:#000;
+    border:1px solid #00e5ff;
+}
+.card-item[data-provider="p02"] .badge-qualidade,
+.badge-qualidade.provider-bftv {
+    background:#ffcc00;
+    color:#000;
+    border:1px solid #ffcc00;
+}
+.card-item[data-provider="p03"] .badge-qualidade,
+.badge-qualidade.provider-mega {
+    background:#00ff88;
+    color:#000;
+    border:1px solid #00ff88;
+}
+.card-item[data-provider="p04"] .badge-qualidade,
+.badge-qualidade.provider-eba {
+    background:#ff4dff;
+    color:#000;
+    border:1px solid #ff4dff;
+}
+.card-item[data-provider="p05"] .badge-qualidade,
+.badge-qualidade.provider-sweb {
+    background:#ff8c00;
+    color:#000;
+    border:1px solid #ff8c00;
+}
+.card-item[data-provider="p06"] .badge-qualidade,
+.badge-qualidade.provider-ssup {
+    background:#66ccff;
+    color:#000;
+    border:1px solid #66ccff;
+}
+.card-item[data-provider="p07"] .badge-qualidade,
+.badge-qualidade.provider-liso {
+    background:#b6ff00;
+    color:#000;
+    border:1px solid #b6ff00;
+}
+.card-item[data-provider="p08"] .badge-qualidade,
+.badge-qualidade.provider-prime {
+    background:#ff2d55;
+    color:#fff;
+    border:1px solid #ff2d55;
+}
+.cronos-provider-oculto { display:none !important; }
+.premium-slide[data-provider="p08"]::before,
+.premium-slide[data-provider="p07"]::before,
+.premium-slide[data-provider="p06"]::before,
+.premium-slide[data-provider="p05"]::before,
+.premium-slide[data-provider="p04"]::before,
+.premium-slide[data-provider="p03"]::before,
+.premium-slide[data-provider="p02"]::before,
+.premium-slide[data-provider="p01"]::before {
+    content: attr(data-provider-label);
+    position:absolute;
+    top:14px;
+    left:14px;
+    z-index:20;
+    border:1px solid #00ffff;
+    color:#00ffff;
+    background:rgba(0,0,0,.75);
+    border-radius:4px;
+    padding:5px 8px;
+    font-size:12px;
+    font-weight:bold;
+}
+.premium-slide[data-provider="p02"]::before { border-color:#ffcc00; color:#ffcc00; }
+.premium-slide[data-provider="p03"]::before { border-color:#00ff88; color:#00ff88; }
+.premium-slide[data-provider="p04"]::before { border-color:#ff4dff; color:#ff4dff; }
+.premium-slide[data-provider="p05"]::before { border-color:#ff8c00; color:#ff8c00; }
+.premium-slide[data-provider="p06"]::before { border-color:#66ccff; color:#66ccff; }
+.premium-slide[data-provider="p07"]::before { border-color:#b6ff00; color:#b6ff00; }
+.premium-slide[data-provider="p08"]::before { border-color:#ff2d55; color:#ff2d55; }
+
+.card-item.episodio-home-card[data-provider="p08"] {
+    justify-content:flex-start !important;
+    padding:10px !important;
+    min-height:200px !important;
+}
+.card-item.episodio-home-card[data-provider="p08"] .episodio-tag-top {
+    width:100% !important;
+    display:flex !important;
+    justify-content:flex-start !important;
+    margin-bottom:6px !important;
+}
+.card-item.episodio-home-card[data-provider="p08"] .episodio-tag-top .badge-tipo {
+    position:static !important;
+    display:inline-flex !important;
+    width:fit-content !important;
+}
+.card-item.episodio-home-card[data-provider="p08"] .card-media.episodio-media {
+    width:100% !important;
+    aspect-ratio:16/9 !important;
+    height:auto !important;
+    background:#050505 !important;
+    border-radius:4px !important;
+    overflow:hidden !important;
+    margin-bottom:6px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+}
+.card-item.episodio-home-card[data-provider="p08"] .card-media.episodio-media img {
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    object-position:center !important;
+    display:block !important;
+    margin:0 !important;
+    background:#000 !important;
+}
+.card-item.episodio-home-card[data-provider="p08"] .episodio-tags-bottom {
+    width:100% !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:8px !important;
+    margin-bottom:8px !important;
+}
+.card-item.episodio-home-card[data-provider="p08"] .episodio-tags-bottom .badge-data-episodio,
+.card-item.episodio-home-card[data-provider="p08"] .episodio-tags-bottom .badge-qualidade {
+    position:static !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    width:fit-content !important;
+}
+.card-item.episodio-home-card[data-provider="p08"] h3 {
+    color:#fff !important;
+    font-size:14px !important;
+    font-weight:bold !important;
+    margin:4px 0 5px !important;
+    text-align:center !important;
+    line-height:1.2 !important;
+}
+.card-item.episodio-home-card[data-provider="p08"] .ano-card {
+    color:#b742ff !important;
+    font-size:13px !important;
+    font-weight:bold !important;
+    text-align:center !important;
+    line-height:1.2 !important;
+}
+    </style>
 
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="nav-brand">CINE 3</div>
+        <div class="nav-brand">CINE4</div>
         <ul class="nav-links">
             <li><button class="nav-btn ativa" onclick="iniciarNavegacao('telaInicio', 'https://www.boraflix.click/', this)">Início</button></li>
             <li><button class="nav-btn" onclick="iniciarNavegacao('telaFilmes', 'https://www.boraflix.click/filmes/', this)">Filmes</button></li>
@@ -4960,7 +5076,6 @@ img { max-width: 100%; }
         </div>
     </nav>
 
-    
     <div id="telaInicio" class="view-container ativa">
         <div id="statusInicio" class="loading-text">Iniciando Cronos...</div>
 
@@ -5119,7 +5234,6 @@ img { max-width: 100%; }
         <button class="btn-carregar-mais" id="btnMaisBusca" onclick="carregarMaisFiltroAtual()" style="display:none;">Carregar Mais Resultados (Páginas 2 e 3)</button>
     </div>
 
-    
     <div id="telaFavoritos" class="view-container">
         <div class="sessao-titulo">
             <span>Minha Lista (Favoritos)</span>
@@ -5129,7 +5243,6 @@ img { max-width: 100%; }
         <ul class="grid-lista" id="gridFavoritos"></ul>
     </div>
 
-    
     <div id="telaDetalhes" class="view-container">
         <div class="detalhes-barra-acoes">
             <button class="nav-btn btn-voltar-detalhe" onclick="voltarPaginaAnterior()">« Voltar</button>
@@ -5159,7 +5272,6 @@ img { max-width: 100%; }
         <div id="listaEpisodios"></div>
     </div>
 
-    
     <div id="telaPlayer" class="view-container">
         <div class="header-player">
             <h2 class="sessao-titulo" id="playerTitulo" style="margin: 0; border: none;">Reproduzindo</h2>
@@ -5215,7 +5327,6 @@ function ativarTela(idTelaAlvo, btnElement = null) {
         btnElement.classList.add('ativa');
     }
 }
-
 
 function carregarCategorias(btnElement) {
     ativarTela('telaCategorias', btnElement);
@@ -5631,7 +5742,6 @@ function esperar(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
 function completarHomeGridAte12(urlAlvo, gridId, seletorItens, controlarTituloEpisodios = false) {
     const grid = document.getElementById(gridId);
     if(!grid || grid.children.length >= 12) return;
@@ -5963,7 +6073,7 @@ function renderizarRegistroBancoNoGrid(item, gridId) {
                 <div class="badge-tipo badge-serie">Episódio</div>
                 <div class="badge-qualidade">${SITE_CODE}</div>
                 <img src="${normalizarImagemCard(item.img || item.poster || '') || placeholderCronosPoster()}" alt="Poster">
-                ${item.data ? `<div class="badge-data-episodio">${item.data}</div>` : ''}
+                ${item.data ? '<div class="badge-data-episodio">' + item.data + '</div>' : ''}
             </div>
             <h3>S${temporada} - Episódio ${episodio}</h3>
             <span class="ano-card">${item.serieTitulo || item.titulo || 'Nome da obra'}</span>
@@ -5981,7 +6091,7 @@ function renderizarRegistroBancoNoGrid(item, gridId) {
                 <div class="badge-tipo badge-serie">Temporada</div>
                 <div class="badge-qualidade">${SITE_CODE}</div>
                 <img src="${normalizarImagemCard(item.img || item.poster || '') || placeholderCronosPoster()}" alt="Poster">
-                ${anoLimpo ? `<div class="badge-ano-card">${anoLimpo}</div>` : ''}
+                ${anoLimpo ? '<div class="badge-ano-card">' + anoLimpo + '</div>' : ''}
             </div>
             <h3>${item.serieTitulo || item.titulo || 'Temporada'}</h3>
             <span class="ano-card">Temporada ${item.temporada || ''}</span>
@@ -6455,7 +6565,6 @@ function limparTextoCard(txt) {
     return (txt || '').trim().replace(/Assistir /gi, '').replace(/ online.*/gi, '').replace(/ dublado.*/gi, '').replace(/ legendado.*/gi, '').trim();
 }
 
-
 function normalizarImagemCard(url) {
     // Poster/capa sempre em W500 e sempre absoluto quando vier relativo.
     if (!url) return '';
@@ -6467,11 +6576,11 @@ function normalizarImagemCard(url) {
     if (!/^(https?:)?\/\//i.test(limpa)) {
         try {
             const providers = window.CRONOS_MULTI_PROVIDERS || {
-                b01: { base: 'https://www.boraflix.click/' },
+                p01: { base: 'https://www.boraflix.click/' },
                 p02: { base: 'https://www.boraflixtv.com/' }
             };
-            const keyAtual = window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || (window.obraSendoVista && window.obraSendoVista.providerKey) || 'b01';
-            const baseAtual = (providers[keyAtual] && providers[keyAtual].base) || providers.b01.base;
+            const keyAtual = window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || (window.obraSendoVista && window.obraSendoVista.providerKey) || 'p01';
+            const baseAtual = (providers[keyAtual] && providers[keyAtual].base) || providers.p01.base;
             limpa = new URL(limpa, baseAtual).href;
         } catch(e) {}
     }
@@ -6490,11 +6599,11 @@ function normalizarBackdropOriginal(url) {
     if (!/^(https?:)?\/\//i.test(limpa)) {
         try {
             const providers = window.CRONOS_MULTI_PROVIDERS || {
-                b01: { base: 'https://www.boraflix.click/' },
+                p01: { base: 'https://www.boraflix.click/' },
                 p02: { base: 'https://www.boraflixtv.com/' }
             };
-            const keyAtual = window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || (window.obraSendoVista && window.obraSendoVista.providerKey) || 'b01';
-            const baseAtual = (providers[keyAtual] && providers[keyAtual].base) || providers.b01.base;
+            const keyAtual = window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || (window.obraSendoVista && window.obraSendoVista.providerKey) || 'p01';
+            const baseAtual = (providers[keyAtual] && providers[keyAtual].base) || providers.p01.base;
             limpa = new URL(limpa, baseAtual).href;
         } catch(e) {}
     }
@@ -6819,8 +6928,6 @@ function extrairAnoDetalhe(doc) {
     return extrairAnoCard(texto);
 }
 
-
-
 function limitarDestaquesPremiumPorFonteCronos(lista, limite = 8) {
     if (!Array.isArray(lista)) return [];
     const contadores = {};
@@ -7140,7 +7247,7 @@ function preencherCardObraCronos(li, dados, gridId) {
             <div class="badge-tipo ${isMovie ? 'badge-filme' : 'badge-serie'}">${isMovie ? 'Filme' : 'Série'}</div>
             <div class="badge-qualidade">${SITE_CODE}</div>
             <img src="${poster}" alt="Poster">
-            ${anoLimpo ? `<div class="badge-ano-card">${anoLimpo}</div>` : ''}
+            ${anoLimpo ? '<div class="badge-ano-card">' + anoLimpo + '</div>' : ''}
         </div>
         <h3>${dados.titulo || 'Sem título'}</h3>
     `;
@@ -7242,7 +7349,7 @@ function renderizarEpisodioCronos(item, gridId, urlString, tituloLimpoCard, imgF
             ${badgeHTML}
             ${qualityHTML}
             <img src="${imgFinal || placeholderCronosPoster()}" alt="Poster">
-            ${dadosEp.data ? `<div class="badge-data-episodio">${dadosEp.data}</div>` : ''}
+            ${dadosEp.data ? '<div class="badge-data-episodio">' + dadosEp.data + '</div>' : ''}
         </div>
         <h3>S${dadosEp.temporada} - Episódio ${dadosEp.episodio}</h3>
         <span class="ano-card">${dadosEp.serieTitulo}</span>
@@ -7268,7 +7375,7 @@ function renderizarTemporadaCronos(item, gridId) {
             <div class="badge-tipo badge-serie">Temporada</div>
             <div class="badge-qualidade">${SITE_CODE}</div>
             <img src="${dadosTemp.poster || placeholderCronosPoster()}" alt="Poster">
-            ${anoLimpo ? `<div class="badge-ano-card">${anoLimpo}</div>` : ''}
+            ${anoLimpo ? '<div class="badge-ano-card">' + anoLimpo + '</div>' : ''}
         </div>
         <h3>${dadosTemp.serieTitulo || dadosTemp.titulo || 'Temporada'}</h3>
         <span class="ano-card">Temporada ${dadosTemp.temporada || ''}</span>
@@ -7348,7 +7455,6 @@ function renderizarItemNoGrid(item, gridId) {
     gridDestino.appendChild(li);
     prepararCardObraDBFirst(li, dadosBasicos, item, gridId);
 }
-
 
 // ==========================================
 // SINCRONIZAÇÃO PROGRESSIVA DO CATÁLOGO
@@ -7496,7 +7602,6 @@ async function atualizarResumoSincronizacaoCronos() {
     setText('syncQtdGeneros', achados.length);
     setText('syncQtdAnos', anos.length);
 }
-
 
 const CRONOS_SYNC_PROGRESS_ID = 'syncProgressCronos';
 
@@ -8040,30 +8145,32 @@ async function dbClear(nomeStore) {
 
 function providerPorUrl(url){
     const s = String(url || '');
-    if (/primeflix\.mom/i.test(s)) return 'primeflix';
-    if (/lisoflix\.net/i.test(s)) return 'l07';
-    if (/superseries\.life/i.test(s)) return 'u06';
-    if (/seriesonlineweb\.lol/i.test(s)) return 's05';
-    if (/ebaflix\.com/i.test(s)) return 'e04';
-    if (/megacine\.boats/i.test(s)) return 'm03';
+    if (/primeflix\.mom/i.test(s)) return 'p08';
+    if (/lisoflix\.net/i.test(s)) return 'p07';
+    if (/superseries\.life/i.test(s)) return 'p06';
+    if (/seriesonlineweb\.lol/i.test(s)) return 'p05';
+    if (/ebaflix\.com/i.test(s)) return 'p04';
+    if (/megacine\.boats/i.test(s)) return 'p03';
     if (/boraflixtv\.com/i.test(s)) return 'p02';
-    if (/boraflix\.click/i.test(s)) return 'b01';
-    return window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || 'b01';
+    if (/boraflix\.click/i.test(s)) return 'p01';
+    return window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || 'p01';
 }
 
 function providerInfoCronos(key){
     const providers = window.CRONOS_MULTI_PROVIDERS || {};
+    const k = String(key || '').trim() || 'p01';
     const mapaFallback = {
-        b01: { key: 'b01', sigla: 'BFCK', nome: 'Fonte BFCK', base: 'https://www.boraflix.click/' },
-        p02: { key: 'p02', sigla: 'BFTV', nome: 'Fonte BFTV', base: 'https://www.boraflixtv.com/' },
-        m03: { key: 'm03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/' },
-        e04: { key: 'e04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/' },
-        s05: { key: 's05', sigla: 'SWEB', nome: 'Fonte SWEB', base: 'https://www.seriesonlineweb.lol/' },
-        u06: { key: 'u06', sigla: 'SSUP', nome: 'Fonte SSUP', base: 'https://superseries.life/' },
-        l07: { key: 'l07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/' },
-        primeflix: { key: 'primeflix', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/' }
+        p01: { key: 'p01', sigla: 'BORA', nome: 'Fonte BORA', base: 'https://www.boraflix.click/' },
+        p02: { key: 'p02', sigla: 'ORG', nome: 'Fonte ORG', base: 'https://www.boraflixtv.com/' },
+        p03: { key: 'p03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/' },
+        p04: { key: 'p04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/' },
+        p05: { key: 'p05', sigla: 'WEB', nome: 'Fonte WEB', base: 'https://www.seriesonlineweb.lol/' },
+        p06: { key: 'p06', sigla: 'SUP', nome: 'Fonte SUP', base: 'https://superseries.life/' },
+        p07: { key: 'p07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/' },
+        p08: { key: 'p08', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/' }
     };
-    return providers[key] || mapaFallback[key] || mapaFallback.b01;
+    const info = providers[k] || mapaFallback[k] || mapaFallback.p01;
+    return Object.assign({}, info, { key: k });
 }
 
 function providerLabel(key){
@@ -8361,7 +8468,7 @@ async function carregarFavoritos(btnElement) {
     } else {
         statusFav.style.display = 'none';
         favs.forEach(obra => {
-            let badgeHTML = obra.isMovie || obra.tipo === 'Filme' ? `<div class="badge-tipo badge-filme">Filme</div>` : `<div class="badge-tipo badge-serie">Série</div>`;
+            let badgeHTML = obra.isMovie || obra.tipo === 'Filme' ? '<div class="badge-tipo badge-filme">Filme</div>' : '<div class="badge-tipo badge-serie">Série</div>';
             const li = document.createElement('li');
             li.className = 'card-item global-card';
             const anoLimpo = extrairAnoCard(obra.ano || '');
@@ -8375,7 +8482,7 @@ async function carregarFavoritos(btnElement) {
                 <div class="card-media">
                     ${badgeHTML}
                     <div class="badge-qualidade">${siglaObraCronos(obra)}</div>
-                    ${anoLimpo ? `<div class="badge-ano-card">${anoLimpo}</div>` : ''}
+                    ${anoLimpo ? '<div class="badge-ano-card">' + anoLimpo + '</div>' : ''}
                     <img src="${posterFav}" alt="Poster">
                 </div>
                 <h3>${obra.titulo}</h3>
@@ -8386,7 +8493,6 @@ async function carregarFavoritos(btnElement) {
         });
     }
 }
-
 
 // ==========================================
 // HOME NOVA: CONTINUAR, MINHA LISTA E STATUS LOCAL
@@ -8451,7 +8557,7 @@ async function carregarHistorico(btnElement) {
     hist.forEach(obra => {
         const li = document.createElement('li');
         li.className = 'card-item global-card';
-        const badgeHTML = obra.isMovie || obra.tipo === 'Filme' ? `<div class="badge-tipo badge-filme">Filme</div>` : `<div class="badge-tipo badge-serie">Série</div>`;
+        const badgeHTML = obra.isMovie || obra.tipo === 'Filme' ? '<div class="badge-tipo badge-filme">Filme</div>' : '<div class="badge-tipo badge-serie">Série</div>';
         const anoLimpo = extrairAnoCard(obra.ano || '');
         const posterHist = escolherPosterSeguroCronos(obra.poster, obra.img) || placeholderCronosPoster();
         li.dataset.poster = posterHist;
@@ -8464,7 +8570,7 @@ async function carregarHistorico(btnElement) {
                 ${badgeHTML}
                 <div class="badge-qualidade">${siglaObraCronos(obra)}</div>
                 <img src="${posterHist}" alt="Poster">
-${anoLimpo ? `<div class="badge-ano-card">${anoLimpo}</div>` : ''}
+${anoLimpo ? '<div class="badge-ano-card">' + anoLimpo + '</div>' : ''}
             </div>
             <h3>${obra.titulo || 'Sem título'}</h3>
         `;
@@ -8479,7 +8585,7 @@ function renderizarObraSalvaHome(obra, gridId) {
     if(!grid || !obra || !obra.url) return;
     const li = document.createElement('li');
     li.className = 'card-item carousel-card';
-    const badgeHTML = obra.isMovie || obra.tipo === 'Filme' ? `<div class="badge-tipo badge-filme">Filme</div>` : `<div class="badge-tipo badge-serie">Série</div>`;
+    const badgeHTML = obra.isMovie || obra.tipo === 'Filme' ? '<div class="badge-tipo badge-filme">Filme</div>' : '<div class="badge-tipo badge-serie">Série</div>';
     const anoLimpo = extrairAnoCard(obra.ano || '');
     const posterHome = escolherPosterSeguroCronos(obra.poster, obra.img) || placeholderCronosPoster();
     li.dataset.poster = posterHome;
@@ -8491,7 +8597,7 @@ function renderizarObraSalvaHome(obra, gridId) {
         <div class="card-media">
             ${badgeHTML}
             <div class="badge-qualidade">${siglaObraCronos(obra)}</div>
-            ${anoLimpo ? `<div class="badge-ano-card">${anoLimpo}</div>` : ''}
+            ${anoLimpo ? '<div class="badge-ano-card">' + anoLimpo + '</div>' : ''}
             <img src="${posterHome}" alt="Poster">
         </div>
         <h3>${obra.titulo || 'Sem título'}</h3>
@@ -8550,7 +8656,6 @@ function tentarRenderizarEpisodiosRecentes(doc) {
     });
     head.style.display = count > 0 ? 'flex' : 'none';
 }
-
 
 function extrairTextoCampoCustomDetalhe(doc, nomes = []) {
     const termos = nomes.map(n => String(n || '').toUpperCase());
@@ -8620,7 +8725,6 @@ function ajustarQuebraTituloDetalheCronos() {
     if (txt.length > 54) el.style.fontSize = '24px';
 }
 
-
 // ==========================================
 // PÓS-CLIQUE: DETALHES BORAFLIX — PADRÃO CRONOS CLICK
 // ==========================================
@@ -8685,7 +8789,6 @@ function urlPareceHorizontalCronos(url = '') {
     const u = String(url || '').toLowerCase();
     return /\/w780\/|\/w1280\/|\/original\//.test(u) || /backdrop|fanart|still/.test(u);
 }
-
 
 function extrairPosterClickDetalhe(doc, fallback = '') {
     const candidatos = [];
@@ -8795,7 +8898,6 @@ function extrairDataClick(doc, anoFallback = '') {
     const customDate = extrairCustomClick(doc, ['LANÇAMENTO', 'EXIBIÇÃO', 'AIR DATE', 'DATA DE LANÇAMENTO', 'PRIMEIRA DATA DE EXIBIÇÃO']);
     return dateElement?.innerText?.trim() || dateElement?.getAttribute?.('content') || customDate || anoFallback || '';
 }
-
 
 function gerarUrlsAlternativasPlayerCronos(url = '') {
     const lista = [];
@@ -8955,9 +9057,6 @@ function extrairLinkLimpoDoPlayer(doc, html = '') {
     const escolhido = candidatos.find(c => c.peso >= 50) || candidatos[0];
     return escolhido ? escolhido.src : '';
 }
-
-
-
 
 /* ===== PLAYER UNIFICADO — BOTÕES EXTERNOS PARA TODOS OS PROVEDORES ===== */
 function cronosNormalizarUrlPlayer(url, base = '') {
@@ -9524,7 +9623,6 @@ function extrairEpisodiosIframeMestre(src, tituloSerie, posterSerie = '', backdr
         .catch(() => { if (msgEps) msgEps.remove(); });
 }
 
-
 async function forcarAtualizacaoObra() {
     if (!obraSendoVista || !obraSendoVista.url) {
         alert('Nenhuma obra aberta para atualizar.');
@@ -9593,7 +9691,6 @@ function fecharPlayer() {
     document.getElementById('iframePlayer').src = ''; 
 }
 </script>
-
 
 <script>
 /* ===== POSTER MANUAL — escolher imagem do backdrop/galeria e salvar recorte no IndexedDB ===== */
@@ -9932,9 +10029,6 @@ function fecharPlayer() {
 })();
 </script>
 
-
-
-
 <script>
 /* ===== OVERRIDE — Limpa imagens inválidas e salva a escolhida direto como poster ===== */
 (function(){
@@ -10037,9 +10131,6 @@ function fecharPlayer() {
     };
 })();
 </script>
-
-
-
 
 <script>
 /* ===== PATCH FINAL — poster manual persistente, clicável e com upload ===== */
@@ -10282,9 +10373,6 @@ function fecharPlayer() {
 })();
 </script>
 
-
-
-
 <script>
 /* ===== PATCH — poster manual vira capa oficial do Cronos no IndexedDB ===== */
 (function(){
@@ -10476,21 +10564,6 @@ const targetRatio = 500 / 750;
     }
 })();
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script id="cronos-transmissao-sem-pulo-js">
 /* ===== Centraliza antes do paint: sem aparecer no canto e depois pular ===== */
@@ -10740,8 +10813,6 @@ const targetRatio = 500 / 750;
 })();
 </script>
 
-
-
 <script id="cronos-menu-letras-categoria-fix-js">
 (function(){
 const KEY='cronos_mobile_letras_ativas';
@@ -10785,9 +10856,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-
-
-
 <script id="cronos-duplo-melhorado-v1-js">
 /* Camada leve de estabilidade: remove duplicatas visuais e evita menu mobile no desktop. */
 (function(){
@@ -10806,26 +10874,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     window.addEventListener('resize', () => { clearTimeout(window.__cronosDuploResize); window.__cronosDuploResize = setTimeout(initDuploMelhorado, 140); }, { passive:true });
 })();
 </script>
-
-
-
-<!-- ===== CRONOS V4 — PLAYER MOBILE RESPONSIVO ===== -->
-
-
-
-
-<!-- ===== CRONOS V5 — AJUSTE FINO DO PLAYER MOBILE ===== -->
-
-
-
-
-<!-- ===== CRONOS V6 — PLAYER MOBILE CENTRALIZADO NA CAIXA ===== -->
-
-
-
-
-<!-- ===== CRONOS V7 — PLAYER MOBILE POR TIPO ===== -->
-
 
 <script id="cronos-v7-player-mobile-por-tipo-js">
 (function(){
@@ -10876,14 +10924,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     window.cronosAplicarModoPlayerV7 = aplicarModoPlayerCronosV7;
 })();
 </script>
-
-
-<!-- ===== CRONOS V8 — PLAYER POR TIPO NO PC E NO MOBILE ===== -->
-
-
-
-
-
 
 <script id="cronos-v15-player-titulo-guia-js">
 (function(){
@@ -11047,34 +11087,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-
-
-
-
-
-
-
-
-<!-- ===== CRONOS V19 — PLAYER ÚNICO: 95%, FECHAR EM CIMA, NAV SÓ EMBAIXO DO PLAYER ===== -->
-
-
-
-
-
-<!-- ===== CRONOS V20 — FUNCIONALIDADE REAL DA NAVEGAÇÃO DO PLAYER + LANÇAMENTOS FORA DO TOPO DESKTOP ===== -->
-
-
-
-
-<!-- ===== CRONOS V21 — NAVEGAÇÃO REAL POR EPISÓDIO (igual ao modelo funcional) ===== -->
-
-
-
-
-
-<!-- ===== CRONOS V22 — CORREÇÃO DEFINITIVA NAV EPISÓDIO: usa ordem real da grade ===== -->
-
-
 <script id="cronos-v22-nav-real-js">
 (function(){
     const DEBUG = false;
@@ -11215,6 +11227,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
         if(!ep) return;
         window.__cronosPendingEpisodeV22 = { index: ep.index, titulo: ep.titulo, url: ep.url, nativeUrl: ep.nativeUrl, playerUrl: ep.playerUrl };
         if(ep.nativeUrl && typeof window.prepararEpisodioDooplay === 'function') window.prepararEpisodioDooplay(ep.titulo, ep.nativeUrl);
+        else if((ep.playerUrl || ep.url) && /viewplayer\.online/i.test(String(ep.playerUrl || ep.url)) && typeof window.cronosViewPlayerAtivoOpcao === 'function' && !window.cronosViewPlayerAtivoOpcao()) {
+            if(typeof window.cronosAvisarSomenteViaPlayerEpisodio === 'function') window.cronosAvisarSomenteViaPlayerEpisodio(ep.titulo || 'Episódio');
+            else alert('Este episódio só está disponível no Via Player. Ative o botão Via Player em Configurações para assistir.');
+        }
         else if(typeof window.abrirPlayer === 'function') window.abrirPlayer(ep.titulo, ep.playerUrl || ep.url);
     }
     function aplicar(titulo, urlVideo){
@@ -11318,11 +11334,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     else iniciar();
 })();
 </script>
-
-
-
-<!-- ===== CRONOS V24 — ETIQUETA COM NOME DO PLAYER ATIVO ===== -->
-
 
 <script id="cronos-v24-player-label-js">
 (function(){
@@ -11433,10 +11444,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-
-
-<!-- ===== CRONOS V26 — TRAVA ETIQUETA DO PLAYER SEM PASSEAR ===== -->
-
 <script id="cronos-v26-player-label-lock-js">
 (function(){
     let travando = false;
@@ -11497,7 +11504,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     else iniciar();
 })();
 </script>
-
 
 <script>
 /* =========================================================
@@ -11785,17 +11791,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-
-
-
-
 </style>
-
-
-
-
-
-
 
 <script id="cronos-fix-unico-favoritos-historico-v41">
 /*
@@ -12150,133 +12146,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-
-
-<!-- CRONOS PATCH: CARD DE EPISÓDIOS HOME + ABA EPISÓDIOS DO PROVEDOR NOVO -->
-<style id="cronos-card-episodios-home-aba-transplantado">
-/*
-   Sistema transplantado do Provedor Novo para a Base:
-   - Card de Episódios da Home: #gridInicioEpisodios
-   - Card de Episódios da Aba Episódios: #gridEpisodios
-   Mantém a base, troca somente o visual do card de episódio.
-*/
-#gridInicioEpisodios,
-#gridEpisodios{
-    display:grid !important;
-    grid-template-columns:repeat(auto-fill,minmax(205px,1fr)) !important;
-    gap:16px !important;
-    align-items:start !important;
-}
-
-#gridInicioEpisodios .card-item.episodio-home-card,
-#gridEpisodios .card-item.episodio-home-card{
-    padding:10px !important;
-    min-height:0 !important;
-    justify-content:flex-start !important;
-    width:100% !important;
-    min-width:0 !important;
-    max-width:none !important;
-}
-
-#gridInicioEpisodios .card-item.episodio-home-card .card-media,
-#gridEpisodios .card-item.episodio-home-card .card-media{
-    position:relative !important;
-    width:100% !important;
-    height:auto !important;
-    aspect-ratio:auto !important;
-    padding:32px 10px 34px !important;
-    box-sizing:border-box !important;
-    display:block !important;
-    background:#050505 !important;
-    border-radius:4px !important;
-    overflow:hidden !important;
-    margin-bottom:10px !important;
-}
-
-#gridInicioEpisodios .card-item.episodio-home-card .card-media img,
-#gridEpisodios .card-item.episodio-home-card .card-media img{
-    display:block !important;
-    width:100% !important;
-    height:auto !important;
-    aspect-ratio:16/9 !important;
-    object-fit:cover !important;
-    object-position:center center !important;
-    margin:0 !important;
-    border-radius:3px !important;
-    background:#000 !important;
-    transform:none !important;
-    max-width:none !important;
-}
-
-#gridInicioEpisodios .card-item.episodio-home-card .badge-tipo,
-#gridEpisodios .card-item.episodio-home-card .badge-tipo{
-    position:absolute !important;
-    top:8px !important;
-    left:10px !important;
-    right:auto !important;
-    bottom:auto !important;
-    z-index:8 !important;
-}
-
-#gridInicioEpisodios .card-item.episodio-home-card .badge-data-episodio,
-#gridEpisodios .card-item.episodio-home-card .badge-data-episodio{
-    position:absolute !important;
-    left:10px !important;
-    bottom:8px !important;
-    top:auto !important;
-    right:auto !important;
-    z-index:8 !important;
-    display:inline-flex !important;
-}
-
-#gridInicioEpisodios .card-item.episodio-home-card .badge-qualidade,
-#gridEpisodios .card-item.episodio-home-card .badge-qualidade{
-    position:absolute !important;
-    right:10px !important;
-    bottom:8px !important;
-    top:auto !important;
-    left:auto !important;
-    z-index:8 !important;
-}
-
-#gridInicioEpisodios .card-item.episodio-home-card h3,
-#gridEpisodios .card-item.episodio-home-card h3{
-    color:#fff !important;
-    font-size:13px !important;
-    font-weight:bold !important;
-    line-height:1.2 !important;
-    margin:6px 0 5px !important;
-    min-height:18px !important;
-    text-align:center !important;
-    display:block !important;
-}
-
-#gridInicioEpisodios .card-item.episodio-home-card .ano-card,
-#gridEpisodios .card-item.episodio-home-card .ano-card{
-    display:-webkit-box !important;
-    -webkit-line-clamp:2 !important;
-    -webkit-box-orient:vertical !important;
-    overflow:hidden !important;
-    color:#b742ff !important;
-    font-size:12px !important;
-    font-weight:bold !important;
-    line-height:1.2 !important;
-    text-align:center !important;
-    min-height:28px !important;
-    word-break:normal !important;
-}
-
-@media (max-width:560px){
-    #gridInicioEpisodios,
-    #gridEpisodios{
-        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-        gap:14px !important;
-    }
-}
-</style>
-<!-- FIM CRONOS PATCH: CARD DE EPISÓDIOS HOME + ABA EPISÓDIOS -->
-
-
 <script id="cronos-ajuste-config-lancamentos-final">
 (function(){
     function normCronosAjuste(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();}
@@ -12348,218 +12217,45 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
-
-<!-- CRONOS PATCH — MULTI PROVIDER 8 FONTES / FILTRO VISUAL + ORDEM SEQUENCIAL -->
-<style id="cronos-patch-multi-provider-css">
-.cronos-provider-panel {
-    background: #080808;
-    border: 1px solid #222;
-    border-radius: 10px;
-    padding: 14px;
-    margin: 16px 0 24px;
-    box-shadow: inset 0 0 18px rgba(0,255,255,0.03);
-}
-.cronos-provider-panel h3 {
-    color: #ffcc00;
-    font-size: 16px;
-    margin: 6px 0 10px;
-    text-transform: uppercase;
-}
-.cronos-provider-linha {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 12px;
-}
-.cronos-provider-btn {
-    background: #111;
-    color: #00ffff;
-    border: 1px solid #00ffff;
-    border-radius: 999px;
-    padding: 10px 14px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: .2s;
-}
-.cronos-provider-btn:hover { background:#00ffff; color:#000; box-shadow:0 0 12px rgba(0,255,255,.55); }
-.cronos-provider-btn.ativo { background:#00ffff; color:#000; box-shadow:0 0 14px rgba(0,255,255,.65); }
-.cronos-provider-btn.desligado { border-color:#ff3030; color:#ff4d4d; background:#160909; }
-.cronos-provider-btn.desligado:hover { background:#ff3030; color:#000; box-shadow:0 0 12px rgba(255,48,48,.55); }
-.cronos-provider-help { color:#aaa; font-size:13px; line-height:1.45; margin:4px 0 0; }
-.badge-provedor-cronos { display:none !important; }
-.card-item[data-provider="b01"] .badge-qualidade,
-.badge-qualidade.provider-bfck {
-    background:#00e5ff;
-    color:#000;
-    border:1px solid #00e5ff;
-}
-.card-item[data-provider="p02"] .badge-qualidade,
-.badge-qualidade.provider-bftv {
-    background:#ffcc00;
-    color:#000;
-    border:1px solid #ffcc00;
-}
-.card-item[data-provider="m03"] .badge-qualidade,
-.badge-qualidade.provider-mega {
-    background:#00ff88;
-    color:#000;
-    border:1px solid #00ff88;
-}
-.card-item[data-provider="e04"] .badge-qualidade,
-.badge-qualidade.provider-eba {
-    background:#ff4dff;
-    color:#000;
-    border:1px solid #ff4dff;
-}
-.card-item[data-provider="s05"] .badge-qualidade,
-.badge-qualidade.provider-sweb {
-    background:#ff8c00;
-    color:#000;
-    border:1px solid #ff8c00;
-}
-.card-item[data-provider="u06"] .badge-qualidade,
-.badge-qualidade.provider-ssup {
-    background:#66ccff;
-    color:#000;
-    border:1px solid #66ccff;
-}
-.card-item[data-provider="l07"] .badge-qualidade,
-.badge-qualidade.provider-liso {
-    background:#b6ff00;
-    color:#000;
-    border:1px solid #b6ff00;
-}
-.card-item[data-provider="primeflix"] .badge-qualidade,
-.badge-qualidade.provider-prime {
-    background:#ff2d55;
-    color:#fff;
-    border:1px solid #ff2d55;
-}
-.cronos-provider-oculto { display:none !important; }
-.premium-slide[data-provider="primeflix"]::before,
-.premium-slide[data-provider="l07"]::before,
-.premium-slide[data-provider="u06"]::before,
-.premium-slide[data-provider="s05"]::before,
-.premium-slide[data-provider="e04"]::before,
-.premium-slide[data-provider="m03"]::before,
-.premium-slide[data-provider="p02"]::before,
-.premium-slide[data-provider="b01"]::before {
-    content: attr(data-provider-label);
-    position:absolute;
-    top:14px;
-    left:14px;
-    z-index:20;
-    border:1px solid #00ffff;
-    color:#00ffff;
-    background:rgba(0,0,0,.75);
-    border-radius:4px;
-    padding:5px 8px;
-    font-size:12px;
-    font-weight:bold;
-}
-.premium-slide[data-provider="p02"]::before { border-color:#ffcc00; color:#ffcc00; }
-.premium-slide[data-provider="m03"]::before { border-color:#00ff88; color:#00ff88; }
-.premium-slide[data-provider="e04"]::before { border-color:#ff4dff; color:#ff4dff; }
-.premium-slide[data-provider="s05"]::before { border-color:#ff8c00; color:#ff8c00; }
-.premium-slide[data-provider="u06"]::before { border-color:#66ccff; color:#66ccff; }
-.premium-slide[data-provider="l07"]::before { border-color:#b6ff00; color:#b6ff00; }
-.premium-slide[data-provider="primeflix"]::before { border-color:#ff2d55; color:#ff2d55; }
-
-/* PRIME — card de episódios no padrão aprovado: tag superior, thumb 16:9 e tags inferiores fora da imagem */
-.card-item.episodio-home-card[data-provider="primeflix"] {
-    justify-content:flex-start !important;
-    padding:10px !important;
-    min-height:200px !important;
-}
-.card-item.episodio-home-card[data-provider="primeflix"] .episodio-tag-top {
-    width:100% !important;
-    display:flex !important;
-    justify-content:flex-start !important;
-    margin-bottom:6px !important;
-}
-.card-item.episodio-home-card[data-provider="primeflix"] .episodio-tag-top .badge-tipo {
-    position:static !important;
-    display:inline-flex !important;
-    width:fit-content !important;
-}
-.card-item.episodio-home-card[data-provider="primeflix"] .card-media.episodio-media {
-    width:100% !important;
-    aspect-ratio:16/9 !important;
-    height:auto !important;
-    background:#050505 !important;
-    border-radius:4px !important;
-    overflow:hidden !important;
-    margin-bottom:6px !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-}
-.card-item.episodio-home-card[data-provider="primeflix"] .card-media.episodio-media img {
-    width:100% !important;
-    height:100% !important;
-    object-fit:contain !important;
-    object-position:center !important;
-    display:block !important;
-    margin:0 !important;
-    background:#000 !important;
-}
-.card-item.episodio-home-card[data-provider="primeflix"] .episodio-tags-bottom {
-    width:100% !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:space-between !important;
-    gap:8px !important;
-    margin-bottom:8px !important;
-}
-.card-item.episodio-home-card[data-provider="primeflix"] .episodio-tags-bottom .badge-data-episodio,
-.card-item.episodio-home-card[data-provider="primeflix"] .episodio-tags-bottom .badge-qualidade {
-    position:static !important;
-    display:inline-flex !important;
-    align-items:center !important;
-    width:fit-content !important;
-}
-.card-item.episodio-home-card[data-provider="primeflix"] h3 {
-    color:#fff !important;
-    font-size:14px !important;
-    font-weight:bold !important;
-    margin:4px 0 5px !important;
-    text-align:center !important;
-    line-height:1.2 !important;
-}
-.card-item.episodio-home-card[data-provider="primeflix"] .ano-card {
-    color:#b742ff !important;
-    font-size:13px !important;
-    font-weight:bold !important;
-    text-align:center !important;
-    line-height:1.2 !important;
-}
-
-</style>
 <script id="cronos-patch-multi-provider-js">
 (function(){
     if (window.__CRONOS_MULTI_PROVIDER_PATCH__) return;
     window.__CRONOS_MULTI_PROVIDER_PATCH__ = true;
 
-    const STORAGE_FONTES = 'cronos_providers_ativos';
-    const STORAGE_FILTROS = 'cronos_filtros_visuais';
-    const ORDEM_PROVEDORES = ['b01', 'p02', 'm03', 'e04', 's05', 'u06', 'l07', 'primeflix'];
+    const STORAGE_FONTES = 'cronos_cine4_providers_ativos_pkeys_v2';
+    const STORAGE_FILTROS = 'cronos_cine4_filtros_visuais_pkeys_v2';
+    const ORDEM_PROVEDORES = ['p01', 'p02', 'p03', 'p04', 'p05', 'p06', 'p07', 'p08'];
     const PROVIDERS = {
-        b01: { key: 'b01', sigla: 'BFCK', nome: 'Fonte BFCK', base: 'https://www.boraflix.click/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
-        p02: { key: 'p02', sigla: 'BFTV', nome: 'Fonte BFTV', base: 'https://www.boraflixtv.com/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
-        m03: { key: 'm03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/', generoBase: '/generos/', semEpisodios: true, semAno: true, semLetras: true },
-        e04: { key: 'e04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/', generoBase: '', semCategoria: true, semEpisodios: true, semAno: true },
-        s05: { key: 's05', sigla: 'SWEB', nome: 'Fonte SWEB', base: 'https://www.seriesonlineweb.lol/', generoBase: '/generos/', semEpisodios: true, semAno: true },
-        u06: { key: 'u06', sigla: 'SSUP', nome: 'Fonte SSUP', base: 'https://superseries.life/', generoBase: '/generos/', semEpisodios: true, semAno: true },
-        l07: { key: 'l07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/', generoBase: '/category/', filmePath: '/movies/', seriePath: '/series/', episodioPath: '/episodio/', buscaPath: '/?s=', letrasPath: '/letra/', semEpisodios: false, semAno: true },
-        primeflix: { key: 'primeflix', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/', generoBase: '', filmePath: '/filmes', seriePath: '/series', episodioPath: '/episodios', buscaPath: '/pesquisar?s=', animePath: '/animes', doramaPath: '/doramas', semCategoria: true, semAno: true, semLetras: true, semEpisodios: false }
+        p01: { key: 'p01', sigla: 'BORA', nome: 'Fonte BORA', base: 'https://www.boraflix.click/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
+        p02: { key: 'p02', sigla: 'ORG', nome: 'Fonte ORG', base: 'https://www.boraflixtv.com/', generoBase: '/categoria/', semEpisodios: false, semAno: false },
+        p03: { key: 'p03', sigla: 'MEGA', nome: 'Fonte MEGA', base: 'https://megacine.boats/', generoBase: '/generos/', semEpisodios: true, semAno: true, semLetras: true },
+        p04: { key: 'p04', sigla: 'EBA', nome: 'Fonte EBA', base: 'https://www.ebaflix.com/', generoBase: '', semCategoria: true, semEpisodios: true, semAno: true },
+        p05: { key: 'p05', sigla: 'WEB', nome: 'Fonte WEB', base: 'https://www.seriesonlineweb.lol/', generoBase: '/generos/', semEpisodios: true, semAno: true },
+        p06: { key: 'p06', sigla: 'SUP', nome: 'Fonte SUP', base: 'https://superseries.life/', generoBase: '/generos/', semEpisodios: true, semAno: true },
+        p07: { key: 'p07', sigla: 'LISO', nome: 'Fonte LISO', base: 'https://lisoflix.net/', generoBase: '/category/', filmePath: '/movies/', seriePath: '/series/', episodioPath: '/episodio/', buscaPath: '/?s=', letrasPath: '/letra/', semEpisodios: false, semAno: true },
+        p08: { key: 'p08', sigla: 'PRIME', nome: 'Fonte PRIME', base: 'https://primeflix.mom/', generoBase: '', filmePath: '/filmes', seriePath: '/series', episodioPath: '/episodios', buscaPath: '/pesquisar?s=', animePath: '/animes', doramaPath: '/doramas', semCategoria: true, semAno: true, semLetras: true, semEpisodios: false }
     };
-    const GENEROS_P02_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://www.boraflixtv.com/categoria/acao/"}, {"nome": "Action & Adventure", "slug": "action-adventure", "url": "https://www.boraflixtv.com/categoria/action-adventure/"}, {"nome": "Animação", "slug": "animacao", "url": "https://www.boraflixtv.com/categoria/animacao/"}, {"nome": "Aventura", "slug": "aventura", "url": "https://www.boraflixtv.com/categoria/aventura/"}, {"nome": "Canais", "slug": "canais", "url": "https://www.boraflixtv.com/categoria/canais/"}, {"nome": "Cinema TV", "slug": "cinema-tv", "url": "https://www.boraflixtv.com/categoria/cinema-tv/"}, {"nome": "Comédia", "slug": "comedia", "url": "https://www.boraflixtv.com/categoria/comedia/"}, {"nome": "Crime", "slug": "crime", "url": "https://www.boraflixtv.com/categoria/crime/"}, {"nome": "Documentário", "slug": "documentario", "url": "https://www.boraflixtv.com/categoria/documentario/"}, {"nome": "Drama", "slug": "drama", "url": "https://www.boraflixtv.com/categoria/drama/"}, {"nome": "Família", "slug": "familia", "url": "https://www.boraflixtv.com/categoria/familia/"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://www.boraflixtv.com/categoria/fantasia/"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://www.boraflixtv.com/categoria/faroeste/"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://www.boraflixtv.com/categoria/ficcao-cientifica/"}, {"nome": "Guerra & Política", "slug": "guerra-politica", "url": "https://www.boraflixtv.com/categoria/guerra-politica/"}, {"nome": "Guerra", "slug": "guerra", "url": "https://www.boraflixtv.com/categoria/guerra/"}, {"nome": "História", "slug": "historia", "url": "https://www.boraflixtv.com/categoria/historia/"}, {"nome": "Kids", "slug": "kids", "url": "https://www.boraflixtv.com/categoria/kids/"}, {"nome": "Mistério", "slug": "misterio", "url": "https://www.boraflixtv.com/categoria/misterio/"}, {"nome": "Música", "slug": "musica", "url": "https://www.boraflixtv.com/categoria/musica/"}, {"nome": "Reality", "slug": "reality", "url": "https://www.boraflixtv.com/categoria/reality/"}, {"nome": "Romance", "slug": "romance", "url": "https://www.boraflixtv.com/categoria/romance/"}, {"nome": "Sci-Fi & Fantasy", "slug": "sci-fi-fantasy", "url": "https://www.boraflixtv.com/categoria/sci-fi-fantasy/"}, {"nome": "Soap", "slug": "soap", "url": "https://www.boraflixtv.com/categoria/soap/"}, {"nome": "Terror", "slug": "terror", "url": "https://www.boraflixtv.com/categoria/terror/"}, {"nome": "Thriller", "slug": "thriller", "url": "https://www.boraflixtv.com/categoria/thriller/"}, {"nome": "War & Politics", "slug": "war-politics", "url": "https://www.boraflixtv.com/categoria/war-politics/"}];
-        const GENEROS_M03_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://megacine.boats/generos/acao", "providerKey": "m03"}, {"nome": "Animação", "slug": "animacao", "url": "https://megacine.boats/generos/animacao", "providerKey": "m03"}, {"nome": "Aventura", "slug": "aventura", "url": "https://megacine.boats/generos/aventura", "providerKey": "m03"}, {"nome": "Comédia", "slug": "comedia", "url": "https://megacine.boats/generos/comedia", "providerKey": "m03"}, {"nome": "Crime", "slug": "crime", "url": "https://megacine.boats/generos/crime", "providerKey": "m03"}, {"nome": "Documentário", "slug": "documentario", "url": "https://megacine.boats/generos/documentario", "providerKey": "m03"}, {"nome": "Drama", "slug": "drama", "url": "https://megacine.boats/generos/drama", "providerKey": "m03"}, {"nome": "Família", "slug": "familia", "url": "https://megacine.boats/generos/familia", "providerKey": "m03"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://megacine.boats/generos/fantasia", "providerKey": "m03"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://megacine.boats/generos/faroeste", "providerKey": "m03"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://megacine.boats/generos/ficcao-cientifica", "providerKey": "m03"}, {"nome": "Guerra", "slug": "guerra", "url": "https://megacine.boats/generos/guerra", "providerKey": "m03"}, {"nome": "História", "slug": "historia", "url": "https://megacine.boats/generos/historia", "providerKey": "m03"}, {"nome": "Kids", "slug": "kids", "url": "https://megacine.boats/generos/kids", "providerKey": "m03"}, {"nome": "Mistério", "slug": "misterio", "url": "https://megacine.boats/generos/misterio", "providerKey": "m03"}, {"nome": "Música", "slug": "musica", "url": "https://megacine.boats/generos/musica", "providerKey": "m03"}, {"nome": "Reality", "slug": "reality", "url": "https://megacine.boats/generos/reality", "providerKey": "m03"}, {"nome": "Romance", "slug": "romance", "url": "https://megacine.boats/generos/romance", "providerKey": "m03"}, {"nome": "Terror", "slug": "terror", "url": "https://megacine.boats/generos/terror", "providerKey": "m03"}];
-const GENEROS_E04_MULTI = [];
-const GENEROS_PRIME_MULTI = [{"nome": "Animes", "slug": "animes", "url": "https://primeflix.mom/animes", "providerKey": "primeflix"}, {"nome": "Doramas", "slug": "doramas", "url": "https://primeflix.mom/doramas", "providerKey": "primeflix"}];
-const GENEROS_S05_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://www.seriesonlineweb.lol/generos/acao", "providerKey": "s05"}, {"nome": "Animação", "slug": "animacao", "url": "https://www.seriesonlineweb.lol/generos/animacao", "providerKey": "s05"}, {"nome": "Aventura", "slug": "aventura", "url": "https://www.seriesonlineweb.lol/generos/aventura", "providerKey": "s05"}, {"nome": "Comédia", "slug": "comedia", "url": "https://www.seriesonlineweb.lol/generos/comedia", "providerKey": "s05"}, {"nome": "Crime", "slug": "crime", "url": "https://www.seriesonlineweb.lol/generos/crime", "providerKey": "s05"}, {"nome": "Documentário", "slug": "documentario", "url": "https://www.seriesonlineweb.lol/generos/documentario", "providerKey": "s05"}, {"nome": "Drama", "slug": "drama", "url": "https://www.seriesonlineweb.lol/generos/drama", "providerKey": "s05"}, {"nome": "Família", "slug": "familia", "url": "https://www.seriesonlineweb.lol/generos/familia", "providerKey": "s05"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://www.seriesonlineweb.lol/generos/fantasia", "providerKey": "s05"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://www.seriesonlineweb.lol/generos/faroeste", "providerKey": "s05"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://www.seriesonlineweb.lol/generos/ficcao-cientifica", "providerKey": "s05"}, {"nome": "Guerra", "slug": "guerra", "url": "https://www.seriesonlineweb.lol/generos/guerra", "providerKey": "s05"}, {"nome": "História", "slug": "historia", "url": "https://www.seriesonlineweb.lol/generos/historia", "providerKey": "s05"}, {"nome": "Kids", "slug": "kids", "url": "https://www.seriesonlineweb.lol/generos/kids", "providerKey": "s05"}, {"nome": "Mistério", "slug": "misterio", "url": "https://www.seriesonlineweb.lol/generos/misterio", "providerKey": "s05"}, {"nome": "Música", "slug": "musica", "url": "https://www.seriesonlineweb.lol/generos/musica", "providerKey": "s05"}, {"nome": "Reality", "slug": "reality", "url": "https://www.seriesonlineweb.lol/generos/reality", "providerKey": "s05"}, {"nome": "Romance", "slug": "romance", "url": "https://www.seriesonlineweb.lol/generos/romance", "providerKey": "s05"}, {"nome": "Terror", "slug": "terror", "url": "https://www.seriesonlineweb.lol/generos/terror", "providerKey": "s05"}];
-const GENEROS_U06_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://superseries.life/generos/acao", "providerKey": "u06"}, {"nome": "Animação", "slug": "animacao", "url": "https://superseries.life/generos/animacao", "providerKey": "u06"}, {"nome": "Aventura", "slug": "aventura", "url": "https://superseries.life/generos/aventura", "providerKey": "u06"}, {"nome": "Comédia", "slug": "comedia", "url": "https://superseries.life/generos/comedia", "providerKey": "u06"}, {"nome": "Crime", "slug": "crime", "url": "https://superseries.life/generos/crime", "providerKey": "u06"}, {"nome": "Documentário", "slug": "documentario", "url": "https://superseries.life/generos/documentario", "providerKey": "u06"}, {"nome": "Drama", "slug": "drama", "url": "https://superseries.life/generos/drama", "providerKey": "u06"}, {"nome": "Família", "slug": "familia", "url": "https://superseries.life/generos/familia", "providerKey": "u06"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://superseries.life/generos/fantasia", "providerKey": "u06"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://superseries.life/generos/faroeste", "providerKey": "u06"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://superseries.life/generos/ficcao-cientifica", "providerKey": "u06"}, {"nome": "Guerra", "slug": "guerra", "url": "https://superseries.life/generos/guerra", "providerKey": "u06"}, {"nome": "História", "slug": "historia", "url": "https://superseries.life/generos/historia", "providerKey": "u06"}, {"nome": "Kids", "slug": "kids", "url": "https://superseries.life/generos/kids", "providerKey": "u06"}, {"nome": "Mistério", "slug": "misterio", "url": "https://superseries.life/generos/misterio", "providerKey": "u06"}, {"nome": "Música", "slug": "musica", "url": "https://superseries.life/generos/musica", "providerKey": "u06"}, {"nome": "Reality", "slug": "reality", "url": "https://superseries.life/generos/reality", "providerKey": "u06"}, {"nome": "Romance", "slug": "romance", "url": "https://superseries.life/generos/romance", "providerKey": "u06"}, {"nome": "Terror", "slug": "terror", "url": "https://superseries.life/generos/terror", "providerKey": "u06"}];
-const GENEROS_L07_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://lisoflix.net/category/acao/", "providerKey": "l07"}, {"nome": "Action & Adventure", "slug": "action-adventure", "url": "https://lisoflix.net/category/action-adventure/", "providerKey": "l07"}, {"nome": "Animação", "slug": "animacao", "url": "https://lisoflix.net/category/animacao/", "providerKey": "l07"}, {"nome": "Aventura", "slug": "aventura", "url": "https://lisoflix.net/category/aventura/", "providerKey": "l07"}, {"nome": "Cinema TV", "slug": "cinema-tv", "url": "https://lisoflix.net/category/cinema-tv/", "providerKey": "l07"}, {"nome": "Comédia", "slug": "comedia", "url": "https://lisoflix.net/category/comedia/", "providerKey": "l07"}, {"nome": "Crime", "slug": "crime", "url": "https://lisoflix.net/category/crime/", "providerKey": "l07"}, {"nome": "Documentário", "slug": "documentario", "url": "https://lisoflix.net/category/documentario/", "providerKey": "l07"}, {"nome": "Dorama", "slug": "dorama", "url": "https://lisoflix.net/category/dorama/", "providerKey": "l07"}, {"nome": "Drama", "slug": "drama", "url": "https://lisoflix.net/category/drama/", "providerKey": "l07"}, {"nome": "Família", "slug": "familia", "url": "https://lisoflix.net/category/familia/", "providerKey": "l07"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://lisoflix.net/category/fantasia/", "providerKey": "l07"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://lisoflix.net/category/faroeste/", "providerKey": "l07"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://lisoflix.net/category/ficcao-cientifica/", "providerKey": "l07"}, {"nome": "Guerra", "slug": "guerra", "url": "https://lisoflix.net/category/guerra/", "providerKey": "l07"}, {"nome": "História", "slug": "historia", "url": "https://lisoflix.net/category/historia/", "providerKey": "l07"}, {"nome": "Kids", "slug": "kids", "url": "https://lisoflix.net/category/kids/", "providerKey": "l07"}, {"nome": "Mistério", "slug": "misterio", "url": "https://lisoflix.net/category/misterio/", "providerKey": "l07"}, {"nome": "Música", "slug": "musica", "url": "https://lisoflix.net/category/musica/", "providerKey": "l07"}, {"nome": "Novelas", "slug": "novelas", "url": "https://lisoflix.net/category/novelas/", "providerKey": "l07"}, {"nome": "Reality", "slug": "reality", "url": "https://lisoflix.net/category/reality/", "providerKey": "l07"}, {"nome": "Romance", "slug": "romance", "url": "https://lisoflix.net/category/romance/", "providerKey": "l07"}, {"nome": "Sci-Fi & Fantasy", "slug": "sci-fi-fantasy", "url": "https://lisoflix.net/category/sci-fi-fantasy/", "providerKey": "l07"}, {"nome": "Soap", "slug": "soap", "url": "https://lisoflix.net/category/soap/", "providerKey": "l07"}, {"nome": "Terror", "slug": "terror", "url": "https://lisoflix.net/category/terror/", "providerKey": "l07"}, {"nome": "Thriller", "slug": "thriller", "url": "https://lisoflix.net/category/thriller/", "providerKey": "l07"}, {"nome": "Uncategorized", "slug": "uncategorized", "url": "https://lisoflix.net/category/uncategorized/", "providerKey": "l07"}];
+    
+    const PROVIDER_DEFAULTS = ORDEM_PROVEDORES.reduce((acc, k) => { acc[k] = true; return acc; }, {});
+    function normalizarProviderKey(key){
+        const k = String(key || '').trim();
+        return PROVIDERS[k] ? k : 'p01';
+    }
+    function normalizarMapaProvider(obj){
+        const out = Object.assign({}, PROVIDER_DEFAULTS);
+        Object.entries(obj || {}).forEach(([k, v]) => {
+            const nk = normalizarProviderKey(k);
+            if (nk) out[nk] = v !== false;
+        });
+        return out;
+    }
+const GENEROS_P02_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://www.boraflixtv.com/categoria/acao/"}, {"nome": "Action & Adventure", "slug": "action-adventure", "url": "https://www.boraflixtv.com/categoria/action-adventure/"}, {"nome": "Animação", "slug": "animacao", "url": "https://www.boraflixtv.com/categoria/animacao/"}, {"nome": "Aventura", "slug": "aventura", "url": "https://www.boraflixtv.com/categoria/aventura/"}, {"nome": "Canais", "slug": "canais", "url": "https://www.boraflixtv.com/categoria/canais/"}, {"nome": "Cinema TV", "slug": "cinema-tv", "url": "https://www.boraflixtv.com/categoria/cinema-tv/"}, {"nome": "Comédia", "slug": "comedia", "url": "https://www.boraflixtv.com/categoria/comedia/"}, {"nome": "Crime", "slug": "crime", "url": "https://www.boraflixtv.com/categoria/crime/"}, {"nome": "Documentário", "slug": "documentario", "url": "https://www.boraflixtv.com/categoria/documentario/"}, {"nome": "Drama", "slug": "drama", "url": "https://www.boraflixtv.com/categoria/drama/"}, {"nome": "Família", "slug": "familia", "url": "https://www.boraflixtv.com/categoria/familia/"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://www.boraflixtv.com/categoria/fantasia/"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://www.boraflixtv.com/categoria/faroeste/"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://www.boraflixtv.com/categoria/ficcao-cientifica/"}, {"nome": "Guerra & Política", "slug": "guerra-politica", "url": "https://www.boraflixtv.com/categoria/guerra-politica/"}, {"nome": "Guerra", "slug": "guerra", "url": "https://www.boraflixtv.com/categoria/guerra/"}, {"nome": "História", "slug": "historia", "url": "https://www.boraflixtv.com/categoria/historia/"}, {"nome": "Kids", "slug": "kids", "url": "https://www.boraflixtv.com/categoria/kids/"}, {"nome": "Mistério", "slug": "misterio", "url": "https://www.boraflixtv.com/categoria/misterio/"}, {"nome": "Música", "slug": "musica", "url": "https://www.boraflixtv.com/categoria/musica/"}, {"nome": "Reality", "slug": "reality", "url": "https://www.boraflixtv.com/categoria/reality/"}, {"nome": "Romance", "slug": "romance", "url": "https://www.boraflixtv.com/categoria/romance/"}, {"nome": "Sci-Fi & Fantasy", "slug": "sci-fi-fantasy", "url": "https://www.boraflixtv.com/categoria/sci-fi-fantasy/"}, {"nome": "Soap", "slug": "soap", "url": "https://www.boraflixtv.com/categoria/soap/"}, {"nome": "Terror", "slug": "terror", "url": "https://www.boraflixtv.com/categoria/terror/"}, {"nome": "Thriller", "slug": "thriller", "url": "https://www.boraflixtv.com/categoria/thriller/"}, {"nome": "War & Politics", "slug": "war-politics", "url": "https://www.boraflixtv.com/categoria/war-politics/"}];
+        const GENEROS_P03_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://megacine.boats/generos/acao", "providerKey": "p03"}, {"nome": "Animação", "slug": "animacao", "url": "https://megacine.boats/generos/animacao", "providerKey": "p03"}, {"nome": "Aventura", "slug": "aventura", "url": "https://megacine.boats/generos/aventura", "providerKey": "p03"}, {"nome": "Comédia", "slug": "comedia", "url": "https://megacine.boats/generos/comedia", "providerKey": "p03"}, {"nome": "Crime", "slug": "crime", "url": "https://megacine.boats/generos/crime", "providerKey": "p03"}, {"nome": "Documentário", "slug": "documentario", "url": "https://megacine.boats/generos/documentario", "providerKey": "p03"}, {"nome": "Drama", "slug": "drama", "url": "https://megacine.boats/generos/drama", "providerKey": "p03"}, {"nome": "Família", "slug": "familia", "url": "https://megacine.boats/generos/familia", "providerKey": "p03"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://megacine.boats/generos/fantasia", "providerKey": "p03"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://megacine.boats/generos/faroeste", "providerKey": "p03"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://megacine.boats/generos/ficcao-cientifica", "providerKey": "p03"}, {"nome": "Guerra", "slug": "guerra", "url": "https://megacine.boats/generos/guerra", "providerKey": "p03"}, {"nome": "História", "slug": "historia", "url": "https://megacine.boats/generos/historia", "providerKey": "p03"}, {"nome": "Kids", "slug": "kids", "url": "https://megacine.boats/generos/kids", "providerKey": "p03"}, {"nome": "Mistério", "slug": "misterio", "url": "https://megacine.boats/generos/misterio", "providerKey": "p03"}, {"nome": "Música", "slug": "musica", "url": "https://megacine.boats/generos/musica", "providerKey": "p03"}, {"nome": "Reality", "slug": "reality", "url": "https://megacine.boats/generos/reality", "providerKey": "p03"}, {"nome": "Romance", "slug": "romance", "url": "https://megacine.boats/generos/romance", "providerKey": "p03"}, {"nome": "Terror", "slug": "terror", "url": "https://megacine.boats/generos/terror", "providerKey": "p03"}];
+const GENEROS_P04_MULTI = [];
+const GENEROS_PRIME_MULTI = [{"nome": "Animes", "slug": "animes", "url": "https://primeflix.mom/animes", "providerKey": "p08"}, {"nome": "Doramas", "slug": "doramas", "url": "https://primeflix.mom/doramas", "providerKey": "p08"}];
+const GENEROS_P05_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://www.seriesonlineweb.lol/generos/acao", "providerKey": "p05"}, {"nome": "Animação", "slug": "animacao", "url": "https://www.seriesonlineweb.lol/generos/animacao", "providerKey": "p05"}, {"nome": "Aventura", "slug": "aventura", "url": "https://www.seriesonlineweb.lol/generos/aventura", "providerKey": "p05"}, {"nome": "Comédia", "slug": "comedia", "url": "https://www.seriesonlineweb.lol/generos/comedia", "providerKey": "p05"}, {"nome": "Crime", "slug": "crime", "url": "https://www.seriesonlineweb.lol/generos/crime", "providerKey": "p05"}, {"nome": "Documentário", "slug": "documentario", "url": "https://www.seriesonlineweb.lol/generos/documentario", "providerKey": "p05"}, {"nome": "Drama", "slug": "drama", "url": "https://www.seriesonlineweb.lol/generos/drama", "providerKey": "p05"}, {"nome": "Família", "slug": "familia", "url": "https://www.seriesonlineweb.lol/generos/familia", "providerKey": "p05"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://www.seriesonlineweb.lol/generos/fantasia", "providerKey": "p05"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://www.seriesonlineweb.lol/generos/faroeste", "providerKey": "p05"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://www.seriesonlineweb.lol/generos/ficcao-cientifica", "providerKey": "p05"}, {"nome": "Guerra", "slug": "guerra", "url": "https://www.seriesonlineweb.lol/generos/guerra", "providerKey": "p05"}, {"nome": "História", "slug": "historia", "url": "https://www.seriesonlineweb.lol/generos/historia", "providerKey": "p05"}, {"nome": "Kids", "slug": "kids", "url": "https://www.seriesonlineweb.lol/generos/kids", "providerKey": "p05"}, {"nome": "Mistério", "slug": "misterio", "url": "https://www.seriesonlineweb.lol/generos/misterio", "providerKey": "p05"}, {"nome": "Música", "slug": "musica", "url": "https://www.seriesonlineweb.lol/generos/musica", "providerKey": "p05"}, {"nome": "Reality", "slug": "reality", "url": "https://www.seriesonlineweb.lol/generos/reality", "providerKey": "p05"}, {"nome": "Romance", "slug": "romance", "url": "https://www.seriesonlineweb.lol/generos/romance", "providerKey": "p05"}, {"nome": "Terror", "slug": "terror", "url": "https://www.seriesonlineweb.lol/generos/terror", "providerKey": "p05"}];
+const GENEROS_P06_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://superseries.life/generos/acao", "providerKey": "p06"}, {"nome": "Animação", "slug": "animacao", "url": "https://superseries.life/generos/animacao", "providerKey": "p06"}, {"nome": "Aventura", "slug": "aventura", "url": "https://superseries.life/generos/aventura", "providerKey": "p06"}, {"nome": "Comédia", "slug": "comedia", "url": "https://superseries.life/generos/comedia", "providerKey": "p06"}, {"nome": "Crime", "slug": "crime", "url": "https://superseries.life/generos/crime", "providerKey": "p06"}, {"nome": "Documentário", "slug": "documentario", "url": "https://superseries.life/generos/documentario", "providerKey": "p06"}, {"nome": "Drama", "slug": "drama", "url": "https://superseries.life/generos/drama", "providerKey": "p06"}, {"nome": "Família", "slug": "familia", "url": "https://superseries.life/generos/familia", "providerKey": "p06"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://superseries.life/generos/fantasia", "providerKey": "p06"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://superseries.life/generos/faroeste", "providerKey": "p06"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://superseries.life/generos/ficcao-cientifica", "providerKey": "p06"}, {"nome": "Guerra", "slug": "guerra", "url": "https://superseries.life/generos/guerra", "providerKey": "p06"}, {"nome": "História", "slug": "historia", "url": "https://superseries.life/generos/historia", "providerKey": "p06"}, {"nome": "Kids", "slug": "kids", "url": "https://superseries.life/generos/kids", "providerKey": "p06"}, {"nome": "Mistério", "slug": "misterio", "url": "https://superseries.life/generos/misterio", "providerKey": "p06"}, {"nome": "Música", "slug": "musica", "url": "https://superseries.life/generos/musica", "providerKey": "p06"}, {"nome": "Reality", "slug": "reality", "url": "https://superseries.life/generos/reality", "providerKey": "p06"}, {"nome": "Romance", "slug": "romance", "url": "https://superseries.life/generos/romance", "providerKey": "p06"}, {"nome": "Terror", "slug": "terror", "url": "https://superseries.life/generos/terror", "providerKey": "p06"}];
+const GENEROS_P07_MULTI = [{"nome": "Ação", "slug": "acao", "url": "https://lisoflix.net/category/acao/", "providerKey": "p07"}, {"nome": "Action & Adventure", "slug": "action-adventure", "url": "https://lisoflix.net/category/action-adventure/", "providerKey": "p07"}, {"nome": "Animação", "slug": "animacao", "url": "https://lisoflix.net/category/animacao/", "providerKey": "p07"}, {"nome": "Aventura", "slug": "aventura", "url": "https://lisoflix.net/category/aventura/", "providerKey": "p07"}, {"nome": "Cinema TV", "slug": "cinema-tv", "url": "https://lisoflix.net/category/cinema-tv/", "providerKey": "p07"}, {"nome": "Comédia", "slug": "comedia", "url": "https://lisoflix.net/category/comedia/", "providerKey": "p07"}, {"nome": "Crime", "slug": "crime", "url": "https://lisoflix.net/category/crime/", "providerKey": "p07"}, {"nome": "Documentário", "slug": "documentario", "url": "https://lisoflix.net/category/documentario/", "providerKey": "p07"}, {"nome": "Dorama", "slug": "dorama", "url": "https://lisoflix.net/category/dorama/", "providerKey": "p07"}, {"nome": "Drama", "slug": "drama", "url": "https://lisoflix.net/category/drama/", "providerKey": "p07"}, {"nome": "Família", "slug": "familia", "url": "https://lisoflix.net/category/familia/", "providerKey": "p07"}, {"nome": "Fantasia", "slug": "fantasia", "url": "https://lisoflix.net/category/fantasia/", "providerKey": "p07"}, {"nome": "Faroeste", "slug": "faroeste", "url": "https://lisoflix.net/category/faroeste/", "providerKey": "p07"}, {"nome": "Ficção Científica", "slug": "ficcao-cientifica", "url": "https://lisoflix.net/category/ficcao-cientifica/", "providerKey": "p07"}, {"nome": "Guerra", "slug": "guerra", "url": "https://lisoflix.net/category/guerra/", "providerKey": "p07"}, {"nome": "História", "slug": "historia", "url": "https://lisoflix.net/category/historia/", "providerKey": "p07"}, {"nome": "Kids", "slug": "kids", "url": "https://lisoflix.net/category/kids/", "providerKey": "p07"}, {"nome": "Mistério", "slug": "misterio", "url": "https://lisoflix.net/category/misterio/", "providerKey": "p07"}, {"nome": "Música", "slug": "musica", "url": "https://lisoflix.net/category/musica/", "providerKey": "p07"}, {"nome": "Novelas", "slug": "novelas", "url": "https://lisoflix.net/category/novelas/", "providerKey": "p07"}, {"nome": "Reality", "slug": "reality", "url": "https://lisoflix.net/category/reality/", "providerKey": "p07"}, {"nome": "Romance", "slug": "romance", "url": "https://lisoflix.net/category/romance/", "providerKey": "p07"}, {"nome": "Sci-Fi & Fantasy", "slug": "sci-fi-fantasy", "url": "https://lisoflix.net/category/sci-fi-fantasy/", "providerKey": "p07"}, {"nome": "Soap", "slug": "soap", "url": "https://lisoflix.net/category/soap/", "providerKey": "p07"}, {"nome": "Terror", "slug": "terror", "url": "https://lisoflix.net/category/terror/", "providerKey": "p07"}, {"nome": "Thriller", "slug": "thriller", "url": "https://lisoflix.net/category/thriller/", "providerKey": "p07"}, {"nome": "Uncategorized", "slug": "uncategorized", "url": "https://lisoflix.net/category/uncategorized/", "providerKey": "p07"}];
 const ROTAS_TELA = {
         telaInicio: '/',
         telaFilmes: '/filmes/',
@@ -12571,7 +12267,18 @@ const ROTAS_TELA = {
     let contextoBuscaMulti = { tipo: 'busca', path: '', titulo: '' };
     let paginaAtualMulti = {};
 
-    window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
+    function migrarStorageProvedoresCronos(){
+        [STORAGE_FONTES, STORAGE_FILTROS].forEach(chave => {
+            try {
+                const atual = JSON.parse(localStorage.getItem(chave) || '{}') || {};
+                const normalizado = normalizarMapaProvider(atual);
+                localStorage.setItem(chave, JSON.stringify(normalizado));
+            } catch(e) {}
+        });
+    }
+    migrarStorageProvedoresCronos();
+
+window.CRONOS_MULTI_PROVIDERS = PROVIDERS;
     window.ORDEM_PROVEDORES = ORDEM_PROVEDORES;
 
     function lerStorageObj(chave, padrao){
@@ -12583,32 +12290,33 @@ const ROTAS_TELA = {
     function salvarStorageObj(chave, obj){
         try { localStorage.setItem(chave, JSON.stringify(obj || {})); } catch(e) {}
     }
-    function estadoFontes(){ return lerStorageObj(STORAGE_FONTES, { b01: true, p02: true, m03: true, e04: true, s05: true, u06: true, l07: true, primeflix: true }); }
-    function estadoFiltros(){ return lerStorageObj(STORAGE_FILTROS, { b01: true, p02: true, m03: true, e04: true, s05: true, u06: true, l07: true, primeflix: true }); }
-    function fonteAtiva(key){ return !!estadoFontes()[key]; }
-    function filtroAtivo(key){ return !!estadoFiltros()[key]; }
+    function estadoFontes(){ return normalizarMapaProvider(lerStorageObj(STORAGE_FONTES, PROVIDER_DEFAULTS)); }
+    function estadoFiltros(){ return normalizarMapaProvider(lerStorageObj(STORAGE_FILTROS, PROVIDER_DEFAULTS)); }
+    function fonteAtiva(key){ return !!estadoFontes()[normalizarProviderKey(key)]; }
+    function filtroAtivo(key){ return !!estadoFiltros()[normalizarProviderKey(key)]; }
     function existeFonteAtiva(){ const e = estadoFontes(); return ORDEM_PROVEDORES.some(k => e[k]); }
     function providerPorUrl(url){
         const s = String(url || '');
-        if (/primeflix\.mom/i.test(s)) return 'primeflix';
-        if (/lisoflix\.net/i.test(s)) return 'l07';
-        if (/superseries\.life/i.test(s)) return 'u06';
-        if (/seriesonlineweb\.lol/i.test(s)) return 's05';
-        if (/ebaflix\.com/i.test(s)) return 'e04';
-        if (/megacine\.boats/i.test(s)) return 'm03';
+        if (/primeflix\.mom/i.test(s)) return 'p08';
+        if (/lisoflix\.net/i.test(s)) return 'p07';
+        if (/superseries\.life/i.test(s)) return 'p06';
+        if (/seriesonlineweb\.lol/i.test(s)) return 'p05';
+        if (/ebaflix\.com/i.test(s)) return 'p04';
+        if (/megacine\.boats/i.test(s)) return 'p03';
         if (/boraflixtv\.com/i.test(s)) return 'p02';
-        if (/boraflix\.click/i.test(s)) return 'b01';
-        return window.__CRONOS_RENDER_PROVIDER_KEY || 'b01';
+        if (/boraflix\.click/i.test(s)) return 'p01';
+        return normalizarProviderKey(window.__CRONOS_RENDER_PROVIDER_KEY || 'p01');
     }
-    function providerLabel(key){ return (PROVIDERS[key] && PROVIDERS[key].sigla) || String(key || '').toUpperCase(); }
+    function providerLabel(key){ const k = normalizarProviderKey(key); return (PROVIDERS[k] && PROVIDERS[k].sigla) || String(key || '').toUpperCase(); }
     function normalizarUrlCanonicaMulti(url){
         let u = String(url || '').trim().replace(/&amp;/g, '&');
         if (!u) return '';
-        try { u = new URL(u, PROVIDERS[providerPorUrl(u)].base).href; } catch(e) {}
+        try { const k = normalizarProviderKey(providerPorUrl(u)); u = new URL(u, (PROVIDERS[k] || PROVIDERS.p01).base).href; } catch(e) {}
         return u.replace(/[?#].*$/, '').replace(/\/+$/, '');
     }
     function providerUrl(key, urlOuPath){
-        const p = PROVIDERS[key] || PROVIDERS.b01;
+        key = normalizarProviderKey(key);
+        const p = PROVIDERS[key] || PROVIDERS.p01;
         const raw = String(urlOuPath || '/').trim();
         if (!raw) return p.base;
         try {
@@ -12627,7 +12335,7 @@ const ROTAS_TELA = {
 
     function slugGeneroMulti(titulo, urlBase){
         try {
-            const u = new URL(urlBase, PROVIDERS.b01.base);
+            const u = new URL(urlBase, PROVIDERS.p01.base);
             const partes = (u.pathname || '').split('/').filter(Boolean);
             const idx = partes.findIndex(p => /^(categoria|category|generos|genero)$/i.test(p));
             if (idx >= 0 && partes[idx + 1]) return partes[idx + 1];
@@ -12638,7 +12346,8 @@ const ROTAS_TELA = {
     }
 
     function urlProviderComContexto(key, urlAlvo, idTela){
-        const p = PROVIDERS[key] || PROVIDERS.b01;
+        key = normalizarProviderKey(key);
+        const p = PROVIDERS[key] || PROVIDERS.p01;
         const raw = String(urlAlvo || '/');
         const tipoAtual = (contextoBuscaMulti && contextoBuscaMulti.tipo) || '';
         const tituloAtual = (contextoBuscaMulti && contextoBuscaMulti.titulo) || '';
@@ -12655,8 +12364,8 @@ const ROTAS_TELA = {
             try { termo = new URL(raw, p.base).searchParams.get('s') || ''; } catch(e) { termo = String(raw).split('s=')[1] || ''; }
             return new URL(p.buscaPath + encodeURIComponent(decodeURIComponent(termo)), p.base).href;
         }
-        if (eAnimes) return key === 'primeflix' ? providerUrl(key, p.animePath || '/animes') : '';
-        if (key === 'primeflix' && /\/doramas\/?/i.test(raw)) return providerUrl(key, p.doramaPath || '/doramas');
+        if (eAnimes) return key === 'p08' ? providerUrl(key, p.animePath || '/animes') : '';
+        if (key === 'p08' && /\/doramas\/?/i.test(raw)) return providerUrl(key, p.doramaPath || '/doramas');
 
         if (eAno && p.semAno) return '';
         if (eEpisodios && p.semEpisodios) return '';
@@ -12669,7 +12378,7 @@ const ROTAS_TELA = {
             const slug = slugGeneroMulti(tituloAtual, raw);
             if (!slug) return providerUrl(key, raw);
             const baseGenero = p.generoBase || '/categoria/';
-            return new URL(baseGenero.replace(/\/?$/, '/') + slug + ((key === 'm03' || key === 's05') ? '' : '/'), p.base).href;
+            return new URL(baseGenero.replace(/\/?$/, '/') + slug + ((key === 'p03' || key === 'p05') ? '' : '/'), p.base).href;
         }
 
         return providerUrl(key, raw);
@@ -12678,7 +12387,7 @@ const ROTAS_TELA = {
     function montarUrlPaginadaProvider(key, urlBase, pagina){
         const base = urlProviderComContexto(key, urlBase, 'telaBusca');
         if (!base) return '';
-        if (key === 'primeflix') {
+        if (key === 'p08') {
             try { const u = new URL(base, PROVIDERS[key].base); u.searchParams.set('page', pagina); return u.href; } catch(e) { return base + (base.includes('?') ? '&' : '?') + 'page=' + pagina; }
         }
         try {
@@ -12730,6 +12439,7 @@ const ROTAS_TELA = {
     }
 
     function garantirBadgeProvider(li, key){
+        key = normalizarProviderKey(key);
         if (!li || !key || !PROVIDERS[key]) return;
         li.dataset.provider = key;
         li.dataset.providerKey = key;
@@ -12747,8 +12457,8 @@ const ROTAS_TELA = {
         if (badgeQualidade) {
             badgeQualidade.textContent = PROVIDERS[key].sigla;
             badgeQualidade.dataset.providerSigla = PROVIDERS[key].sigla;
-            badgeQualidade.classList.remove('provider-bfck', 'provider-bftv', 'provider-mega', 'provider-eba', 'provider-sweb', 'provider-ssup', 'provider-liso', 'provider-prime');
-            badgeQualidade.classList.add(key === 'primeflix' ? 'provider-prime' : (key === 'l07' ? 'provider-liso' : (key === 'u06' ? 'provider-ssup' : (key === 's05' ? 'provider-sweb' : (key === 'e04' ? 'provider-eba' : (key === 'm03' ? 'provider-mega' : (key === 'p02' ? 'provider-bftv' : 'provider-bfck')))))));
+            badgeQualidade.classList.remove('provider-bora', 'provider-bftv', 'provider-mega', 'provider-eba', 'provider-sweb', 'provider-ssup', 'provider-liso', 'provider-prime');
+            badgeQualidade.classList.add(key === 'p08' ? 'provider-prime' : (key === 'p07' ? 'provider-liso' : (key === 'p06' ? 'provider-ssup' : (key === 'p05' ? 'provider-sweb' : (key === 'p04' ? 'provider-eba' : (key === 'p03' ? 'provider-mega' : (key === 'p02' ? 'provider-bftv' : 'provider-bora')))))));
         }
         if (!li.__cronosProviderClickWrapped && typeof li.onclick === 'function') {
             const originalClick = li.onclick;
@@ -12760,7 +12470,20 @@ const ROTAS_TELA = {
                     mostrarAvisoFonteDesativada(k);
                     return false;
                 }
-                return originalClick.call(this, ev);
+                const prevCardProvider = window.__CRONOS_CARD_PROVIDER_KEY || '';
+                const prevDetailProvider = window.__CRONOS_DETALHE_PROVIDER_KEY || '';
+                window.__CRONOS_CARD_PROVIDER_KEY = k;
+                window.__CRONOS_DETALHE_PROVIDER_KEY = k;
+                window.__CRONOS_DETALHE_URL = li.dataset.url || '';
+                window.__CRONOS_LAST_PROVIDER_RENDERED = k;
+                try {
+                    return originalClick.call(this, ev);
+                } finally {
+                    setTimeout(() => {
+                        if (window.__CRONOS_CARD_PROVIDER_KEY === k) window.__CRONOS_CARD_PROVIDER_KEY = prevCardProvider;
+                        if (!window.__CRONOS_DETALHE_PROVIDER_KEY && prevDetailProvider) window.__CRONOS_DETALHE_PROVIDER_KEY = prevDetailProvider;
+                    }, 350);
+                }
             };
             li.__cronosProviderClickWrapped = true;
         }
@@ -12806,17 +12529,18 @@ const ROTAS_TELA = {
             if (btnFonte) {
                 btnFonte.classList.toggle('ativo', !!fontes[k]);
                 btnFonte.classList.toggle('desligado', !fontes[k]);
-                btnFonte.textContent = `${p.sigla} — Fonte ${fontes[k] ? 'Ativada' : 'Desativada'}`;
+                btnFonte.textContent = `${p.sigla}: ${fontes[k] ? 'Ativada' : 'Desativada'}`;
             }
             const btnFiltro = document.querySelector(`[data-cronos-filtro="${k}"]`);
             if (btnFiltro) {
                 btnFiltro.classList.toggle('ativo', !!filtros[k]);
                 btnFiltro.classList.toggle('desligado', !filtros[k]);
-                btnFiltro.textContent = `${filtros[k] ? 'Mostrar' : 'Ocultar'} ${p.sigla}`;
+                btnFiltro.textContent = `${p.sigla}: ${filtros[k] ? 'Visível' : 'Oculto'}`;
             }
         });
     }
     function toggleFonteProvider(key){
+        key = normalizarProviderKey(key);
         const fontes = estadoFontes();
         fontes[key] = !fontes[key];
         salvarStorageObj(STORAGE_FONTES, fontes);
@@ -12828,6 +12552,7 @@ const ROTAS_TELA = {
         }
     }
     function toggleFiltroProvider(key){
+        key = normalizarProviderKey(key);
         const filtros = estadoFiltros();
         filtros[key] = !filtros[key];
         salvarStorageObj(STORAGE_FILTROS, filtros);
@@ -12847,11 +12572,11 @@ const ROTAS_TELA = {
             painel.className = 'cronos-provider-panel';
             const botoesFonte = ORDEM_PROVEDORES.map(k => {
                 const p = PROVIDERS[k];
-                return `<button type="button" class="cronos-provider-btn" data-cronos-fonte="${k}" onclick="cronosToggleFonteProvider('${k}')">${p.sigla} — Fonte Ativada</button>`;
+                return `<button type="button" class="cronos-provider-btn" data-cronos-fonte="${k}" onclick="cronosToggleFonteProvider('${k}')">${p.sigla}: Ativada</button>`;
             }).join('');
             const botoesFiltro = ORDEM_PROVEDORES.map(k => {
                 const p = PROVIDERS[k];
-                return `<button type="button" class="cronos-provider-btn" data-cronos-filtro="${k}" onclick="cronosToggleFiltroProvider('${k}')">Mostrar ${p.sigla}</button>`;
+                return `<button type="button" class="cronos-provider-btn" data-cronos-filtro="${k}" onclick="cronosToggleFiltroProvider('${k}')">${p.sigla}: Visível</button>`;
             }).join('');
             painel.innerHTML = `
                 <h3>Fontes dos Provedores</h3>
@@ -12881,8 +12606,6 @@ const ROTAS_TELA = {
         return r;
     };
     try { carregarConfiguracoes = window.carregarConfiguracoes; } catch(e) {}
-
-
 
     /* ===== ADAPTADOR ESPECÍFICO LISOFLIX — NÃO É DOOPLAY PADRÃO ===== */
     const LISO_ITEM_SELECTOR = '.MovieListSldCn article.TPost.A, article.TPost.B, article.TPost.A, article.TPost, .TPostMv .TPost, article.item, .search-page .item, .result-item, .TPTblCn tbody tr, .TPTblCnMvs tbody tr';
@@ -12973,10 +12696,10 @@ const ROTAS_TELA = {
         if(!img && typeof placeholderCronosPoster === 'function') img = placeholderCronosPoster();
         const isMovie = tipo === 'Filme';
         return {
-            id: 'l07::' + url.replace(/[?#].*$/,'').replace(/\/+$/,''),
+            id: 'p07::' + url.replace(/[?#].*$/,'').replace(/\/+$/,''),
             url, titulo, ano, img, poster: img, backdrop: img,
             tipo, isMovie, isSerie: tipo === 'Série', qualidade: 'LISO',
-            providerKey: 'l07', providerName: 'Fonte LISO', providerSigla: 'LISO', baseUrl: 'https://lisoflix.net/'
+            providerKey: 'p07', providerName: 'Fonte LISO', providerSigla: 'LISO', baseUrl: 'https://lisoflix.net/'
         };
     }
     function renderizarItemLisoNoGrid(item, gridId){
@@ -12996,13 +12719,13 @@ const ROTAS_TELA = {
         if(tipoForcado === 'serie' && dados.tipo !== 'Série') return 0;
         if(tipoForcado === 'episodio' && dados.tipo !== 'Episódio') return 0;
         const canon = dados.url.replace(/[?#].*$/,'').replace(/\/+$/,'');
-        const ja = Array.from(grid.querySelectorAll('[data-url]')).some(li => String(li.dataset.url || '').replace(/[?#].*$/,'').replace(/\/+$/,'') === canon && li.dataset.provider === 'l07');
+        const ja = Array.from(grid.querySelectorAll('[data-url]')).some(li => String(li.dataset.url || '').replace(/[?#].*$/,'').replace(/\/+$/,'') === canon && li.dataset.provider === 'p07');
         if(ja) return 0;
         const li = document.createElement('li');
         li.className = 'card-item ' + (dados.tipo === 'Episódio' ? 'episodio-home-card' : 'global-card');
         li.dataset.url = dados.url;
-        li.dataset.provider = 'l07';
-        li.dataset.providerKey = 'l07';
+        li.dataset.provider = 'p07';
+        li.dataset.providerKey = 'p07';
         li.dataset.providerName = 'Fonte LISO';
         li.dataset.providerSigla = 'LISO';
         const badgeClass = dados.tipo === 'Filme' ? 'badge-filme' : 'badge-serie';
@@ -13013,7 +12736,7 @@ const ROTAS_TELA = {
             <div class="card-media">
                 <div class="badge-tipo ${badgeClass}">${dados.tipo}</div>
                 <div class="badge-qualidade provider-liso">LISO</div>
-                ${dados.ano ? `<div class="badge-ano-card">${dados.ano}</div>` : ''}
+                ${dados.ano ? '<div class="badge-ano-card">' + dados.ano + '</div>' : ''}
                 <img src="${imgFinal}" alt="${tituloSafe}" loading="lazy">
             </div>
             <h3>${dados.titulo}</h3>
@@ -13021,15 +12744,15 @@ const ROTAS_TELA = {
         `;
         li.onclick = function(){
             const prev = window.__CRONOS_RENDER_PROVIDER_KEY;
-            window.__CRONOS_RENDER_PROVIDER_KEY = 'l07';
-            window.__CRONOS_LAST_PROVIDER_RENDERED = 'l07';
+            window.__CRONOS_RENDER_PROVIDER_KEY = 'p07';
+            window.__CRONOS_LAST_PROVIDER_RENDERED = 'p07';
             try { analisarObra(dados.url, dados.ano || '', dados.titulo, imgFinal, dados.isMovie); }
             finally { setTimeout(() => { window.__CRONOS_RENDER_PROVIDER_KEY = prev; }, 50); }
         };
         grid.appendChild(li);
         try {
             if (dados.tipo !== 'Episódio' && gridId !== 'gridFavoritos' && gridId !== 'gridHistorico' && typeof adicionarBotaoFavoritarHoverCronos === 'function') {
-                adicionarBotaoFavoritarHoverCronos(li, { ...dados, img: imgFinal, poster: imgFinal, providerKey: 'l07', providerName: 'Fonte LISO', providerSigla: 'LISO', baseUrl: 'https://lisoflix.net/' });
+                adicionarBotaoFavoritarHoverCronos(li, { ...dados, img: imgFinal, poster: imgFinal, providerKey: 'p07', providerName: 'Fonte LISO', providerSigla: 'LISO', baseUrl: 'https://lisoflix.net/' });
             }
         } catch(e) {}
         try { if(typeof salvarObraCronos === 'function' && dados.tipo !== 'Episódio') salvarObraCronos(dados); } catch(e) {}
@@ -13037,14 +12760,14 @@ const ROTAS_TELA = {
         return 1;
     }
     function seletorItensProvider(key, idTela){
-        if(key === 'primeflix') return PRIME_CARD_SELECTOR;
-        if(key === 'l07') return LISO_ITEM_SELECTOR;
+        if(key === 'p08') return PRIME_CARD_SELECTOR;
+        if(key === 'p07') return LISO_ITEM_SELECTOR;
         return (typeof obterSeletorItensCronos === 'function') ? obterSeletorItensCronos(idTela) : '#archive-content .item, article.item, .items .item';
     }
 
     async function renderizarItemProvider(item, gridId, key){
-        if (key === 'primeflix') return renderizarItemPrimeNoGrid(item, gridId);
-        if (key === 'l07') return renderizarItemLisoNoGrid(item, gridId);
+        if (key === 'p08') return renderizarItemPrimeNoGrid(item, gridId);
+        if (key === 'p07') return renderizarItemLisoNoGrid(item, gridId);
         const grid = document.getElementById(gridId);
         if (!grid) return 0;
         const antes = new Set(Array.from(grid.children));
@@ -13068,7 +12791,13 @@ const ROTAS_TELA = {
     if (originalPreencherCard) {
         window.preencherCardObraCronos = function(li, dados, gridId){
             const ret = originalPreencherCard.apply(this, arguments);
-            const key = (dados && dados.providerKey && PROVIDERS[dados.providerKey]) ? dados.providerKey : (li && li.dataset && li.dataset.provider) || providerPorUrl(dados && dados.url);
+            const key = normalizarProviderKey((dados && dados.providerKey) || (li && li.dataset && (li.dataset.providerKey || li.dataset.provider)) || window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || providerPorUrl(dados && dados.url));
+            if (dados) {
+                dados.providerKey = key;
+                dados.providerName = PROVIDERS[key].nome;
+                dados.providerSigla = PROVIDERS[key].sigla;
+                dados.baseUrl = PROVIDERS[key].base;
+            }
             garantirBadgeProvider(li, key);
             aplicarFiltroVisualCronos();
             return ret;
@@ -13095,7 +12824,7 @@ const ROTAS_TELA = {
         window.renderizarTemporadaCronos = function(item, gridId){
             const grid = document.getElementById(gridId);
             const antes = grid ? new Set(Array.from(grid.children)) : null;
-            const key = window.__CRONOS_RENDER_PROVIDER_KEY || 'b01';
+            const key = window.__CRONOS_RENDER_PROVIDER_KEY || 'p01';
             const ret = originalRenderTemp.apply(this, arguments);
             stampCardsNovos(grid, antes, key);
             aplicarFiltroVisualCronos();
@@ -13172,7 +12901,7 @@ const ROTAS_TELA = {
         const grid = document.getElementById('gridInicioEpisodios');
         const head = document.getElementById('headEpisodiosRecentes');
         if (!grid || !doc || !fonteAtiva(key)) return 0;
-        const seletores = key === 'l07' ? LISO_ITEM_SELECTOR : '#dt-episodes .item, .episodes .item, .episodios .item, article.episodes, article.episode';
+        const seletores = key === 'p07' ? LISO_ITEM_SELECTOR : '#dt-episodes .item, .episodes .item, .episodios .item, article.episodes, article.episode';
         let countProvider = grid.querySelectorAll(`.card-item[data-provider="${key}"]`).length;
         let total = 0;
         for (const item of doc.querySelectorAll(seletores)) {
@@ -13187,7 +12916,6 @@ const ROTAS_TELA = {
         aplicarFiltroVisualCronos();
         return total;
     }
-
 
     /* ===== LISOFLIX — DESTAQUE PREMIUM REAL DA HOME =====
        O Lisoflix NÃO usa a lista de filmes/séries normais para o Premium.
@@ -13258,8 +12986,8 @@ const ROTAS_TELA = {
     async function lisoExtrairDetalhesDestaquePremium(urlObra){
         const url = lisoAbsUrl(urlObra);
         const prev = window.__CRONOS_RENDER_PROVIDER_KEY;
-        window.__CRONOS_RENDER_PROVIDER_KEY = 'l07';
-        window.__CRONOS_LAST_PROVIDER_RENDERED = 'l07';
+        window.__CRONOS_RENDER_PROVIDER_KEY = 'p07';
+        window.__CRONOS_LAST_PROVIDER_RENDERED = 'p07';
         try {
             const res = await fetch(PROXY + encodeURIComponent(url));
             const html = await res.text();
@@ -13332,11 +13060,11 @@ const ROTAS_TELA = {
         const tipo = url.includes('/movies/') ? 'Filme' : (url.includes('/episodio/') ? 'Episódio' : 'Série');
         const ano = lisoAno(lisoText(item));
         return {
-            id: 'l07::' + url.replace(/[?#].*$/,'').replace(/\/+$/,''),
+            id: 'p07::' + url.replace(/[?#].*$/,'').replace(/\/+$/,''),
             url, titulo, ano,
             img, poster: img, backdrop: img,
             tipo, isMovie: tipo === 'Filme', isSerie: tipo === 'Série',
-            qualidade: 'LISO', providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/'
+            qualidade: 'LISO', providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/'
         };
     }
     async function lisoAdicionarDestaquePremium(item, enriquecer = true){
@@ -13348,10 +13076,10 @@ const ROTAS_TELA = {
                 const salvo = await dbGet('obras', gerarIdCronos(dados.url));
                 const completo = salvo && escolherPosterSeguroCronos(salvo.poster, salvo.img) && salvo.backdrop && salvo.sinopse;
                 if(completo){
-                    dados = { ...dados, ...salvo, providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
+                    dados = { ...dados, ...salvo, providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
                 } else {
                     const detalhes = await lisoExtrairDetalhesDestaquePremium(dados.url);
-                    dados = { ...(salvo || {}), ...dados, ...detalhes, providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
+                    dados = { ...(salvo || {}), ...dados, ...detalhes, providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
                 }
                 dados.img = escolherPosterSeguroCronos(dados.poster, dados.img) || dados.poster || dados.img || '';
                 dados.poster = dados.img || dados.poster || '';
@@ -13361,20 +13089,18 @@ const ROTAS_TELA = {
                 console.warn('Falha cache/detalhe destaque LISO:', e);
             }
         }
-        dados.providerKey = 'l07';
+        dados.providerKey = 'p07';
         dados.providerName = 'Fonte LISO';
         dados.providerSigla = 'LISO';
         dados.baseUrl = 'https://lisoflix.net/';
         const canon = dados.url.replace(/[?#].*$/,'').replace(/\/+$/,'');
-        const ja = destaquesPremiumHome.some(o => String(o.url || '').replace(/[?#].*$/,'').replace(/\/+$/,'') === canon && o.providerKey === 'l07');
+        const ja = destaquesPremiumHome.some(o => String(o.url || '').replace(/[?#].*$/,'').replace(/\/+$/,'') === canon && o.providerKey === 'p07');
         if(!ja) destaquesPremiumHome.push(dados);
         return ja ? 0 : 1;
     }
 
-
-
     /* ===== ADAPTADOR ESPECÍFICO PRIMEFLIX — CARDS, HOME, PREMIUM, FICHA E PLAYER PRÓPRIOS ===== */
-    const PRIME_KEY = 'primeflix';
+    const PRIME_KEY = 'p08';
     const PRIME_BASE = 'https://primeflix.mom/';
     const PRIME_PLAYER_APIS = ['warezcdn.lat', 'superflixapi.best', 'superflixapi.online'];
     const PRIME_CARD_SELECTOR = 'a[class*="group/card"], div[class*="group/card"], article[class*="group/item"], article.relative, .swiper-slide article, .swiper-slide a, article, [data-contentid]';
@@ -13594,7 +13320,7 @@ const ROTAS_TELA = {
                 <div class="card-media">
                     <div class="badge-tipo ${badgeClass}">${primeEscapeHtml(tipo)}</div>
                     <div class="badge-qualidade provider-prime">PRIME</div>
-                    ${ano ? `<div class="badge-ano-card">${primeEscapeHtml(ano)}</div>` : ''}
+                    ${ano ? '<div class="badge-ano-card">' + primeEscapeHtml(ano) + '</div>' : ''}
                     <img src="${img}" alt="${primeEscapeHtml(obra.titulo || 'Poster')}" loading="lazy">
                 </div>
                 <h3>${primeEscapeHtml(obra.titulo || 'Sem título')}</h3>
@@ -13813,7 +13539,7 @@ const ROTAS_TELA = {
             setTxt('detalheTitulo', titulo);
             const imgEl = document.getElementById('detalheImg'); if(imgEl) imgEl.src = poster || (typeof placeholderCronosPoster === 'function' ? placeholderCronosPoster() : '');
             const bgEl = document.getElementById('backdropDetalhes'); if(bgEl) bgEl.style.backgroundImage = backdrop ? `url('${backdrop}')` : 'none';
-            const linha2 = document.getElementById('linha2Ficha'); if(linha2){ linha2.innerHTML = `${nota ? `<span class="tag-meta tag-nota">IMDb: ${primeEscapeHtml(nota)}</span>` : ''}<span class="tag-meta tag-qualidade">PRIME</span>${duracao ? `<span class="tag-meta tag-duracao">${primeEscapeHtml(duracao)}</span>` : ''}${anoFinal ? `<span class="tag-meta">${primeEscapeHtml(anoFinal)}</span>` : ''}`; }
+            const linha2 = document.getElementById('linha2Ficha'); if(linha2){ linha2.innerHTML = `${nota ? '<span class="tag-meta tag-nota">IMDb: ' + primeEscapeHtml(nota) + '</span>' : ''}<span class="tag-meta tag-qualidade">PRIME</span>${duracao ? '<span class="tag-meta tag-duracao">' + primeEscapeHtml(duracao) + '</span>' : ''}${anoFinal ? '<span class="tag-meta">' + primeEscapeHtml(anoFinal) + '</span>' : ''}`; }
             const linha3 = document.getElementById('linha3Generos'); if(linha3) linha3.innerHTML = generos.map(g => `<span class="tag-meta tag-genero">${primeEscapeHtml(g)}</span>`).join('');
             setTxt('detalheSinopse', sinopse);
             if(status) status.style.display='none'; if(bloco) bloco.style.display='flex';
@@ -13858,16 +13584,16 @@ const ROTAS_TELA = {
                 const doc = new DOMParser().parseFromString(html, 'text/html');
                 if (status) status.innerText = `Carregando Home ${providerLabel(key)}...`;
 
-                if (key === 'primeflix') {
+                if (key === 'p08') {
                     await carregarHomePrimeProvider(doc, status);
                     continue;
                 }
 
-                if (key !== 'l07') await renderizarEpisodiosHomeProvider(doc, key);
+                if (key !== 'p07') await renderizarEpisodiosHomeProvider(doc, key);
 
-                const destaques = Array.from(doc.querySelectorAll(key === 'l07' ? LISO_DESTAQUE_SELECTOR : '#featured-titles .item')).slice(0, 8);
+                const destaques = Array.from(doc.querySelectorAll(key === 'p07' ? LISO_DESTAQUE_SELECTOR : '#featured-titles .item')).slice(0, 8);
                 for (let i = 0; i < destaques.length; i++) {
-                    if (key === 'l07') {
+                    if (key === 'p07') {
                         try {
                             await lisoAdicionarDestaquePremium(destaques[i], true);
                         } catch(e) { console.warn('Destaque LISO falhou', e); }
@@ -13890,50 +13616,50 @@ const ROTAS_TELA = {
                     if (typeof esperar === 'function') await esperar(80);
                 }
 
-                if (key === 'b01') {
-                    const qtdBfck = destaquesPremiumHome.filter(o => (o.providerKey || providerPorUrl(o.url)) === 'b01').length;
+                if (key === 'p01') {
+                    const qtdBfck = destaquesPremiumHome.filter(o => (o.providerKey || providerPorUrl(o.url)) === 'p01').length;
                     const alvoBfck = Math.min(8, destaques.length);
                     if (qtdBfck < alvoBfck) {
                         for (const itemBfck of destaques) {
                             try {
-                                const cloneBfck = prepararItemParaProvider(itemBfck, 'b01');
+                                const cloneBfck = prepararItemParaProvider(itemBfck, 'p01');
                                 const basicoBfck = extrairDadosBasicosItem(cloneBfck);
                                 if (!basicoBfck || !basicoBfck.url) continue;
-                                const canonBfck = normalizarUrlCanonicaMulti(basicoBfck.url, 'b01');
-                                const jaBfck = destaquesPremiumHome.some(o => (o.providerKey || providerPorUrl(o.url)) === 'b01' && normalizarUrlCanonicaMulti(o.url, 'b01') === canonBfck);
+                                const canonBfck = normalizarUrlCanonicaMulti(basicoBfck.url, 'p01');
+                                const jaBfck = destaquesPremiumHome.some(o => (o.providerKey || providerPorUrl(o.url)) === 'p01' && normalizarUrlCanonicaMulti(o.url, 'p01') === canonBfck);
                                 if (jaBfck) continue;
                                 let dadosBfck = dadosBasicosParaObra(basicoBfck);
-                                dadosBfck.providerKey = 'b01';
-                                dadosBfck.providerName = PROVIDERS.b01.nome;
-                                dadosBfck.providerSigla = PROVIDERS.b01.sigla;
-                                dadosBfck.baseUrl = PROVIDERS.b01.base;
+                                dadosBfck.providerKey = 'p01';
+                                dadosBfck.providerName = PROVIDERS.p01.nome;
+                                dadosBfck.providerSigla = PROVIDERS.p01.sigla;
+                                dadosBfck.baseUrl = PROVIDERS.p01.base;
                                 try {
                                     const detalhesBfck = await extrairDetalhesDestaquePremium(dadosBfck.url);
-                                    dadosBfck = { ...dadosBfck, ...detalhesBfck, providerKey:'b01', providerName:PROVIDERS.b01.nome, providerSigla:PROVIDERS.b01.sigla, baseUrl:PROVIDERS.b01.base };
+                                    dadosBfck = { ...dadosBfck, ...detalhesBfck, providerKey:'p01', providerName:PROVIDERS.p01.nome, providerSigla:PROVIDERS.p01.sigla, baseUrl:PROVIDERS.p01.base };
                                 } catch(e) {}
                                 try { await salvarObraCronos(dadosBfck); } catch(e) {}
                                 destaquesPremiumHome.push(dadosBfck);
-                                if (destaquesPremiumHome.filter(o => (o.providerKey || providerPorUrl(o.url)) === 'b01').length >= alvoBfck) break;
-                            } catch(e) { console.warn('Fallback destaque BFCK falhou', e); }
+                                if (destaquesPremiumHome.filter(o => (o.providerKey || providerPorUrl(o.url)) === 'p01').length >= alvoBfck) break;
+                            } catch(e) { console.warn('Fallback destaque BORA falhou', e); }
                         }
                     }
                 }
 
-                if (key === 'l07' && !destaquesPremiumHome.some(o => o.providerKey === 'l07')) {
+                if (key === 'p07' && !destaquesPremiumHome.some(o => o.providerKey === 'p07')) {
                     const destaquesFallback = Array.from(doc.querySelectorAll(LISO_DESTAQUE_SELECTOR)).slice(0, 8);
                     for (const itemFb of destaquesFallback) {
                         try { await lisoAdicionarDestaquePremium(itemFb, true); } catch(e) { console.warn('Fallback destaque LISO falhou', e); }
                     }
                 }
 
-                const filmes = key === 'l07' ? [] : Array.from(doc.querySelectorAll('#dt-movies .item.movies'));
-                const series = key === 'l07' ? [] : Array.from(doc.querySelectorAll('#dt-tvshows .item.tvshows'));
+                const filmes = key === 'p07' ? [] : Array.from(doc.querySelectorAll('#dt-movies .item.movies'));
+                const series = key === 'p07' ? [] : Array.from(doc.querySelectorAll('#dt-tvshows .item.tvshows'));
                 let cf = 0; for (const item of filmes) { if (cf >= 12) break; cf += await renderizarItemProvider(item, 'gridInicioFilmes', key); }
                 let cs = 0; for (const item of series) { if (cs >= 12) break; cs += await renderizarItemProvider(item, 'gridInicioSeries', key); }
 
-                if (cf < 12) await completarHomeProviderAte(key, key === 'l07' ? '/movies/' : '/filmes/', 'gridInicioFilmes', key === 'l07' ? LISO_ITEM_SELECTOR : '#archive-content .item.movies, #archive-content article.item, .items .item.movies, article.item.movies', 12);
-                if (cs < 12) await completarHomeProviderAte(key, '/series/', 'gridInicioSeries', key === 'l07' ? LISO_ITEM_SELECTOR : '#archive-content .item.tvshows, #archive-content article.item, .items .item.tvshows, article.item.tvshows', 12);
-                await completarHomeProviderAte(key, key === 'l07' ? '/episodio/' : '/episodios/', 'gridInicioEpisodios', key === 'l07' ? LISO_ITEM_SELECTOR : '#archive-content .item, #dt-episodes .item, .episodes .item, article.episodes, article.episode, .items .item', 12);
+                if (cf < 12) await completarHomeProviderAte(key, key === 'p07' ? '/movies/' : '/filmes/', 'gridInicioFilmes', key === 'p07' ? LISO_ITEM_SELECTOR : '#archive-content .item.movies, #archive-content article.item, .items .item.movies, article.item.movies', 12);
+                if (cs < 12) await completarHomeProviderAte(key, '/series/', 'gridInicioSeries', key === 'p07' ? LISO_ITEM_SELECTOR : '#archive-content .item.tvshows, #archive-content article.item, .items .item.tvshows, article.item.tvshows', 12);
+                await completarHomeProviderAte(key, key === 'p07' ? '/episodio/' : '/episodios/', 'gridInicioEpisodios', key === 'p07' ? LISO_ITEM_SELECTOR : '#archive-content .item, #dt-episodes .item, .episodes .item, article.episodes, article.episode, .items .item', 12);
             } catch(e) {
                 console.warn('Home falhou no provider', key, e);
             }
@@ -13959,7 +13685,7 @@ const ROTAS_TELA = {
             const doc = new DOMParser().parseFromString(html, 'text/html');
             let count = jaProvider;
             let total = 0;
-            const seletorFinal = (key === 'l07') ? LISO_ITEM_SELECTOR : seletor;
+            const seletorFinal = (key === 'p07') ? LISO_ITEM_SELECTOR : seletor;
             for (const item of doc.querySelectorAll(seletorFinal)) {
                 if (count >= limitePorFonte) break;
                 const add = await renderizarItemProvider(item, gridId, key);
@@ -14064,7 +13790,7 @@ const ROTAS_TELA = {
     function caminhoCategoriaMulti(tipo, titulo, urlBase){
         if (tipo === 'year') return `/release/${String(titulo || '').trim()}/`;
         try {
-            const u = new URL(urlBase, PROVIDERS.b01.base);
+            const u = new URL(urlBase, PROVIDERS.p01.base);
             return u.pathname || `/categoria/${slugCronos(titulo)}/`;
         } catch(e) {
             const slug = (typeof slugCronos === 'function') ? slugCronos(titulo) : String(titulo||'').toLowerCase().replace(/\s+/g,'-');
@@ -14110,11 +13836,11 @@ const ROTAS_TELA = {
                     });
                     const extras = []
                         .concat(Array.isArray(GENEROS_P02_MULTI) ? GENEROS_P02_MULTI : [])
-                        .concat(Array.isArray(GENEROS_M03_MULTI) ? GENEROS_M03_MULTI : [])
-                        .concat(Array.isArray(GENEROS_E04_MULTI) ? GENEROS_E04_MULTI : [])
-                        .concat(Array.isArray(GENEROS_S05_MULTI) ? GENEROS_S05_MULTI : [])
-                        .concat(Array.isArray(GENEROS_U06_MULTI) ? GENEROS_U06_MULTI : [])
-                        .concat(Array.isArray(GENEROS_L07_MULTI) ? GENEROS_L07_MULTI : [])
+                        .concat(Array.isArray(GENEROS_P03_MULTI) ? GENEROS_P03_MULTI : [])
+                        .concat(Array.isArray(GENEROS_P04_MULTI) ? GENEROS_P04_MULTI : [])
+                        .concat(Array.isArray(GENEROS_P05_MULTI) ? GENEROS_P05_MULTI : [])
+                        .concat(Array.isArray(GENEROS_P06_MULTI) ? GENEROS_P06_MULTI : [])
+                        .concat(Array.isArray(GENEROS_P07_MULTI) ? GENEROS_P07_MULTI : [])
                         .concat(Array.isArray(GENEROS_PRIME_MULTI) ? GENEROS_PRIME_MULTI : []);
                     extras.forEach(g => {
                         if (!g || !g.nome) return;
@@ -14139,32 +13865,46 @@ const ROTAS_TELA = {
         try { montarCategorias = window.montarCategorias; } catch(e) {}
     }
 
+    function aplicarProviderFixoNaObraAtual(key, url){
+        key = normalizarProviderKey(key);
+        const p = PROVIDERS[key] || PROVIDERS.p01;
+        try {
+            if (typeof obraSendoVista !== 'undefined' && obraSendoVista && (!url || !obraSendoVista.url || String(obraSendoVista.url) === String(url))) {
+                obraSendoVista.providerKey = key;
+                obraSendoVista.providerName = p.nome;
+                obraSendoVista.providerSigla = p.sigla;
+                obraSendoVista.baseUrl = p.base;
+                window.obraSendoVista = obraSendoVista;
+            }
+        } catch(e) {}
+        try {
+            if (window.obraSendoVista && (!url || !window.obraSendoVista.url || String(window.obraSendoVista.url) === String(url))) {
+                window.obraSendoVista.providerKey = key;
+                window.obraSendoVista.providerName = p.nome;
+                window.obraSendoVista.providerSigla = p.sigla;
+                window.obraSendoVista.baseUrl = p.base;
+            }
+        } catch(e) {}
+    }
+
     const originalAnalisarObra = (typeof analisarObra === 'function') ? analisarObra : null;
     if (originalAnalisarObra) {
-        window.analisarObra = function(url, ano, tituloCard, img, isMovie){
-            const key = providerPorUrl(url);
+        window.analisarObra = function(url, ano, tituloCard, img, isMovie, providerKeyFixo){
+            const key = normalizarProviderKey(providerKeyFixo || window.__CRONOS_CARD_PROVIDER_KEY || window.__CRONOS_DETALHE_PROVIDER_KEY || window.__CRONOS_RENDER_PROVIDER_KEY || window.__CRONOS_LAST_PROVIDER_RENDERED || providerPorUrl(url));
             if (!fonteAtiva(key)) { mostrarAvisoFonteDesativada(key); return false; }
-            const ret = originalAnalisarObra.apply(this, arguments);
-            try {
-                if (typeof obraSendoVista !== 'undefined' && obraSendoVista) {
-                    obraSendoVista.providerKey = key;
-                    obraSendoVista.providerName = PROVIDERS[key].nome;
-                    obraSendoVista.providerSigla = PROVIDERS[key].sigla;
-                    obraSendoVista.baseUrl = PROVIDERS[key].base;
-                    window.obraSendoVista = obraSendoVista;
-                }
-            } catch(e) {}
-            setTimeout(() => {
-                try {
-                    if (window.obraSendoVista && window.obraSendoVista.url) {
-                        const k = providerPorUrl(window.obraSendoVista.url);
-                        window.obraSendoVista.providerKey = k;
-                        window.obraSendoVista.providerName = PROVIDERS[k].nome;
-                        window.obraSendoVista.providerSigla = PROVIDERS[k].sigla;
-                        window.obraSendoVista.baseUrl = PROVIDERS[k].base;
-                    }
-                } catch(e) {}
-            }, 100);
+            window.__CRONOS_DETALHE_PROVIDER_KEY = key;
+            window.__CRONOS_DETALHE_URL = url || '';
+            window.__CRONOS_LAST_PROVIDER_RENDERED = key;
+            aplicarProviderFixoNaObraAtual(key, url);
+            const ret = originalAnalisarObra.apply(this, [url, ano, tituloCard, img, isMovie]);
+            aplicarProviderFixoNaObraAtual(key, url);
+            let tentativas = 0;
+            const timer = setInterval(() => {
+                aplicarProviderFixoNaObraAtual(key, url);
+                tentativas++;
+                const pronto = document.getElementById('blocoDetalhesInfo') && document.getElementById('blocoDetalhesInfo').style.display !== 'none';
+                if (tentativas >= 90 || pronto) clearInterval(timer);
+            }, 80);
             return ret;
         };
         try { analisarObra = window.analisarObra; } catch(e) {}
@@ -14174,8 +13914,13 @@ const ROTAS_TELA = {
     if (originalNormalizar) {
         window.normalizarObraParaBanco = function(obra){
             const reg = originalNormalizar.apply(this, arguments);
-            const key = (obra && obra.providerKey && PROVIDERS[obra.providerKey]) ? obra.providerKey : providerPorUrl((reg && reg.url) || (obra && obra.url));
-            const canon = normalizarUrlCanonicaMulti((reg && reg.url) || (obra && obra.url));
+            const urlRegistro = (reg && reg.url) || (obra && obra.url) || '';
+            const keyExplicita = obra && obra.providerKey && PROVIDERS[obra.providerKey] ? obra.providerKey : '';
+            const keyDetalhe = normalizarProviderKey(window.__CRONOS_DETALHE_PROVIDER_KEY || '');
+            const urlDetalhe = String(window.__CRONOS_DETALHE_URL || '');
+            const mesmoDetalhe = !!(urlRegistro && urlDetalhe && String(urlRegistro).replace(/[?#].*$/,'').replace(/\/+$/,'') === String(urlDetalhe).replace(/[?#].*$/,'').replace(/\/+$/,''));
+            const key = keyExplicita || (mesmoDetalhe ? keyDetalhe : providerPorUrl(urlRegistro));
+            const canon = normalizarUrlCanonicaMulti(urlRegistro);
             if (canon) { reg.url = canon; reg.id = `${key}::${canon}`; }
             reg.providerKey = key;
             reg.providerName = PROVIDERS[key].nome;
@@ -14245,7 +13990,6 @@ const ROTAS_TELA = {
         window.carregarHistorico = async function(){ const r = await originalCarregarHistoricoMulti.apply(this, arguments); stampGridPorUrl('gridHistorico'); aplicarFiltroVisualCronos(); return r; };
         try { carregarHistorico = window.carregarHistorico; } catch(e) {}
     }
-
 
     /* ===== CORREÇÃO FINAL LISOFLIX — PREMIUM, FICHA, TEMPORADAS E EPISÓDIOS ===== */
     function lisoEhUrlCronos(url){ return /(^|\.)lisoflix\.net/i.test(String(url || '')); }
@@ -14537,7 +14281,7 @@ const ROTAS_TELA = {
                         ano: lisoAno(ep.data || anoSerie || ''),
                         data: ep.data || '',
                         tipo: 'Episódio',
-                        providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/'
+                        providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/'
                     });
                 } catch(e) {}
                 const card = document.createElement('li');
@@ -14606,7 +14350,7 @@ const ROTAS_TELA = {
             const backdropEl = document.getElementById('backdropDetalhes');
             if(backdropEl) backdropEl.style.backgroundImage = 'none';
 
-            obraSendoVista = { url, titulo: tituloCard, ano, img, poster: img, isMovie, providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
+            obraSendoVista = { url, titulo: tituloCard, ano, img, poster: img, isMovie, providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
             try { window.obraSendoVista = obraSendoVista; } catch(e) {}
             checarBotaoFavorito(url);
 
@@ -14645,7 +14389,7 @@ const ROTAS_TELA = {
                 document.getElementById('linha4Volume').style.display = 'flex';
             }
 
-            obraSendoVista = { url, titulo, ano: anoLimpo || ano, img: posterSrc, poster: posterSrc, backdrop: bgUrl, sinopse, generos, isMovie: ehPlayerUnico, tipo: tipoObra, playerUrl: iframeSrc || '', providerKey:'l07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
+            obraSendoVista = { url, titulo, ano: anoLimpo || ano, img: posterSrc, poster: posterSrc, backdrop: bgUrl, sinopse, generos, isMovie: ehPlayerUnico, tipo: tipoObra, playerUrl: iframeSrc || '', providerKey:'p07', providerName:'Fonte LISO', providerSigla:'LISO', baseUrl:'https://lisoflix.net/' };
             try { window.obraSendoVista = obraSendoVista; } catch(e) {}
             try { await salvarObraCronos(obraSendoVista); await salvarHistoricoHome(obraSendoVista); } catch(e) { console.warn('Falha ao salvar detalhe LISO:', e); }
             checarBotaoFavorito(url);
@@ -14672,8 +14416,8 @@ const ROTAS_TELA = {
     async function lisoExtrairDetalhesDestaquePremium(urlObra){
         const url = lisoAbsUrl(urlObra);
         const prev = window.__CRONOS_RENDER_PROVIDER_KEY;
-        window.__CRONOS_RENDER_PROVIDER_KEY = 'l07';
-        window.__CRONOS_LAST_PROVIDER_RENDERED = 'l07';
+        window.__CRONOS_RENDER_PROVIDER_KEY = 'p07';
+        window.__CRONOS_LAST_PROVIDER_RENDERED = 'p07';
         try {
             const res = await fetch(PROXY + encodeURIComponent(url));
             const html = await res.text();
@@ -14699,8 +14443,8 @@ const ROTAS_TELA = {
         window.analisarObra = function(url, ano, tituloCard, img, isMovie){
             const key = providerPorUrl(url);
             if(!fonteAtiva(key)){ mostrarAvisoFonteDesativada(key); return false; }
-            if(key === 'primeflix' || /primeflix\.mom/i.test(String(url || ''))) return analisarObraPrimeCorrigido(url, ano, tituloCard, img, isMovie);
-            if(key === 'l07' || lisoEhUrlCronos(url)) return analisarObraLisoCorrigido(url, ano, tituloCard, img, isMovie);
+            if(key === 'p08' || /primeflix\.mom/i.test(String(url || ''))) return analisarObraPrimeCorrigido(url, ano, tituloCard, img, isMovie);
+            if(key === 'p07' || lisoEhUrlCronos(url)) return analisarObraLisoCorrigido(url, ano, tituloCard, img, isMovie);
             return analisarObraComMultiProviderAntesDoLiso.apply(this, arguments);
         };
         try { analisarObra = window.analisarObra; } catch(e) {}
@@ -14714,7 +14458,6 @@ const ROTAS_TELA = {
     setTimeout(() => { garantirPainelProvider(); atualizarBotoesProvider(); aplicarFiltroVisualCronos(); }, 700);
 })();
 </script>
-
 
 <script id="cronos-player-melhorias-whitelist-js">
 (function(){
@@ -15014,13 +14757,15 @@ const ROTAS_TELA = {
 
         final.sort((a,b) => (a.prioridade - b.prioridade) || (audioPeso(a.audio) - audioPeso(b.audio)) || String(a.nome).localeCompare(String(b.nome)));
 
+        const finalRender = (typeof window.cronosFiltrarViewPlayerOpcao === 'function') ? window.cronosFiltrarViewPlayerOpcao(final) : final;
+
         area.innerHTML = '';
-        if(!final.length) {
+        if(!finalRender.length) {
             area.innerHTML = '<span style="color:#ff0055; font-weight:bold;">Player não encontrado na página base.</span>';
             return;
         }
 
-        final.forEach((p, idx) => {
+        finalRender.forEach((p, idx) => {
             const btn = document.createElement('button');
             const isOriginal = p.classe === 'viewplayer' || p.classe === 'playerthree' || p.classe === 'liso' || /original/i.test(p.tipo || p.label || p.nome || '');
             btn.className = 'btn-assistir ' + (isOriginal ? 'btn-cronos-player-original' : 'btn-cronos-player-direto');
@@ -15034,8 +14779,6 @@ const ROTAS_TELA = {
 })();
 </script>
 
-
-
 <script id="cronos-reparo-fontes-bftv-e-modal-episodios-v2">
 (function(){
     if(window.__CRONOS_REPARO_BFTV_EP_MODAL_V2__) return;
@@ -15044,10 +14787,10 @@ const ROTAS_TELA = {
     // Reparo seguro: garante que as fontes/filtros antigos não fiquem presos em localStorage desativando a BFTV.
     // Faz isso só uma vez nesta versão do arquivo.
     try {
-        const marca = 'cronos_reparo_fontes_8p_v2_ok';
-        const chFontes = 'cronos_providers_ativos';
-        const chFiltros = 'cronos_filtros_visuais';
-        const keys = ['b01','p02','m03','e04','s05','u06','l07','primeflix'];
+        const marca = 'cronos_reparo_fontes_8p_pkeys_v3_ok';
+        const chFontes = 'cronos_cine4_providers_ativos_pkeys_v2';
+        const chFiltros = 'cronos_cine4_filtros_visuais_pkeys_v2';
+        const keys = ['p01','p02','p03','p04','p05','p06','p07','p08'];
         if(!localStorage.getItem(marca)) {
             const fontes = JSON.parse(localStorage.getItem(chFontes) || '{}') || {};
             const filtros = JSON.parse(localStorage.getItem(chFiltros) || '{}') || {};
@@ -15268,16 +15011,15 @@ const ROTAS_TELA = {
 })();
 </script>
 
-
 <script id="cronos-fix-bftv-real-v1">
 /*
   FIX BFTV (p02) — baseado no HTML real do boraflixtv.com
   =========================================================
   Estrutura confirmada do BFTV:
-  - Home destaques : #featured-titles article.item  (igual BFCK ✓)
-  - Home filmes    : #dt-movies article.item.movies  (igual BFCK ✓)
-  - Home séries    : #dt-tvshows article.item.tvshows (igual BFCK ✓)
-  - Home episódios : #dt-episodes article.item.se.episodes (igual BFCK ✓)
+  - Home destaques : #featured-titles article.item  (igual BORA ✓)
+  - Home filmes    : #dt-movies article.item.movies  (igual BORA ✓)
+  - Home séries    : #dt-tvshows article.item.tvshows (igual BORA ✓)
+  - Home episódios : #dt-episodes article.item.se.episodes (igual BORA ✓)
   - Aba filmes     : /filmes/ → #archive-content article.item.movies ✓
   - Aba séries     : /series/ → #archive-content article.item.tvshows ✓
   - Aba episódios  : /episodios/ → #archive-content article.item (ou #dt-episodes .item) ✓
@@ -15305,7 +15047,7 @@ const ROTAS_TELA = {
     function patchProvider() {
         const P = window.CRONOS_MULTI_PROVIDERS;
         if (!P || !P[KEY]) return;
-        // O BFTV tem EXATAMENTE os mesmos paths do BFCK
+        // O BFTV tem EXATAMENTE os mesmos paths do BORA
         P[KEY].buscaPath    = P[KEY].buscaPath    || '/?s=';
         P[KEY].filmePath    = P[KEY].filmePath    || '/filmes/';
         P[KEY].seriePath    = P[KEY].seriePath    || '/series/';
@@ -15396,7 +15138,7 @@ const ROTAS_TELA = {
                     // Se não tem nada, tenta inferir pela URL
                     if (!slide.dataset.provider && obra.url && /boraflixtv\.com/i.test(obra.url)) {
                         slide.dataset.provider = KEY;
-                        slide.dataset.providerLabel = 'BFTV';
+                        slide.dataset.providerLabel = 'ORG';
                     }
                 });
                 if (typeof aplicarFiltroVisualCronos === 'function') aplicarFiltroVisualCronos();
@@ -15412,7 +15154,7 @@ const ROTAS_TELA = {
         if (!orig) return;
         window.garantirBadgeProvider = function(li, key) {
             // Se key chegou vazio mas o card tem href para boraflixtv, corrigir
-            if (!key || key === 'b01') {
+            if (!key || key === 'p01') {
                 const href = li && li.querySelector && (li.querySelector('a[href]') || {}).href || '';
                 if (/boraflixtv\.com/i.test(href)) key = KEY;
             }
@@ -15440,7 +15182,7 @@ const ROTAS_TELA = {
                 const key = obra.providerKey || (obra.url && /boraflixtv\.com/i.test(obra.url) ? KEY : '');
                 if (key) {
                     slide.dataset.provider = key;
-                    slide.dataset.providerLabel = obra.providerSigla || (key === KEY ? 'BFTV' : key.toUpperCase());
+                    slide.dataset.providerLabel = obra.providerSigla || (key === KEY ? 'ORG' : key.toUpperCase());
                 }
             });
         }
@@ -15646,7 +15388,6 @@ const ROTAS_TELA = {
 
 </script>
 
-
 <script>
 /* PATCH: Favoritar no hover também para cards LISO/PRIME renderizados por adaptadores próprios */
 (function(){
@@ -15666,11 +15407,11 @@ const ROTAS_TELA = {
         try {
             if (typeof adicionarBotaoFavoritarHoverCronos !== 'function') return;
             const base = root && root.querySelectorAll ? root : document;
-            base.querySelectorAll('.card-item.global-card[data-provider="l07"], .card-item.global-card[data-provider="primeflix"]').forEach(li => {
+            base.querySelectorAll('.card-item.global-card[data-provider="p07"], .card-item.global-card[data-provider="p08"]').forEach(li => {
                 if (!li || li.querySelector('.btn-favoritar-card')) return;
                 if (li.closest('#gridFavoritos, #gridHistorico')) return;
                 const providerKey = li.dataset.providerKey || li.dataset.provider || '';
-                if (providerKey !== 'l07' && providerKey !== 'primeflix') return;
+                if (providerKey !== 'p07' && providerKey !== 'p08') return;
                 const poster = cronosPosterCard(li);
                 if (poster) li.dataset.poster = poster;
                 const tipoInfo = cronosTipoCard(li);
@@ -15681,9 +15422,9 @@ const ROTAS_TELA = {
                     img: poster,
                     poster,
                     providerKey,
-                    providerName: providerKey === 'l07' ? 'Fonte LISO' : 'Fonte PRIME',
-                    providerSigla: providerKey === 'l07' ? 'LISO' : 'PRIME',
-                    baseUrl: providerKey === 'l07' ? 'https://lisoflix.net/' : 'https://primeflix.mom/',
+                    providerName: providerKey === 'p07' ? 'Fonte LISO' : 'Fonte PRIME',
+                    providerSigla: providerKey === 'p07' ? 'LISO' : 'PRIME',
+                    baseUrl: providerKey === 'p07' ? 'https://lisoflix.net/' : 'https://primeflix.mom/',
                     ...tipoInfo
                 });
             });
@@ -15701,8 +15442,6 @@ const ROTAS_TELA = {
     window.cronosAdicionarFavoritarLisoPrime = cronosAdicionarFavoritarLisoPrime;
 })();
 </script>
-
-
 
 <script id="cronos-modal-episodios-oficial-v3">
 /*
@@ -16054,6 +15793,35 @@ const ROTAS_TELA = {
         return true;
     }
 
+    // V29: quando o episódio só tem Via/ViewPlayer e ele está desligado,
+    // não abre o iframe e não chama fallback antigo. Apenas avisa o usuário.
+    function fonteEhViewPlayerCronosV29(p){
+        const src = String((p && (p.src || p.url || p.href)) || p || '').toLowerCase();
+        const nome = String((p && (p.classe || p.nome || p.label || p.tipo || p.nomeRender)) || '').toLowerCase();
+        return /viewplayer\.online|\bviewplayer\b|view\s*player|via\s*player|viaplayer/i.test(src + ' ' + nome);
+    }
+    function viewPlayerEstaDesligadoCronosV29(){
+        try {
+            if(typeof window.cronosViewPlayerAtivoOpcao === 'function') return !window.cronosViewPlayerAtivoOpcao();
+            return localStorage.getItem('cronos_viewplayer_ativo') !== '1';
+        } catch(e) { return true; }
+    }
+    function avisarSomenteViaPlayerCronosV29(titulo){
+        if(typeof window.cronosAvisarSomenteViaPlayerEpisodio === 'function') {
+            window.cronosAvisarSomenteViaPlayerEpisodio(titulo);
+            return true;
+        }
+        const modal = garantirModal();
+        const title = document.getElementById('modalFontesEpisodioTituloCronos');
+        const texto = document.getElementById('modalFontesEpisodioTextoCronos');
+        const lista = document.getElementById('modalFontesEpisodioListaCronos');
+        if(title) title.textContent = String(titulo || 'Episódio').replace(/\s+/g,' ').trim();
+        if(texto) texto.textContent = 'Esse vídeo só foi encontrado no Via Player.';
+        if(lista) lista.innerHTML = '<div class="modal-fontes-episodio-status">Este episódio só está disponível no Via Player. Ative o botão <b>Via Player</b> em Configurações para liberar esse player.</div>';
+        modal.style.display = 'flex';
+        return true;
+    }
+
     window.cronosAbrirModalFontesEpisodioOficial = async function(titulo, origem, fallback){
         titulo = String(titulo || 'Episódio').replace(/\s+/g,' ').trim();
         statusModal(titulo, '⏳ Buscando players...');
@@ -16069,7 +15837,11 @@ const ROTAS_TELA = {
             }
         } catch(e) { fontes = []; }
         fontes = sortAndDedupe(fontes);
+        const fontesAntesFiltroCronosV29 = Array.isArray(fontes) ? fontes.slice() : [];
         if (typeof window.cronosFiltrarViewPlayerOpcao === 'function') fontes = window.cronosFiltrarViewPlayerOpcao(fontes);
+        if(!fontes.length && fontesAntesFiltroCronosV29.length && viewPlayerEstaDesligadoCronosV29() && fontesAntesFiltroCronosV29.every(fonteEhViewPlayerCronosV29)) {
+            return avisarSomenteViaPlayerCronosV29(titulo);
+        }
         if(renderButtons(titulo, fontes, obraHist)) return true;
         fecharModal();
         if(typeof fallback === 'function') return fallback();
@@ -16116,7 +15888,6 @@ const ROTAS_TELA = {
     if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', garantirModal); else garantirModal();
 })();
 </script>
-
 
 <script id="cronos-v27-player-memoria-label-e-fechamento-js">
 (function(){
@@ -16210,7 +15981,6 @@ const ROTAS_TELA = {
 })();
 </script>
 
-
 <script id="cronos-v28-viewplayer-toggle-player-controls-js">
 (function(){
     if (window.__CRONOS_V28_VIEWPLAYER_PLAYER_CONTROLS__) return;
@@ -16219,16 +15989,18 @@ const ROTAS_TELA = {
     const KEY_VIEWPLAYER = 'cronos_viewplayer_ativo';
 
     function viewPlayerAtivo(){
-        try { return localStorage.getItem(KEY_VIEWPLAYER) !== '0'; } catch(e) { return true; }
+        try { return localStorage.getItem(KEY_VIEWPLAYER) === '1'; } catch(e) { return false; }
     }
     function setViewPlayerAtivo(v){
         try { localStorage.setItem(KEY_VIEWPLAYER, v ? '1' : '0'); } catch(e) {}
         aplicarEstadoViewPlayerBotao();
+        try { aplicarVisibilidadeViewPlayerAtual(); } catch(e) {}
+        try { atualizarTrocarPlayerDisponivel(); } catch(e) {}
     }
     function ehViewPlayer(item){
         const url = String((item && (item.src || item.url || item.href)) || item || '').toLowerCase();
         const nome = String((item && (item.nome || item.label || item.tipo || item.classe)) || '').toLowerCase();
-        return /viewplayer\.online|playerthree\.online|trembed/i.test(url) || /viewplayer|playerthree|trembed|player original|original/i.test(nome);
+        return /viewplayer/i.test(url) || /view\s*player|viewplayer|via\s*player|viaplayer/i.test(nome);
     }
     window.cronosViewPlayerAtivoOpcao = viewPlayerAtivo;
     window.cronosFiltrarViewPlayerOpcao = function(fontes){
@@ -16242,7 +16014,7 @@ const ROTAS_TELA = {
             const area = document.getElementById('areaAcaoDetalhe');
             if (area) area.querySelectorAll('button').forEach(btn => {
                 const txt = (btn.textContent || '') + ' ' + (btn.title || '');
-                if (/viewplayer|playerthree|trembed|player original|original/i.test(txt)) btn.style.display = viewPlayerAtivo() ? '' : 'none';
+                if (/viewplayer|view\s*player|via\s*player|viaplayer/i.test(txt)) btn.style.display = viewPlayerAtivo() ? '' : 'none';
             });
         } catch(e) {}
     };
@@ -16250,11 +16022,66 @@ const ROTAS_TELA = {
         const btn = document.getElementById('btnToggleViewPlayerCronos');
         if (!btn) return;
         const ativo = viewPlayerAtivo();
-        btn.textContent = 'ViewPlayer [' + (ativo ? 'ON' : 'OFF') + ']';
+        btn.textContent = 'Via Player';
         btn.classList.toggle('viewplayer-off-cronos', !ativo);
         btn.classList.toggle('letras-ligadas-cronos', ativo);
         btn.classList.toggle('letras-desligadas-cronos', !ativo);
-        btn.title = ativo ? 'ViewPlayer aparece nos players.' : 'ViewPlayer oculto nas fichas e episódios.';
+        btn.title = ativo ? 'Via Player ativado: aparece nas fichas e episódios.' : 'Via Player desativado: fica oculto nas fichas e episódios.';
+    }
+
+    function normalizarTextoViewPlayerCronos(txt){
+        return String(txt || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+    }
+    function garantirBotaoViewPlayerConfig(){
+        const cfg = document.getElementById('telaConfiguracoes');
+        if(!cfg) return null;
+        let box = cfg.querySelector('.cronos-categoria-atalhos-letras') || cfg.querySelector('.categoria-atalhos');
+        if(!box){
+            box = document.createElement('div');
+            box.className = 'cronos-categoria-atalhos-letras';
+            const titulo = [...cfg.querySelectorAll('h1,h2,h3')].find(h => /configura/i.test(h.textContent || ''));
+            if(titulo && titulo.nextSibling) cfg.insertBefore(box, titulo.nextSibling);
+            else cfg.insertBefore(box, cfg.firstElementChild || null);
+        }
+        box.classList.add('cronos-categoria-atalhos-letras');
+        let btn = document.getElementById('btnToggleViewPlayerCronos');
+        if(!btn){
+            btn = document.createElement('button');
+            btn.id = 'btnToggleViewPlayerCronos';
+            btn.type = 'button';
+            btn.className = 'btn-viewplayer-categoria-cronos';
+            btn.onclick = function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                setViewPlayerAtivo(!viewPlayerAtivo());
+                aplicarVisibilidadeViewPlayerAtual();
+                try { atualizarTrocarPlayerDisponivel(); } catch(err) {}
+            };
+        }
+        const letras = box.querySelector('.btn-letras-categoria-cronos');
+        const jaNoBox = btn.parentElement === box;
+        if(letras){
+            if(!jaNoBox || letras.nextElementSibling !== btn) box.insertBefore(btn, letras.nextSibling);
+        } else if(!jaNoBox) {
+            const lanc = [...box.querySelectorAll('button,a')].find(b => normalizarTextoViewPlayerCronos(b.textContent).includes('lancamento'));
+            if(lanc) box.insertBefore(btn, lanc);
+            else box.appendChild(btn);
+        }
+        aplicarEstadoViewPlayerBotao();
+        return btn;
+    }
+    function aplicarVisibilidadeViewPlayerAtual(){
+        const ativo = viewPlayerAtivo();
+        try {
+            ['areaAcaoDetalhe','modalFontesEpisodioListaCronos','primeCronosFontesLista'].forEach(id => {
+                const area = document.getElementById(id);
+                if(!area) return;
+                area.querySelectorAll('button,a').forEach(btn => {
+                    const txt = (btn.textContent || '') + ' ' + (btn.title || '') + ' ' + (btn.getAttribute('data-source') || '') + ' ' + (btn.getAttribute('data-src') || '') + ' ' + (btn.getAttribute('href') || '');
+                    if (/viewplayer|view\s*player|via\s*player|viaplayer/i.test(txt)) btn.style.display = ativo ? '' : 'none';
+                });
+            });
+        } catch(e) {}
     }
 
     function limparNome(txt){ return String(txt || '').replace(/^\s*[▶#\d\s.\-–—]+/,'').replace(/\s+/g,' ').trim(); }
@@ -16443,7 +16270,9 @@ const ROTAS_TELA = {
     }
 
     function iniciar(){
+        garantirBotaoViewPlayerConfig();
         aplicarEstadoViewPlayerBotao();
+        aplicarVisibilidadeViewPlayerAtual();
         garantirBotaoVoltarPlayer();
         garantirBotaoTrocarPlayer();
         atualizarBotaoVoltarPlayer();
@@ -16451,7 +16280,365 @@ const ROTAS_TELA = {
     }
     if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
     else iniciar();
-    setInterval(() => { atualizarBotaoVoltarPlayer(); atualizarTrocarPlayerDisponivel(); aplicarEstadoViewPlayerBotao(); }, 1500);
+    try {
+        const obs = new MutationObserver(() => aplicarVisibilidadeViewPlayerAtual());
+        obs.observe(document.body, { childList:true, subtree:true });
+    } catch(e) {}
+    setInterval(() => { garantirBotaoViewPlayerConfig(); aplicarVisibilidadeViewPlayerAtual(); atualizarBotaoVoltarPlayer(); atualizarTrocarPlayerDisponivel(); aplicarEstadoViewPlayerBotao(); }, 1000);
+})();
+</script>
+
+<script id="cronos-v29-viewplayer-episodio-bloqueado-js">
+(function(){
+    if(window.__CRONOS_V29_VIEWPLAYER_EPISODIO_BLOQUEADO__) return;
+    window.__CRONOS_V29_VIEWPLAYER_EPISODIO_BLOQUEADO__ = true;
+
+    function viewPlayerAtivoV29(){
+        try {
+            if(typeof window.cronosViewPlayerAtivoOpcao === 'function') return !!window.cronosViewPlayerAtivoOpcao();
+            return localStorage.getItem('cronos_viewplayer_ativo') === '1';
+        } catch(e) { return false; }
+    }
+    function ehViewPlayerUrlV29(url){
+        return /viewplayer\.online|\bviewplayer\b|via\s*player|viaplayer/i.test(String(url || ''));
+    }
+    function ehEpisodioV29(titulo, url){
+        const t = String(titulo || '');
+        const u = String(url || '');
+        if(/\/episodio\//i.test(u) || /\/episodios\//i.test(u)) return true;
+        if(/S\s*\d{1,3}\s*E\s*\d{1,4}/i.test(t)) return true;
+        if(/epis[oó]dio/i.test(t)) return true;
+        try { if(window.__cronosPendingEpisodeV22) return true; } catch(e) {}
+        return false;
+    }
+    function garantirModalAvisoV29(){
+        let modal = document.getElementById('modalFontesEpisodioCronos');
+        if(!modal){
+            modal = document.createElement('div');
+            modal.id = 'modalFontesEpisodioCronos';
+            modal.className = 'modal-fontes-episodio-cronos';
+            modal.innerHTML = '<div class="modal-fontes-episodio-box"><h3 id="modalFontesEpisodioTituloCronos">Episódio</h3><p id="modalFontesEpisodioTextoCronos"></p><div class="modal-fontes-episodio-lista" id="modalFontesEpisodioListaCronos"></div><button type="button" class="modal-fontes-episodio-close" id="modalFontesEpisodioFecharCronos">Cancelar</button></div>';
+            document.body.appendChild(modal);
+            modal.addEventListener('click', e => { if(e.target === modal) modal.style.display = 'none'; });
+        }
+        const fechar = document.getElementById('modalFontesEpisodioFecharCronos');
+        if(fechar) fechar.onclick = () => { modal.style.display = 'none'; };
+        if(!document.getElementById('cronosViaPlayerAvisoCssV29')){
+            const css = document.createElement('style');
+            css.id = 'cronosViaPlayerAvisoCssV29';
+            css.textContent = '.modal-fontes-episodio-lista .cronos-aviso-viaplayer-v29{color:#ffcc00;font-weight:bold;font-size:13px;line-height:1.5;padding:14px;border:1px dashed #333;border-radius:8px;background:#080808;}';
+            document.head.appendChild(css);
+        }
+        return modal;
+    }
+    window.cronosAvisarSomenteViaPlayerEpisodio = function(titulo){
+        const modal = garantirModalAvisoV29();
+        const title = document.getElementById('modalFontesEpisodioTituloCronos');
+        const texto = document.getElementById('modalFontesEpisodioTextoCronos');
+        const lista = document.getElementById('modalFontesEpisodioListaCronos');
+        if(title) title.textContent = String(titulo || 'Episódio').replace(/\s+/g,' ').trim();
+        if(texto) texto.textContent = 'Esse vídeo só foi encontrado no Via Player.';
+        if(lista) lista.innerHTML = '<div class="cronos-aviso-viaplayer-v29">Este episódio só está disponível no Via Player. Ative o botão <b>Via Player</b> em Configurações para liberar esse player.</div>';
+        modal.style.display = 'flex';
+        try {
+            const btn = document.getElementById('cronosTrocarPlayerBtnV28');
+            if(btn) btn.style.display = 'none';
+        } catch(e) {}
+        return false;
+    };
+
+    const abrirBase = window.abrirPlayer;
+    if(typeof abrirBase === 'function' && !abrirBase.__cronosV29ViewPlayerEpisodioBloqueado){
+        window.abrirPlayer = function(titulo, urlVideo, meta){
+            if(ehViewPlayerUrlV29(urlVideo) && ehEpisodioV29(titulo, urlVideo) && !viewPlayerAtivoV29()) {
+                return window.cronosAvisarSomenteViaPlayerEpisodio(titulo || 'Episódio');
+            }
+            return abrirBase.apply(this, arguments);
+        };
+        window.abrirPlayer.__cronosV29ViewPlayerEpisodioBloqueado = true;
+        try { abrirPlayer = window.abrirPlayer; } catch(e) {}
+    }
+})();
+</script>
+
+<script id="cronos-player-global-organizado-v4">
+(function(){
+    if (window.__CRONOS_PLAYER_GLOBAL_ORGANIZADO_V4__) return;
+    window.__CRONOS_PLAYER_GLOBAL_ORGANIZADO_V4__ = true;
+
+    const ORDEM_DIRETOS = ['superembeds','superflixapi','playerembedapi','warezcdn','mp4'];
+    const ORDEM_ORIGINAIS = ['viewplayer','playerthree','trembed','abyss','original'];
+    const NOMES_PLAYER = {
+        superembeds: 'SuperEmbeds',
+        superflixapi: 'SuperflixAPI',
+        playerembedapi: 'PlayerEmbedAPI',
+        warezcdn: 'WarezCDN',
+        mp4: 'MP4 Direto',
+        viewplayer: 'ViewPlayer Original',
+        playerthree: 'PlayerThree Original',
+        trembed: 'Trembed Original',
+        abyss: 'Abyss Player',
+        original: 'Player Original'
+    };
+
+    function baseDetalheCronos(){
+        try {
+            const o = window.obraSendoVista || (typeof obraSendoVista !== 'undefined' ? obraSendoVista : null) || {};
+            return o.url || o.detalheUrl || o.baseUrl || (typeof CRONOS_BASE_URL !== 'undefined' ? CRONOS_BASE_URL : location.href);
+        } catch(e) {
+            return (typeof CRONOS_BASE_URL !== 'undefined' ? CRONOS_BASE_URL : location.href);
+        }
+    }
+
+    function limparUrlPlayerCronos(url, base){
+        try {
+            let u = String(url || '').trim();
+            if (!u) return '';
+            u = u.replace(/&amp;/g, '&').replace(/&#038;/g, '&').replace(/\\/g, '');
+            u = u.split(/\s+/)[0].replace(/["'<>]/g, '').trim();
+            if (!u || /^javascript:|^mailto:|^tel:/i.test(u)) return '';
+            try { if (/%3A%2F%2F/i.test(u) || /%3a%2f%2f/i.test(u)) u = decodeURIComponent(u); } catch(e) {}
+            if (u.startsWith('//')) u = 'https:' + u;
+            const b = base || baseDetalheCronos();
+            if (/^\//.test(u) || !/^https?:\/\//i.test(u)) u = new URL(u, b).href;
+            u = u.replace(/^http:\/\/(superembeds?\.com|superflixapi\.(?:best|online)|playerembedapi\.link|warezcdn\.lat)/i, 'https://$1');
+            return u;
+        } catch(e) { return ''; }
+    }
+
+    function hostCronos(url){ try { return new URL(url).hostname.replace(/^www\./,'').toLowerCase(); } catch(e){ return ''; } }
+    function pathCronos(url){ try { return (new URL(url).pathname || '').replace(/\/+$/,''); } catch(e){ return ''; } }
+    function txtCronos(v){ return String(v || '').toLowerCase(); }
+
+    function superEmbedsValidoCronos(url){
+        const h = hostCronos(url);
+        const p = pathCronos(url);
+        return (h === 'superembeds.com' || h === 'superembed.com') && /^\/embed\/[A-Za-z0-9_.:-]+$/i.test(p);
+    }
+
+    function superflixValidoCronos(url){
+        const h = hostCronos(url);
+        const p = pathCronos(url);
+        return /^superflixapi\.(best|online)$/i.test(h) && (/^\/filme\/[A-Za-z0-9_.-]+$/i.test(p) || /^\/serie\/[A-Za-z0-9_.-]+\/\d+\/\d+$/i.test(p));
+    }
+
+    function warezValidoCronos(url){
+        const h = hostCronos(url);
+        const p = pathCronos(url);
+        return h === 'warezcdn.lat' && (/^\/filme\/[A-Za-z0-9_.-]+$/i.test(p) || /^\/serie\/[A-Za-z0-9_.-]+\/\d+\/\d+$/i.test(p));
+    }
+
+    function classePlayerGlobalCronos(url, label){
+        const u = txtCronos(url);
+        const h = hostCronos(url);
+        const l = txtCronos(label);
+        if (superEmbedsValidoCronos(url) || /superembeds?\.com\/embed\//i.test(u)) return 'superembeds';
+        if (superflixValidoCronos(url)) return 'superflixapi';
+        if (h === 'playerembedapi.link' && /[?&]v=/i.test(u)) return 'playerembedapi';
+        if (warezValidoCronos(url)) return 'warezcdn';
+        if (/\.mp4(?:$|[?#])/i.test(u) && /(hubby\.cx|fontedecanais|fonte[-_]?de[-_]?canais|fontedecanais-me)/i.test(u)) return 'mp4';
+        if (/viewplayer\.online/i.test(u)) return 'viewplayer';
+        if (/playerthree\.online/i.test(u)) return 'playerthree';
+        if (/trembed/i.test(u + ' ' + l)) return 'trembed';
+        if (/abyssplayer|abyss\.to|lisoflix\.net\/abyss|\babyss\b/i.test(u + ' ' + l)) return 'abyss';
+        if (/\/embed\//i.test(u) && !/youtube|youtu\.be|trailer|ads|doubleclick/i.test(u)) return 'original';
+        return '';
+    }
+
+    function playerBloqueadoGlobalCronos(url, label){
+        const u = txtCronos(url);
+        const l = txtCronos(label);
+        if (!u) return true;
+        if (/trailer|preview|teaser|youtube|youtu\.be|youtube-nocookie/.test(u + ' ' + l)) return true;
+        if (/megaembed|swap|nixplay|nextplay|api\.playerp1|doubleclick|adserver|googlesyndication|facebook\.com|facebook\.net|betano|22bet|\/ads?\/|propag|publicid|advert|banner/.test(u + ' ' + l)) return true;
+        if (/\.(jpg|jpeg|png|webp|gif|svg|css|js)(?:$|[?#])/i.test(u)) return true;
+        if (/\.mp4(?:$|[?#])/i.test(u) && !/(hubby\.cx|fontedecanais|fonte[-_]?de[-_]?canais|fontedecanais-me)/i.test(u)) return true;
+        const h = hostCronos(url);
+        const p = pathCronos(url);
+        if ((h === 'superembeds.com' || h === 'superembed.com') && !superEmbedsValidoCronos(url)) return true;
+        if (/^superflixapi\.(best|online)$/i.test(h) && !superflixValidoCronos(url)) return true;
+        if (h === 'warezcdn.lat' && !warezValidoCronos(url)) return true;
+        if ((h === 'superembeds.com' || h === 'superembed.com') && (!p || p === '/')) return true;
+        return false;
+    }
+
+    function diretoCronos(cls){ return ORDEM_DIRETOS.includes(cls); }
+    function chavePlayerGlobalCronos(url){ return String(url || '').replace(/#.*$/,'').replace(/\/+$/,'').trim().toLowerCase(); }
+    function audioPlayerGlobalCronos(label, url){
+        const t = txtCronos((label || '') + ' ' + (url || ''));
+        if (/\bleg\b|legendado|legendada|legenda/.test(t)) return 'Legendado';
+        if (/\bdub\b|dublado|dublada|lang=dub|audio=dub/.test(t)) return 'Dublado';
+        return '';
+    }
+    function prioridadePlayerGlobalCronos(p){
+        const cls = p.classe || classePlayerGlobalCronos(p.src, p.label);
+        const arr = diretoCronos(cls) ? ORDEM_DIRETOS : ORDEM_ORIGINAIS;
+        const idx = arr.indexOf(cls);
+        return diretoCronos(cls) ? (idx >= 0 ? idx : 99) : (100 + (idx >= 0 ? idx : 99));
+    }
+
+    window.cronosNormalizarUrlPlayer = limparUrlPlayerCronos;
+    window.cronosPlayerBloqueado = playerBloqueadoGlobalCronos;
+    window.cronosClassePlayerGlobal = classePlayerGlobalCronos;
+
+    window.cronosRotuloPlayer = function(player, idx){
+        const src = player && player.src || '';
+        const cls = player && player.classe || classePlayerGlobalCronos(src, player && player.label);
+        const nome = player && (player.nome || player.label) || NOMES_PLAYER[cls] || `Player ${(idx || 0) + 1}`;
+        const audio = player && player.audio || audioPlayerGlobalCronos(player && player.label, src);
+        if (audio && diretoCronos(cls) && !/dublado|legendado/i.test(nome)) return `${audio} — ${NOMES_PLAYER[cls] || nome}`;
+        return NOMES_PLAYER[cls] || nome;
+    };
+
+    window.cronosPushPlayer = function(lista, vistos, src, label = '', tipo = 'direto', base = ''){
+        src = limparUrlPlayerCronos(src, base);
+        if (!src || playerBloqueadoGlobalCronos(src, label)) return;
+        const cls = classePlayerGlobalCronos(src, label);
+        if (!cls) return;
+        const key = chavePlayerGlobalCronos(src);
+        if (!key || vistos.has(key)) return;
+        vistos.add(key);
+        const audio = audioPlayerGlobalCronos(label, src);
+        lista.push({
+            src,
+            label: label || NOMES_PLAYER[cls] || 'Player',
+            tipo: diretoCronos(cls) ? 'direto' : 'original',
+            classe: cls,
+            audio,
+            nome: NOMES_PLAYER[cls] || 'Player',
+            prioridade: prioridadePlayerGlobalCronos({ src, classe: cls, label })
+        });
+    };
+
+    function extrairUrlsPlayerTextoCronos(texto){
+        const out = [];
+        const s = String(texto || '');
+        const regs = [
+            /(https?:\/\/[^"'<>\s]*(?:superembeds?\.com\/embed|superflixapi\.(?:best|online)\/(?:filme|serie)|playerembedapi\.link\/\?v=|warezcdn\.lat\/(?:filme|serie)|hubby\.cx\/[^"'<>\s]*\.mp4|fontedecanais[^"'<>\s]*\.mp4|fonte[-_]?de[-_]?canais[^"'<>\s]*\.mp4|viewplayer\.online|playerthree\.online|trembed|abyssplayer|lisoflix\.net\/abyss)[^"'<>\s]*)/ig,
+            /(?:data-source|data-src|data-url|title|href|src)=["']([^"']*(?:superembeds?\.com\/embed|superflixapi\.(?:best|online)\/(?:filme|serie)|playerembedapi\.link\/\?v=|warezcdn\.lat\/(?:filme|serie)|hubby\.cx\/[^"']*\.mp4|fontedecanais[^"']*\.mp4|fonte[-_]?de[-_]?canais[^"']*\.mp4|viewplayer\.online|playerthree\.online|trembed|abyssplayer|lisoflix\.net\/abyss)[^"']*)["']/ig
+        ];
+        regs.forEach(reg => { let m; while ((m = reg.exec(s))) out.push(m[1]); });
+        return out;
+    }
+
+    window.cronosExtrairPlayersDetalhe = function(doc, html, iframePrincipal = ''){
+        const lista = [];
+        const vistos = new Set();
+        const base = baseDetalheCronos();
+        const add = (src, label, tipo, b) => window.cronosPushPlayer(lista, vistos, src, label || '', tipo || 'direto', b || base);
+        try {
+            if (doc && doc.querySelectorAll) {
+                const labelPorNume = {};
+                doc.querySelectorAll('.dooplay_player_option, #playeroptionsul li, [data-nume][data-post]').forEach(opt => {
+                    const n = opt.getAttribute('data-nume') || (opt.dataset && opt.dataset.nume) || '';
+                    const label = (opt.querySelector('.title') && opt.querySelector('.title').innerText) || opt.innerText || opt.textContent || '';
+                    if (n && label) labelPorNume[n] = label.trim();
+                });
+                doc.querySelectorAll('[id^="source-player-"]').forEach(box => {
+                    const id = box.getAttribute('id') || '';
+                    const nume = (id.match(/source-player-([^\s"']+)/i) || [])[1] || '';
+                    const label = labelPorNume[nume] || (box.querySelector('.title') && box.querySelector('.title').innerText) || box.getAttribute('data-title') || '';
+                    box.querySelectorAll('iframe[src], source[src], [data-source], [data-src], [data-url], a[href], button[title], a[title]').forEach(el => {
+                        ['src','data-source','data-src','data-url','href','title'].forEach(a => {
+                            const v = el.getAttribute && el.getAttribute(a);
+                            if (v) add(v, label || el.innerText || el.textContent || '', 'source-box', base);
+                        });
+                    });
+                });
+                doc.querySelectorAll('iframe[src], source[src], [data-source], [data-src], [data-url], a[href], button[title], a[title]').forEach(el => {
+                    const box = el.closest && el.closest('[id^="source-player-"], .source-box, .dooplay_player, #playcontainer, [data-title]');
+                    const label = (box && box.querySelector && box.querySelector('.title') && box.querySelector('.title').innerText) || (box && box.getAttribute && box.getAttribute('data-title')) || el.innerText || el.textContent || el.getAttribute('aria-label') || el.getAttribute('title') || '';
+                    ['src','data-source','data-src','data-url','href','title'].forEach(a => {
+                        const v = el.getAttribute && el.getAttribute(a);
+                        if (v) add(v, label, 'elemento', base);
+                    });
+                });
+            }
+        } catch(e) {}
+        try { extrairUrlsPlayerTextoCronos(html).forEach(u => add(u, '', 'regex', base)); } catch(e) {}
+        if (iframePrincipal) add(iframePrincipal, 'Player Original', 'principal', base);
+        return lista;
+    };
+
+    window.cronosExpandirPlayerInterno = async function(player){
+        const src = limparUrlPlayerCronos(player && player.src || '', baseDetalheCronos());
+        const cls = player && player.classe || classePlayerGlobalCronos(src, player && player.label);
+        if (!src || !['viewplayer','playerthree','trembed'].includes(cls)) return [];
+        try {
+            const proxy = (typeof PROXY !== 'undefined' && PROXY) ? PROXY + encodeURIComponent(src) : src;
+            const html = await fetch(proxy).then(r => r.ok ? r.text() : Promise.reject());
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            return window.cronosExtrairPlayersDetalhe(doc, html, src).filter(p => chavePlayerGlobalCronos(p.src) !== chavePlayerGlobalCronos(src));
+        } catch(e) { return []; }
+    };
+
+    function ordenarDeduplicarGlobalCronos(lista){
+        const seen = new Set();
+        const out = [];
+        (lista || []).forEach(p => {
+            if (!p || !p.src) return;
+            const cls = p.classe || classePlayerGlobalCronos(p.src, p.label);
+            if (!cls) return;
+            const k = (cls === 'abyss') ? 'abyss' : chavePlayerGlobalCronos(p.src);
+            if (!k || seen.has(k)) return;
+            seen.add(k);
+            const item = { ...p, classe: cls, nome: NOMES_PLAYER[cls] || p.nome || p.label || 'Player', tipo: diretoCronos(cls) ? 'direto' : 'original' };
+            item.audio = item.audio || audioPlayerGlobalCronos(item.label, item.src);
+            item.prioridade = prioridadePlayerGlobalCronos(item);
+            out.push(item);
+        });
+        out.sort((a,b) => (a.prioridade - b.prioridade) || String(a.nome).localeCompare(String(b.nome)));
+        return out;
+    }
+
+    async function renderizarPlayersGlobalCronos(titulo, doc, htmlDetalhe, iframeSrc){
+        const area = document.getElementById('areaAcaoDetalhe');
+        if (!area) return;
+        area.innerHTML = '<span style="color:#ffcc00;font-size:13px;">⏳ Buscando players disponíveis...</span>';
+        const basePlayers = window.cronosExtrairPlayersDetalhe(doc, htmlDetalhe, iframeSrc);
+        const final = [];
+        const vistos = new Set();
+        for (const p of basePlayers) {
+            const internos = await window.cronosExpandirPlayerInterno(p);
+            if (internos && internos.length) {
+                internos.forEach(ip => window.cronosPushPlayer(final, vistos, ip.src, ip.label || p.label, ip.tipo || 'interno', p.src));
+                window.cronosPushPlayer(final, vistos, p.src, NOMES_PLAYER[p.classe || classePlayerGlobalCronos(p.src, p.label)] || 'Player Original', 'original', p.src);
+            } else {
+                window.cronosPushPlayer(final, vistos, p.src, p.label, p.tipo, baseDetalheCronos());
+            }
+        }
+        let render = ordenarDeduplicarGlobalCronos(final);
+        const antesFiltro = render.slice();
+        if (typeof window.cronosFiltrarViewPlayerOpcao === 'function') render = window.cronosFiltrarViewPlayerOpcao(render);
+        area.innerHTML = '';
+        if (!render.length) {
+            if (antesFiltro.length && typeof window.cronosAvisarSomenteViaPlayerEpisodio === 'function') {
+                area.innerHTML = '<span style="color:#ffcc00; font-weight:bold;">Só foi encontrado player Via/ViewPlayer. Ative nas Configurações para exibir.</span>';
+            } else {
+                area.innerHTML = '<span style="color:#ff0055; font-weight:bold;">Player não encontrado na página base.</span>';
+            }
+            return;
+        }
+        render.forEach((p, idx) => {
+            const btn = document.createElement('button');
+            const original = !diretoCronos(p.classe);
+            btn.className = 'btn-assistir ' + (original ? 'btn-cronos-player-original' : 'btn-cronos-player-direto');
+            const label = window.cronosRotuloPlayer(p, idx);
+            btn.innerHTML = `▶ #${idx + 1} ${label}`;
+            btn.title = p.src;
+            btn.onclick = () => {
+                try {
+                    if (typeof window.cronosDefinirPlayerAtualV27 === 'function') window.cronosDefinirPlayerAtualV27(label, { index: idx, classe: p.classe || p.tipo || '', src: p.src, memorizar: false });
+                    else window.__cronosPlayerNomeAtual = label;
+                } catch(e) {}
+                abrirPlayer(titulo, p.src, { playerNome: label, playerIndex: idx, playerClasse: p.classe || p.tipo || '' });
+            };
+            area.appendChild(btn);
+        });
+    }
+
+    window.renderizarBotoesPlayerUnificadoCronos = renderizarPlayersGlobalCronos;
+    try { renderizarBotoesPlayerUnificadoCronos = renderizarPlayersGlobalCronos; } catch(e) {}
 })();
 </script>
 
