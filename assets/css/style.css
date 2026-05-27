@@ -5179,3 +5179,23 @@ img { max-width: 100%; }
     text-align:center !important;
     line-height:1.2 !important;
 }
+
+/* ===== CRONOS PATCH FINAL — player.html separado ===== */
+body[data-cronos-entry="player"].cronos-player-externo .navbar,
+body[data-cronos-entry="player"].cronos-player-externo .view-container:not(#telaPlayer) {
+    display: none !important;
+}
+body[data-cronos-entry="player"].cronos-player-externo {
+    display: block !important;
+    align-items: initial !important;
+}
+body[data-cronos-entry="player"].cronos-player-externo #telaPlayer {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 16px !important;
+}
+body[data-cronos-entry="player"].cronos-player-externo .player-wrapper {
+    height: calc(100vh - 105px) !important;
+    margin-top: 10px !important;
+}

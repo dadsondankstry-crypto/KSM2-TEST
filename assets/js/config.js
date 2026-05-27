@@ -3,7 +3,7 @@
 
 /* ===== assets/api/00-core.js ===== */
 // Extraído de KSM2-CINE3-main-CORRIGIDO.html — bloco JS 1.
-const PROXY = 'https://fragrant-unit-a421.dadsondankstry.workers.dev/?url=';
+const PROXY = (typeof location !== 'undefined' && location.protocol !== 'file:' ? '/api/proxy?url=' : 'https://fragrant-unit-a421.dadsondankstry.workers.dev/?url=');
 const SITE_CODE = 'provedor01';
 let telaAnterior = 'telaInicio'; 
 let paginaAtual = { 'telaFilmes': 1, 'telaSeries': 1, 'telaBusca': 1, 'telaEpisodios': 1, 'telaTemporadas': 1, 'telaAnimes': 1 };
@@ -29,6 +29,11 @@ document.getElementById('inputBusca').addEventListener('keypress', function (e) 
 });
 
 window.onload = () => {
+    try {
+        const modoEntrada = document.body && document.body.dataset && document.body.dataset.cronosEntry;
+        const qsEntrada = new URLSearchParams(location.search);
+        if (modoEntrada === 'player' && (qsEntrada.get('source') || qsEntrada.get('src') || qsEntrada.get('url'))) return;
+    } catch(e) {}
     renderizarResumoHomeLocal();
     gerarTodasBarrasAZ();
     montarCategorias();

@@ -710,3 +710,187 @@
     }
 })();
 
+
+/* ===== CRONOS PATCH FINAL — PLAYER SEPARADO + SUPEREMBEDS VERCEL =====
+   Ajusta a versão dividida para abrir o player em player.html e impede
+   que /embed/... caia no domínio do Vercel/GitHub como 404. */
+(function(){
+    if (window.__CRONOS_PLAYER_SEPARADO_SUPEREMBEDS_FINAL__) return;
+    window.__CRONOS_PLAYER_SEPARADO_SUPEREMBEDS_FINAL__ = true;
+
+    function texto(v){ return String(v == null ? '' : v); }
+    function limparUrl(url){
+        let u = texto(url)
+            .trim()
+            .replace(/&amp;/g, '&')
+            .replace(/&#038;/g, '&')
+            .replace(/\\/g, '')
+            .replace(/["'<>]/g, '')
+            .trim();
+        try {
+            const dec = decodeURIComponent(u);
+            if (/^(https?:)?\/\//i.test(dec) || /^\/?embed\//i.test(dec)) u = dec;
+        } catch(e) {}
+        return u;
+    }
+    function hostAtual(){ try { return location.hostname; } catch(e){ return ''; } }
+    function origemAtual(){ try { return location.origin; } catch(e){ return ''; } }
+    function ehHostApp(host){
+        host = texto(host).toLowerCase();
+        const atual = hostAtual().toLowerCase();
+        return !!host && (host === atual || /\.vercel\.app$/.test(host) || /\.github\.io$/.test(host));
+    }
+    function contextoSuperEmbeds(meta, url){
+        const t = [
+            meta && meta.playerNome,
+            meta && meta.playerClasse,
+            meta && meta.nome,
+            meta && meta.classe,
+            meta && meta.label,
+            window.__cronosPlayerNomeAtual,
+            url
+        ].join(' ').toLowerCase();
+        return /super\s*embeds|superembeds|superembed/.test(t);
+    }
+    function urlBaseObra(){
+        try { if (window.obraSendoVista && window.obraSendoVista.url) return window.obraSendoVista.url; } catch(e) {}
+        try { if (window.__cronosUltimaUrlObra) return window.__cronosUltimaUrlObra; } catch(e) {}
+        return 'https://www.boraflix.click/';
+    }
+    function corrigirPlayerUrl(url, meta){
+        let u = limparUrl(url);
+        if (!u) return u;
+
+        if (/^www\.superembeds\.com\/embed\//i.test(u)) u = u.replace(/^www\./i, '');
+        if (/^superembeds\.com\/embed\//i.test(u)) return 'https://' + u;
+        if (/^\/\/superembeds\.com\/embed\//i.test(u)) return 'https:' + u;
+        if (/^https?:\/\/www\.superembeds\.com\/embed\//i.test(u)) return u.replace('://www.superembeds.com/', '://superembeds.com/');
+
+        // Caso mais importante: /embed/ID não pode virar https://SEU-VERCEL/embed/ID.
+        if (/^\/?embed\//i.test(u) && contextoSuperEmbeds(meta, u)) {
+            return 'https://superembeds.com/' + u.replace(/^\/+/, '');
+        }
+
+        try {
+            const parsed = new URL(u, location.href);
+            if (/^\/embed\//i.test(parsed.pathname) && contextoSuperEmbeds(meta, u)) {
+                if (ehHostApp(parsed.hostname) || /boraflix\.click$/i.test(parsed.hostname)) {
+                    return 'https://superembeds.com' + parsed.pathname + parsed.search + parsed.hash;
+                }
+            }
+            // Se um relativo de player caiu no app, resolve contra a obra original.
+            if (ehHostApp(parsed.hostname) && /^\//.test(u) && !/^\/\//.test(u)) {
+                return new URL(u, urlBaseObra()).href;
+            }
+        } catch(e) {}
+
+        return u;
+    }
+
+    window.cronosCorrigirPlayerUrlFinal = corrigirPlayerUrl;
+
+    function isPlayerPage(){
+        try {
+            return /(^|\/)player\.html$/i.test(location.pathname) || (document.body && document.body.dataset && document.body.dataset.cronosEntry === 'player');
+        } catch(e) { return false; }
+    }
+
+    function playerPageUrl(titulo, urlVideo, meta){
+        const fixed = corrigirPlayerUrl(urlVideo, meta || {});
+        const p = new URLSearchParams();
+        p.set('source', fixed);
+        if (titulo) p.set('title', texto(titulo));
+        try { p.set('from', location.href); } catch(e) {}
+        if (meta && meta.playerNome) p.set('player', texto(meta.playerNome));
+        return 'player.html?' + p.toString();
+    }
+
+    function ativarTelaPlayer(){
+        try {
+            document.querySelectorAll('.view-container').forEach(function(t){ t.classList.remove('ativa'); });
+            const tela = document.getElementById('telaPlayer');
+            if (tela) tela.classList.add('ativa');
+            document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('ativa'); });
+            document.body.classList.add('cronos-player-externo');
+        } catch(e) {}
+    }
+
+    function abrirNoIframe(titulo, source, meta){
+        ativarTelaPlayer();
+        const fixed = corrigirPlayerUrl(source, meta || { playerNome: new URLSearchParams(location.search).get('player') || '' });
+        const titleEl = document.getElementById('playerTitulo');
+        const iframe = document.getElementById('iframePlayer');
+        if (titleEl) titleEl.textContent = titulo || 'Player';
+        if (iframe) {
+            iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
+            iframe.setAttribute('allowfullscreen', '');
+            iframe.setAttribute('referrerpolicy', 'no-referrer');
+            iframe.src = fixed;
+        }
+        return fixed;
+    }
+
+    function instalarAbrirPlayerSeparado(){
+        if (typeof window.abrirPlayer !== 'function') return false;
+        if (window.abrirPlayer.__cronosPlayerSeparadoFinal) return true;
+        const abrirBase = window.abrirPlayer;
+        window.abrirPlayer = function(titulo, urlVideo, meta){
+            const fixed = corrigirPlayerUrl(urlVideo, meta || {});
+            if (!isPlayerPage()) {
+                try { location.href = playerPageUrl(titulo, fixed, meta || {}); return; } catch(e) {}
+            }
+            return abrirBase.call(this, titulo, fixed, meta);
+        };
+        window.abrirPlayer.__cronosPlayerSeparadoFinal = true;
+        try { abrirPlayer = window.abrirPlayer; } catch(e) {}
+        return true;
+    }
+
+    function instalarFecharPlayer(){
+        window.fecharPlayer = function(){
+            try {
+                const qs = new URLSearchParams(location.search);
+                const from = qs.get('from');
+                const iframe = document.getElementById('iframePlayer');
+                if (iframe) iframe.src = '';
+                if (from && from !== location.href) { location.href = from; return; }
+                if (history.length > 1) { history.back(); return; }
+            } catch(e) {}
+            location.href = 'index.html';
+        };
+        try { fecharPlayer = window.fecharPlayer; } catch(e) {}
+    }
+
+    function iniciarPlayerPorQuery(){
+        if (!isPlayerPage()) return;
+        const qs = new URLSearchParams(location.search);
+        const source = qs.get('source') || qs.get('src') || qs.get('url') || '';
+        const titulo = qs.get('title') || qs.get('titulo') || 'Player';
+        instalarFecharPlayer();
+        if (source) abrirNoIframe(titulo, source, { playerNome: qs.get('player') || titulo });
+    }
+
+    function observarIframe(){
+        const iframe = document.getElementById('iframePlayer');
+        if (!iframe) return;
+        const fix = function(){
+            const raw = iframe.getAttribute('src') || '';
+            const corr = corrigirPlayerUrl(raw, { playerNome: window.__cronosPlayerNomeAtual || new URLSearchParams(location.search).get('player') || '' });
+            if (corr && corr !== raw) iframe.setAttribute('src', corr);
+        };
+        fix();
+        try { new MutationObserver(fix).observe(iframe, { attributes:true, attributeFilter:['src'] }); } catch(e) {}
+    }
+
+    function iniciar(){
+        instalarAbrirPlayerSeparado();
+        iniciarPlayerPorQuery();
+        observarIframe();
+        // alguns patches antigos reatribuem abrirPlayer depois do DOMContentLoaded
+        setTimeout(instalarAbrirPlayerSeparado, 200);
+        setTimeout(instalarAbrirPlayerSeparado, 1000);
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
+    else iniciar();
+})();
